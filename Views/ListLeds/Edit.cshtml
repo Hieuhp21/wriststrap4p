@@ -1,0 +1,152 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListLed
+
+@{
+    ViewData["Title"] = "Edit Sensor Point";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<int> ListRoom = ViewBag.ListRoom;
+    if (Model.Enstatus == null) Model.Enstatus = 0;
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <header class="header">
+            <h3>EDIT SENSOR POINT</h3>
+        </header>
+        <hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdLed" />
+            <div class="form-group">
+                <label asp-for="IdLed" class="control-label">IdSensor</label>
+                <input asp-for="IdLed" disabled class="form-control" />
+                <span asp-validation-for="IdLed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdRoom" class="control-label">IdArea</label>
+                <input asp-for="IdRoom" id="txtidroom" hidden class="form-control" />
+                <select class="input-group" style="padding-block:5px" id="cboxidroom" onchange="SetIdroom(this)">
+                    @foreach (int idroom in ListRoom)
+                    {
+                        <option value="@idroom">@idroom</option>
+                    }
+                </select>
+                <span asp-validation-for="IdRoom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameLed" class="control-label">Name Point</label>
+                <input asp-for="NameLed" class="form-control" />
+                <span asp-validation-for="NameLed" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinTemp" class="control-label"></label>
+                <input asp-for="MinTemp" class="form-control" />
+                <span asp-validation-for="MinTemp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxTemp" class="control-label"></label>
+                <input asp-for="MaxTemp" class="form-control" />
+                <span asp-validation-for="MaxTemp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MinHumi" class="control-label"></label>
+                <input asp-for="MinHumi" class="form-control" />
+                <span asp-validation-for="MinHumi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MaxHumi" class="control-label"></label>
+                <input asp-for="MaxHumi" class="form-control" />
+                <span asp-validation-for="MaxHumi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Adds" class="control-label"></label>
+                <input asp-for="Adds" readonly class="form-control" />
+                <span asp-validation-for="Adds" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Addsread" class="control-label"></label>
+                <input asp-for="Addsread" readonly class="form-control" />
+                <span asp-validation-for="Addsread" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Plc" class="control-label"></label>
+                <input asp-for="Plc" readonly class="form-control" />
+                <span asp-validation-for="Plc" class="text-danger"></span>
+            </div>
+            <!-- 
+            <div class="form-group">
+                <label asp-for="OffsetTemp" class="control-label"></label>
+                <input asp-for="OffsetTemp" class="form-control" />
+                <span asp-validation-for="OffsetTemp" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OffsetHumi" class="control-label"></label>
+                <input asp-for="OffsetHumi" class="form-control" />
+                <span asp-validation-for="OffsetHumi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeltaT" class="control-label"></label>
+                <input asp-for="DeltaT" class="form-control" />
+                <span asp-validation-for="DeltaT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DeltaH" class="control-label"></label>
+                <input asp-for="DeltaH" class="form-control" />
+                <span asp-validation-for="DeltaH" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Timeoff" class="control-label"></label>
+                <input asp-for="Timeoff" class="form-control" />
+                <span asp-validation-for="Timeoff" class="text-danger"></span>
+            </div>
+            -->
+            <div class="form-group">
+                <label asp-for="Enstatus" class="control-label"></label>
+                <input asp-for="Enstatus" hidden id="txtenstatus" class="form-control" />
+                <select class="input-group" style="padding-block:5px" id="cboxenstatus" onchange="SetStatus(this)">
+                    <option value="3">On Light, On Buzzer</option>
+                    <option value="1">On Light, Off Buzzer</option>
+                    <option value="2">Off Light, Off Buzzer</option>
+                </select>
+                <span asp-validation-for="Enstatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Csstop" class="control-label"></label>
+                <input asp-for="Csstop" class="form-control" />
+                <span asp-validation-for="Csstop" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cssleft" class="control-label"></label>
+                <input asp-for="Cssleft" class="form-control" />
+                <span asp-validation-for="Cssleft" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-create animation" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn animation btn-back">Back to List</a>
+</div>
+
+<script>
+    function SetIdroom(Select){
+        document.getElementById("txtidroom").value = Select.value;
+    }
+
+    function SetStatus(Select) {
+        document.getElementById("txtenstatus").value = Select.value;
+    }
+
+    document.getElementById("cboxidroom").value = @Model.IdRoom;
+    if ("@Model.Enstatus" != "0") 
+        document.getElementById("cboxenstatus").value = @Model.Enstatus;
+    else document.getElementById("cboxenstatus").value = "";
+
+</script>

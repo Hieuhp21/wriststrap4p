@@ -1,0 +1,307 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Dataconfig;
+
+@*<div>
+    <canvas id="myChart" height="400" width="600"></canvas>
+</div>*@
+
+<script src="~/lib/chart/chartjs-adapter-date-fns.js"></script>
+
+<script src="~/lib/chart/luxon.js"></script>
+<script src="~/lib/chart/chart-plugin.js"></script>
+
+<div>
+    <div class="row">
+        <div class="col-sm-6">
+            <h2 style="background:lightgray;">List Room IVI Floor 1</h2>
+            <div class="left-temple">
+                @for(int i = 1;i<=42;i++)
+                {
+                    <button class="btn-info buttonroom" type="button" onclick="CreateNewChart(@i)">ROOM @i</button>
+                }
+            </div>
+            <div class="left-infor">
+                <p class="left-infor-title">Thông tin Zone</p>
+                <span style="font-size: 24px; font-weight:600">Trạng thái:</span>
+                <span style="font-size: 28px; font-weight:600; color: green">Bình thường</span>
+                <p>Tên : Zone 4</p>
+                <p>Vị trí : Sản xuất</p>
+                <p>Vị trí cửa thoát hiểm : Zone 4</p>
+                <p>Nhân viên phụ trách: Bình</p>
+                <p>Hướng đi cửa thóa hiểm: Cuối hành lang tầng 1</p>
+                <p>SĐT khẩn cấp : 0968220241</p>
+
+            </div>
+        </div>
+        <div class="col-sm-6 right">
+            <h2 id="LableChart">Data Show</h2>
+            <div id="chartReport">
+                <canvas id="myChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="jumbotron text-center" style="margin-bottom:0">
+
+
+    <script>
+        function hello(i) {
+            var bt = document.getElementById("button-" + i);
+            bt.classList.add("buttonalert");
+            bt.textContent += " Tem:50C";
+            document.getElementById("LableChart").textContent="Data in ROOM-"+i;
+        }
+
+    </script>
+
+<script>
+
+
+        let myChart;
+        var run = false;
+
+    function CreateNewChart(idled){
+            var config = {
+                type: 'line',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Temperature',
+                            borderColor: 'red',
+                            cubicInterpolationMode: 'monotone',
+                            data: [],
+                            yAxisID: 'yt'
+
+                        },
+                        {
+                            label: 'Humidity',
+                            borderColor: 'blue',
+                            cubicInterpolationMode: 'monotone',
+                            data: [],
+                            yAxisID: 'yh'
+                        }
+                    ]
+                },
+                options: {
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                        axis: 'x'
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Temperature and Humidity in IVI room'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title:{
+                                display: true,
+                                text: 'Time'
+                            },
+                            type: 'realtime',
+                            realtime: {
+                                duration: @Model.Duration,
+                                refresh: @Model.Refresh,
+                                delay: @Model.Refresh*2,
+                                onRefresh: chart => {
+                                    updateNow(chart, idled);
+                                }
+                            }
+                        },
+                        yt: {
+                            title: {
+                                display: true,
+                                text: 'Temperature(°C)'
+                            },
+                            display: true,
+                            position: 'left',
+                            beginAtZero: true,
+                        },
+                        yh: {
+                            title: {
+                                display: true,
+                                text: 'Humidity(%)'
+                            },
+                            display: true,
+                            position: 'right',
+                            beginAtZero: true,
+
+                            // grid line settings
+                            grid: {
+                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                            },
+                        }
+                    }
+                }
+            };
+
+            //myChart.clear();
+            if (myChart) { myChart.destroy(); }
+            //document.querySelector("#chartReport").innerHTML = '<canvas id="myChart"></canvas>';
+
+            myChart = new Chart(document.getElementById('myChart'), config);
+
+            run = true;
+            updateChartnew(idled, myChart);
+    }
+
+        CreateNewChart(1);
+    
+
+    // Update Data First into Chart
+    function updateChartnew(idled,chart){
+            $.post('@Url.Action("GetDataFirst","ShowChart")', { _idled:idled },
+            function (input) {
+                if(input != "[]") {
+                    var object = JSON.parse(input);
+
+                    for (let i = object.length - 1; i > -1; i--) {
+                        updatachart(chart, object[i]);
+                        // await sleep(50);
+                    };
+                        chart.update();
+                }
+                    await sleep(100);
+                    run = false;
+            });
+            
+    }
+
+    
+
+    // Add datanow into Chart
+    function updateNow(chart,idled) {
+        if(!run) {
+                run = true;
+                $.post('@Url.Action("GetData","ShowChart")', { _idled: idled },
+                    function (input) {
+                        try{
+                            if (input != "[]") {
+                                var object = JSON.parse(input);
+                                updatachart(chart, object[0]);
+                            }
+                        }
+                        catch{}
+                        run = false;
+                    }
+                );
+        }
+    }
+
+    var oldTime;
+    // Hàm con add data in chart
+    function updatachart(chart, data) {
+
+        if(data.Time0 != oldTime)
+        {
+            chart.data.datasets[0].data.push({
+                x: Date.parse(data.Time0),
+                y: data.Temp
+            });
+
+            chart.data.datasets[1].data.push({
+                x: Date.parse(data.Time0),
+                y: data.Humi
+            });
+
+            if (chart.data.datasets[0].data.length > @Model.TotalDatumFisrt* 3) {
+                chart.data.datasets[0].data.pop();
+                chart.data.datasets[1].data.pop();
+            }
+                oldTime = data.Time0;
+        }
+        
+    }
+
+    const sleep = (ms) => {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
+</script>
+
+<p id="testk">TEST</p>
+</div>
+@*<script>
+
+    const ctx = document.getElementById('myChart');
+
+    const labels = []
+
+    const data = {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Temperature',
+                data: [],
+                borderColor: 'red',
+
+                yAxisID: 'yt',
+            },
+            {
+                label: 'Humidity',
+                data: [],
+                borderColor: 'blue',
+
+                yAxisID: 'yh',
+            }
+        ]
+    };
+
+    const config = {
+        type: 'line',
+        data: data,
+        options:
+        {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            stacked: false,
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Chart.js Line Chart - Multi Axis'
+                }
+            },
+            scales:
+            {
+
+                yt: {
+                    beginAtZero: true,
+                    type: 'linear',
+                    display: true,
+                    position: 'left',
+                },
+                yh: {
+                    beginAtZero: true,
+                    type: 'linear',
+                    display: true,
+                    position: 'right',
+
+                    // grid line settings
+                    grid: {
+                        drawOnChartArea: false, // only want the grid lines for one axis to show up
+                    },
+                },
+            }
+        },
+    };
+
+    var chart = new Chart(ctx, config);
+
+    function updateChart() {
+        $.post('@Url.Action("ShowChart","GetData")', {},
+            function (input) {
+                var Objectdata = JSON.parse(input);
+                chart.data.datasets[0].data.push()
+                });
+                chart.update();
+            });
+        setTimeout(updateChart, 1000);
+    }
+
+    updateChart();
+</script>*@

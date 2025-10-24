@@ -1,0 +1,421 @@
+﻿@using WEB_SHOW_WRIST_STRAP.Controllers;
+@model WEB_SHOW_WRIST_STRAP.Dataconfig;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (TempData["AlertMessage"] != null)
+
+
+
+{
+    <div id="AlertBox" class="alert @TempData["AlertType"] hide" role="alert">
+        @TempData["AlertMessage"]
+    </div>
+}
+<style>
+    .scrollable-tbody {
+        display: block;
+        max-height: 46.3vh;
+        overflow-y: auto;
+    }
+
+        .scrollable-tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .scrollable-tbody td, .scrollable-tbody th {
+            width: 25%;
+        }
+
+    table thead, table tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .point-wrapper {
+        position: absolute;
+        display: inline-block;
+    }
+
+    .point-overlay {
+        position: relative;
+        background: rgba(0, 0, 0, 0);
+        border: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 30px;
+        min-height: 30px;
+        transition: background 0.5s ease-in-out;
+    }
+
+    .pointinline-di {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        cursor: pointer;
+        z-index: 1;
+        padding: 2px 5px;
+    }
+
+    .point-overlay-alarm {
+        animation: fadeOverlay 1.5s infinite ease-in-out;
+    }
+
+    @@keyframes fadeOverlay {
+        0% {
+            background: rgba(255, 0, 0, 0.1);
+        }
+
+        50% {
+            background: rgba(255, 0, 0, 0.3);
+        }
+
+        100% {
+            background: rgba(255, 0, 0, 0.1);
+        }
+    }
+
+    .tooltippp {
+        position: absolute;
+        background: #333;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        z-index: 1000;
+        font-size: 12px;
+        white-space: nowrap;
+    }
+</style>
+
+<div style="">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+        <select class="input cboxFloor animation" name="bell" id="cbfloor" onchange="cboxchange(this.value)" style="display:none">
+        </select>
+        <span style="font-weight: 700; font-size: 27px; margin-left: 40%">WRIST STRAP SYSTEM</span>
+        <div style="display: flex; flex-direction: column;" class="total-ok">
+            <div id="total-ok"></div>
+        </div>
+    </div>
+
+    <div style="position: relative; display: inline-block;">
+        <div id="IMGIVI" style="display: block;"></div>
+        <div class="overlay"></div>
+        <div class="log-box" id="logBox" style="display:none">
+            <table class="table table-striped">
+                <thead>
+                    <tr style="background-color:#888">
+                        <th>Time</th>
+                        <th>Line</th>
+                        <th>Point</th>
+                        <th>Alarm</th>
+                    </tr>
+                </thead>
+                <tbody id="dtalarmallview" class="scrollable-tbody"></tbody>
+            </table>
+        </div>
+    </div>
+    <div id="Layout_lines"></div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.0/signalr.min.js"></script>
+<script>
+    let Layout_lines = document.getElementById("Layout_lines");
+    let cboxfloor = document.getElementById("cbfloor");
+    let ImgIVI = document.getElementById("IMGIVI");
+
+    // Khởi tạo kết nối SignalR
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/monitoringHub")
+        .withAutomaticReconnect()
+        .build();
+
+    // Xử lý dữ liệu nhận từ SignalR
+    connection.on("ReceiveMonitoringData2", (jsonData) => {
+        if (jsonData && lslineofFloor) {
+            let LsPointnow = JSON.parse(jsonData); // Parse chuỗi JSON
+            updatePoints(LsPointnow);
+        }
+    });
+
+    // Bắt đầu kết nối SignalR
+    connection.start()
+        .then(() => console.log("Connected to MonitoringHub"))
+        .catch(err => console.error("Error connecting to MonitoringHub:", err));
+
+    connection.onreconnecting(err => {
+        console.warn("Reconnecting to MonitoringHub:", err);
+    });
+
+    connection.onreconnected(connectionId => {
+        console.log("Reconnected to MonitoringHub with ID:", connectionId);
+    });
+
+    async function LoadAreaUser() {
+        if (Allfloor == null) {
+            setTimeout(LoadAreaUser, 50);
+        } else {
+            await sleep(10);
+            Allfloor.forEach(function (floor) {
+                cboxfloor.innerHTML += '<option value="' + floor.IdFloor + '">' + floor.NameFloor + '</option>';
+            });
+            if (Allfloor.length > 0) {
+                cboxfloor.selectedIndex = 0;
+                while (Userline == null || Userpoint == null) await sleep(50);
+                cboxchange(Allfloor[0].IdFloor);
+            }
+        }
+    }
+
+    let idfloorNow;
+    let lslineofFloor;
+
+    function cboxchange(idfloor) {
+        lslineofFloor = GetUserLineofFloor(idfloor);
+        idfloorNow = idfloor;
+        ImgIVI.innerHTML = "";
+        const img = document.createElement('img');
+        img.id = "myImage";
+        img.style.border = "1px solid";
+        img.style.width = "1800px";
+        img.style.height = "auto";
+        img.style.objectFit = "contain";
+        img.src = "/image/" + cboxfloor.options[cboxfloor.selectedIndex].text + ".png?v=2.7";
+        img.onload = calculateDistance;
+        ImgIVI.appendChild(img);
+        Updatelayoutline(idfloor);
+        UpdateLayoutHub();
+    }
+
+    let IDlsboxshow = new Array();
+
+    function Updatelayoutline(value) {
+        if (Userline == null || lslineofFloor == null) {
+            setTimeout(Updatelayoutline, 50, value);
+        } else {
+            Layout_lines.innerHTML = "";
+            let htmlinter = "";
+            lslineofFloor.forEach(function (line) {
+                let ID = line.IdLine;
+                let Nameline = line.NameLine;
+                let XYBox = GetXYLine(ID);
+
+                let htmlinterbefore =
+                    '<div onclick="Clickline(' + ID + ')" name="boxlayoutline" id="boxline' + ID +
+                    '" class="boxline" style="top: ' + XYBox[0] + 'px; left: ' + XYBox[1] +
+                    'px; width: ' + XYBox[2] + 'px; height: ' + XYBox[3] + 'px">' +
+                    '<div id="boxline' + ID + 'head" class="boxlinehead">' +
+                    '<p id="boxline' + ID + 'ivi" class="boxlinehead-a">' +
+                    (line.NameLine ? line.NameLine : 'Line') + '</p></div>';
+
+                let htmlinterafter = '</div>';
+
+                let lspointline = GetPointofline(ID);
+                let htmllinemid = "";
+                lspointline.forEach(function (point) {
+                    let pointValue = point.Value ? point.Value : '...';
+                    let pv = 127;
+                    let min = 10;
+                    let max = 60;
+
+                    htmllinemid +=
+                        `<div class="point-wrapper" id="point${point.IdLine}_${point.IdPoint}" style="top:${point.Csstop}px; left:${point.Cssleft}px">
+                                    <div class="point-overlay" style="width:${point.Width || 50}px; height:${point.Height || 50}px"></div>
+                                    <div name="point" class="pointinline-di"
+                                         onmouseover="showTooltip(this, 'ID_DH: ${point.IdPoint}<br>Value: <strong>${pv}</strong><br>Min~Max: ${min} ~ ${max}<br>Status:<strong> ${pointValue}</strong>')"
+                                         onmouseout="hideTooltip()">
+                                        <p class="pointinline-di-a">${point.IdPoint}</p>
+                                    </div>
+                                </div>`;
+                });
+
+                htmlinter += (htmlinterbefore + htmllinemid + htmlinterafter);
+            });
+
+            Layout_lines.innerHTML = htmlinter;
+        }
+    }
+    async function UpdateLayoutHub() {
+        try {
+            const response = await $.get('@Url.Action("GetHubs", "ListPoint2")');
+            if (response) {
+                const hubs = JSON.parse(response);
+                let htmlHubs = '';
+
+                hubs.forEach(hub => {
+                    // Giả sử Hub có các thuộc tính: IdHub, NameHub, Csstop, Cssleft
+                    htmlHubs += `
+                            <div
+                                id="hub${hub.Id}"
+                                class="hub-icon"
+                                    style="top:${hub.TopCss}px; left:${hub.LeftCss}px; "
+                                title="${hub.Name}"
+                                "
+                            >
+                                <img style="width: 50px" src="/image/icon_hub.png" alt="Hub" class="hub-img" />
+
+                            </div>
+                        `;
+                });
+
+                // Thêm các hub vào Layout_lines (giống như line)
+                $('#Layout_lines').append(htmlHubs);
+            }
+        } catch (err) {
+            console.error('Lỗi khi load Hub:', err);
+        }
+    }
+    function showTooltip(element, text) {
+        let tooltip = document.getElementById('tooltip');
+        if (!tooltip) {
+            tooltip = document.createElement('div');
+            tooltip.id = 'tooltip';
+            tooltip.className = 'tooltippp';
+            document.body.appendChild(tooltip);
+        }
+        tooltip.innerHTML = text;
+
+        let rect = element.getBoundingClientRect();
+        tooltip.style.top = (rect.top - tooltip.offsetHeight + 35) + 'px';
+        tooltip.style.left = (rect.left + (rect.width / 2) - (tooltip.offsetWidth / 2)) + 'px';
+        tooltip.style.display = 'block';
+    }
+
+    function hideTooltip() {
+        let tooltip = document.getElementById('tooltip');
+        if (tooltip) {
+            tooltip.style.display = 'none';
+        }
+    }
+
+    function calculateDistance() {
+        const img = document.getElementById('myImage');
+        const logBox = document.getElementById('logBox');
+        const scrollableTbody = document.querySelector('.scrollable-tbody');
+        if (img) {
+            const imgWidthr = img.getBoundingClientRect();
+            const imgHeight = img.offsetHeight;
+            const windowWidth = ImgIVI.offsetWidth;
+            const imgWidth = img.offsetWidth;
+            const distance = windowWidth - imgWidthr.right + 180;
+            const widthb = imgWidth / 3.171;
+            const heightb = imgHeight / 1.532;
+
+            if (idfloorNow == 3) {
+                logBox.style.right = `${distance}px`;
+                logBox.style.width = `${widthb}px`;
+                logBox.style.height = `${heightb}px`;
+                logBox.style.display = 'block';
+                scrollableTbody.style.maxHeight = `${heightb * 0.84}px`;
+                Clinknotifibtn();
+            } else {
+                logBox.style.display = 'none';
+            }
+        } else {
+            console.warn('Không tìm thấy thẻ img với id "myImage".');
+        }
+    }
+
+    function Clickline(ID) {
+        window.location.href = '/ListView/Detail?IdLine=' + ID;
+    }
+
+    let ngLineCount = 0;
+    let totalLines = 0;
+
+    function updatePoints(LsPointnow) {
+        if (LsPointnow && lslineofFloor) {
+            ngLineCount = 0;
+            totalLines = lslineofFloor.length;
+
+            lslineofFloor.forEach(function (line) {
+                let totalpointalarm = 0;
+                let lspointofline = GetPointofline(line.IdLine);
+
+                for (let point of lspointofline) {
+                    LsPointnow.some(function (pointnow) {
+                        if (pointnow.IdPoint == point.IdPoint && pointnow.IdLine == point.IdLine) {
+                            let Statusp = GetStatus(pointnow.Alarm);
+                            let Pointlayout = document.getElementById('point' + point.IdLine + '_' + point.IdPoint);
+                            if (Pointlayout) {
+                                let pointElement = Pointlayout.querySelector('.pointinline-di');
+                                let overlayElement = Pointlayout.querySelector('.point-overlay');
+
+                                pointElement.classList.remove('pointalarm', 'pointoff', 'pointfix');
+                                overlayElement.classList.remove('point-overlay-alarm');
+
+                                if (Statusp == 'NG') {
+                                    pointElement.classList.add('pointalarm');
+                                    overlayElement.classList.add('point-overlay-alarm');
+                                    totalpointalarm++;
+                                } else if (Statusp == 'OFF') {
+                                    pointElement.classList.add('pointoff');
+                                } else if (Statusp == 'FIX') {
+                                    pointElement.classList.add('pointfix');
+                                }
+
+                                let value = GetAlarm(pointnow.Alarm) || "OFF";
+                                let min = pointnow.MinSpect || 0;
+                                let max = pointnow.MaxSpect || 1;
+                                let pv = pointnow.Value || 0;
+
+                                pointElement.setAttribute("onmouseover",
+                                    `showTooltip(this, 'Name: Point${point.IdPoint}<br>Value: <strong>${pv}</strong><br>Min~Max: ${min} ~ ${max}<br>Status:<strong> ${value}</strong>')`);
+                            }
+                            return true;
+                        }
+                    });
+                }
+
+                let alarmline = totalpointalarm > 0;
+                let boxline = document.getElementById("boxline" + line.IdLine);
+                let boxlinehead = document.getElementById("boxline" + line.IdLine + "head");
+                if (boxline) {
+                    if (alarmline) {
+                        boxlinehead.classList.add("boxlineheadalarm");
+                        ngLineCount++;
+                    } else {
+                        boxline.classList.remove("boxlineboderalarm");
+                        boxlinehead.classList.remove("boxlineheadalarm");
+                    }
+                }
+            });
+
+            if (ngLineCount > 0) {
+                playAlarm();
+            } else {
+                stopAlarm();
+            }
+
+            let okLineCount = totalLines - ngLineCount;
+            let totalOkElement = document.getElementById('total-ok');
+            if (totalOkElement) {
+                totalOkElement.innerText = `${okLineCount}/${totalLines} line OK`;
+            }
+        }
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    LoadAreaUser();
+</script>
+
+@{
+    HomeController.ResetMess();
+}
+
+@section scripts {
+    <script>
+        $(function () {
+            $('#AlertBox').removeClass('hide');
+            $('#AlertBox').delay(2000).slideUp(500);
+        });
+    </script>
+}

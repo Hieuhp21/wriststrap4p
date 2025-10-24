@@ -1,0 +1,391 @@
+﻿@using WEB_SHOW_WRIST_STRAP.Controllers;
+@model WEB_SHOW_WRIST_STRAP.Dataconfig;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@if (TempData["AlertMessage"] != null)
+{
+    <div id="AlertBox" class="alert @TempData["AlertType"] hide" role="alert">
+        @TempData["AlertMessage"]
+    </div>
+}
+<style>
+    .scrollable-tbody {
+        display: block;
+        max-height: 46.3vh; /* Chiều cao cố định cho tbody */
+        overflow-y: auto; /* Tạo thanh cuộn */
+    }
+
+   
+
+    .scrollable-tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .scrollable-tbody td, .scrollable-tbody th {
+        width: 25%;
+    }
+
+    table thead, table tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    table thead {
+        width: calc(100% - 1em); /* Để tránh thanh cuộn ảnh hưởng đến thead */
+    }
+</style>
+<div style="">
+    <div style="display: flex; align-items: center; justify-content: space-between;">
+        <select class="input cboxFloor animation" name="bell" id="cbfloor" onchange="cboxchange(this.value)" style="display:none">
+        </select>
+        <span style="font-weight: 700; font-size: 27px; margin-left: 40%">WRIST STRAP SYSTEM</span>
+
+        <div style="display: flex; flex-direction: column; " class="total-ok">
+            <div id="total-ok"></div>
+            @*  <div class="total-ok-wriststrap" id="total-ok-wriststrap"></div> *@
+        </div>
+    </div>
+    <div style="position:relative;display: inline-block;">
+        <div id="IMGIVI" style="display: block;">
+        </div>
+        <div class="overlay"></div>
+@*          <div class="log-box" id="logBox">
+             <table class="table table-striped">
+                 <thead>
+                     <tr style="background-color:aliceblue">
+                         <th>Time</th>
+                         <th>Line</th>
+                         <th>Point</th>
+                         <th>Alarm</th>
+
+                     </tr>
+                 </thead>
+                 <tbody id="dtalarmallview" class="scrollable-tbody">
+                 </tbody>
+             </table>
+         </div> *@
+    </div>
+    <div id="Layout_lines">
+    </div>
+</div>
+
+<script>
+    let Layout_lines = document.getElementById("Layout_lines");
+    let cboxfloor = document.getElementById("cbfloor");
+    let ImgIVI = document.getElementById("IMGIVI");
+
+    async function LoadAreaUser() {
+        if (Allfloor == null) {
+            setTimeout(LoadAreaUser, 50);
+        }
+        else {
+            await sleep(10);
+            Allfloor.forEach(function (floor) {
+                cboxfloor.innerHTML += '<option value="' + floor.IdFloor + '">' + floor.NameFloor + '</option>'
+            });
+            if (Allfloor.length > 0) {
+                cboxfloor.selectedIndex = 0;
+                while (Userline == null || Userpoint == null) await sleep(50);
+                cboxchange(Allfloor[0].IdFloor);
+            }
+
+        }
+    }
+
+    let idfloorNow;
+    let lslineofFloor;
+
+    //Event Cbox Change value
+    function cboxchange(idfloor) {
+        lslineofFloor = GetUserLineofFloor(idfloor);
+        idfloorNow = idfloor;
+        ImgIVI.innerHTML = ""; // Xóa nội dung cũ
+
+        // Tạo phần tử img mới
+        const img = document.createElement('img');
+        img.id = "myImage"; // Thêm id
+        img.style.border = "1px solid";
+        img.style.width = "1800px";
+        img.style.height = "auto";
+        img.style.objectFit = "contain";
+        img.style.objectFit = "contain";
+        img.src = "/image/" + cboxfloor.options[cboxfloor.selectedIndex].text + ".png?v=2.2";
+
+        // Thêm sự kiện onload
+      //  img.onload = calculateDistance;
+
+        // Thêm img vào div IMGIVI
+        ImgIVI.appendChild(img);
+
+        Updatelayoutline(idfloor);
+        UpdateLayoutHub();
+    }
+
+
+    let IDlsboxshow = new Array();
+
+    //Update list Line to List Show
+    function Updatelayoutline(value) {
+        if (Userline == null || lslineofFloor == null) setTimeout(Updatelayoutline, 50, value);
+        else {
+
+            Layout_lines.innerHTML = "";
+
+            let htmlinter = "";
+            lslineofFloor.forEach(function (line) {
+                let ID = line.IdLine;
+                let Nameline = line.NameLine;
+
+                let XYBox = GetXYLine(ID);
+
+                let htmlinterbefore = ' <div onclick="Clickline(' + ID + ')" name="boxlayoutline" id="boxline' + ID + '" class="boxline" style = "top: ' + XYBox[0] + 'px; left: ' + XYBox[1] + 'px; width: ' + XYBox[2] + 'px ; height: ' + XYBox[3] + 'px " > <div id="boxline' + ID + 'head" class="boxlinehead" > <p id="boxline' + ID + 'ivi" class="boxlinehead-a" >' + (line.IdIviLine ? line.IdIviLine : 'IVI') + '</p> </div> '
+                let htmlinterafter = ' </div>'
+
+                let lspointline = GetPointofline(ID);
+
+                let htmllinemid = "";
+
+                lspointline.forEach(function (point) {
+                    htmllinemid += '<div name="point" id="point' + point.IdLine + '_' + point.IdPoint + '" class="pointinline-di" style="top:' + point.Csstop + 'px; left:' + point.Cssleft + 'px"> <p class="pointinline-di-a" >' + point.IdPoint + '</p></div>';
+                });
+
+                htmlinter += (htmlinterbefore + htmllinemid + htmlinterafter);
+            });
+
+            Layout_lines.innerHTML = htmlinter;
+        }
+
+    }
+    async function UpdateLayoutHub() {
+        try {
+            const response = await $.get('@Url.Action("GetHubs", "ListPoint2")');
+            if (response) {
+                const hubs = JSON.parse(response);
+                let htmlHubs = '';
+
+                hubs.forEach(hub => {
+                    // Giả sử Hub có các thuộc tính: IdHub, NameHub, Csstop, Cssleft
+                    htmlHubs += `
+                        <div
+                            id="hub${hub.Id}"
+                            class="hub-icon"
+                                style="top:${hub.TopCss}px; left:${hub.LeftCss}px; "
+                            title="${hub.Name}"
+                            "
+                        >
+                            <img style="width: 50px" src="/image/icon_hub.png" alt="Hub" class="hub-img" />
+                         
+                        </div>
+                    `;
+                });
+
+                // Thêm các hub vào Layout_lines (giống như line)
+                $('#Layout_lines').append(htmlHubs);
+            }
+        } catch (err) {
+            console.error('Lỗi khi load Hub:', err);
+        }
+    }
+
+    function calculateDistance() {
+        const img = document.getElementById('myImage'); // Chọn thẻ img bằng id
+        const logBox = document.getElementById('logBox');
+        const scrollableTbody = document.querySelector('.scrollable-tbody');
+        if (img) { // Kiểm tra xem img có tồn tại không
+            const imgWidthr = img.getBoundingClientRect(); // Lấy chiều rộng của img
+            const imgHeight = img.offsetHeight;
+            const windowWidth = ImgIVI.offsetWidth; // Lấy chiều rộng của cửa sổ
+            const imgWidth = img.offsetWidth;
+            // Tính khoảng cách từ ảnh đến lề phải
+            const distance = windowWidth - imgWidthr.right + 180
+            const widthb = imgWidth / 3.171;
+            const heightb = imgHeight / 1.532;
+            // Cập nhật vị trí của bảng log
+            if (idfloorNow == 1) {
+                // Cập nhật vị trí và kích thước của logBox nếu idfloor == 1
+                logBox.style.right = `${distance}px`;
+                logBox.style.width = `${widthb}px `;
+                logBox.style.height = `${heightb}px`;
+                logBox.style.display = 'block'; // Hiển thị logBox
+                scrollableTbody.style.maxHeight = `${heightb * 0.84}px`;
+                Clinknotifibtn();
+            } else {
+                logBox.style.display = 'none'; // Ẩn logBox nếu idfloor != 1
+            }
+        } else {
+            console.warn('Không tìm thấy thẻ img với id "myImage".');
+        }
+    }
+
+    // Tính khoảng cách khi trang được tải
+  //  window.onload = calculateDistance;
+
+    // Cập nhật khoảng cách khi thay đổi kích thước cửa sổ
+  //  window.onresize = calculateDistance;
+    function Clickline(ID) {
+        window.location.href = '/ListView/IndexLeakVol?IdLine=' + ID;
+    }
+    let ngLineCount = 0;
+    let totalLines = 0;
+    // Update data to all box show
+    function Updatalsbox() {
+
+        $.post('@Url.Action("GetAllpointNow", "ListPoint2")', {},
+            function (input) {
+                if (input != "") {
+
+                    let LsPointnow = JSON.parse(input);
+                    ngLineCount = 0;
+                    totalLines = lslineofFloor.length;
+                    lslineofFloor.forEach(function (line) {
+                        let totalpointalarm = 0;
+
+                        let lspointofline = GetPointofline(line.IdLine);
+
+                        for (let point of lspointofline) {
+
+                            LsPointnow.some(function (pointnow, index) {
+                                if (pointnow.IdPoint == point.IdPoint && pointnow.IdLine == point.IdLine) {
+
+                                    let Statusp = GetStatus(pointnow.Alarm);
+
+                                    let Pointlayout = document.getElementById('point' + point.IdLine + '_' + point.IdPoint);
+
+                                    if (Pointlayout) {
+                                        Pointlayout.classList.remove('pointalarm');
+                                        Pointlayout.classList.remove('pointoff');
+                                        if (Statusp == 'NG') {
+                                            Pointlayout.classList.add('pointalarm');
+                                            totalpointalarm++;
+                                        }
+                                        else if (Statusp == 'OFF') {
+                                            Pointlayout.classList.add('pointoff');
+                                        }
+                                    }
+
+                                    return true;
+                                }
+                            });
+
+                        }
+
+                        let alarmline = totalpointalarm > 0;
+                        let boxline = document.getElementById("boxline" + line.IdLine);
+                        let boxlinehead = document.getElementById("boxline" + line.IdLine + "head");
+                        if (boxline) {
+                            if (alarmline) {
+                                boxline.classList.add("boxlineboderalarm");
+                                boxlinehead.classList.add("boxlineheadalarm");
+                                ngLineCount++;
+                            }
+                            else {
+                                boxline.classList.remove("boxlineboderalarm");
+                                boxlinehead.classList.remove("boxlineheadalarm");
+
+                            }
+                        }
+
+                    });
+                    let okLineCount = totalLines - ngLineCount;
+
+                    // Cập nhật nội dung vào phần tử với ID `total-ok`
+                    let totalOkElement = document.getElementById('total-ok');
+                    if (totalOkElement) {
+                        totalOkElement.innerText = `${okLineCount}/${totalLines} line OK(Leakeage-Voltage)`;
+                    }
+                }
+            }
+        );
+    }
+    function CalculateOkLines(lslineofFloor, LsPointnow) {
+        let ngLineCount = 0;
+        let totalLines = lslineofFloor.length;
+
+        lslineofFloor.forEach(function (line) {
+            let totalpointalarm = 0;
+            let lspointofline = GetPointofline1(line.IdLine);
+
+            for (let point of lspointofline) {
+                LsPointnow.some(function (pointnow) {
+                    if (pointnow.IdPoint == point.IdPoint && pointnow.IdLine == point.IdLine) {
+                        let Statusp = GetStatus(pointnow.Alarm);
+
+                        if (Statusp == 'NG') {
+                            totalpointalarm++;
+                        }
+                        return true;
+                    }
+                });
+            }
+
+            if (totalpointalarm > 0) {
+                ngLineCount++;
+            }
+        });
+
+        let okLineCount = totalLines - ngLineCount;
+        return { okLineCount, totalLines };
+    }
+    // function UpdateWristStrap() {
+    //     $.post('@Url.Action("GetAllpointNow", "ListPoints")', {}, function (input) {
+    //         if (input != "") {
+    //             let LsPointnow = JSON.parse(input);
+    //             let result = CalculateOkLines(lslineofFloor, LsPointnow);
+
+    //             let totalOkElementWristStrap = document.getElementById('total-ok-wriststrap');
+    //             if (totalOkElementWristStrap) {
+    //                 totalOkElementWristStrap.innerText = `${result.okLineCount}/${result.totalLines} line OK (Wrist-Strap)`;
+    //             }
+    //         }
+    //     });
+    // }
+
+    function UpdateLeakageVoltage() {
+        $.post('@Url.Action("GetAllpointNow", "ListPoint2")', {}, function (input) {
+            if (input != "") {
+                let LsPointnow = JSON.parse(input);
+                let result = CalculateOkLines(lslineofFloor, LsPointnow);
+
+                let totalOkElementLeakageVoltage = document.getElementById('total-ok-leakagevoltage');
+                if (totalOkElementLeakageVoltage) {
+                    totalOkElementLeakageVoltage.innerText = `${result.okLineCount}/${result.totalLines} line OK (Leakage Voltage)`;
+                }
+            }
+        });
+    }
+
+    function update() {
+        if (Userpoint == null || lslineofFloor == null) { setTimeout(update, 10); }
+        else {
+            Updatalsbox();
+          //  UpdateWristStrap();
+            setTimeout(update, @Model.Refresh);
+
+        }
+    }
+
+    LoadAreaUser();
+
+    update();
+
+</script>
+
+
+@{
+    HomeController.ResetMess();
+}
+
+@section scripts {
+    <script>
+        $(function () {
+            $('#AlertBox').removeClass('hide');
+            $('#AlertBox').delay(2000).slideUp(500);
+        });
+
+    </script>
+}

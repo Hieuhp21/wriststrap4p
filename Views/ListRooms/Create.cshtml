@@ -1,0 +1,106 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListRoom
+
+@using Microsoft.AspNetCore.Identity
+@using WEB_SHOW_WRIST_STRAP.Data
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Create new Area";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <header class="header">
+            <h1>Create new Area</h1>
+        </header>
+        <hr />
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdRoom" class="control-label">IdArea</label>
+                <input asp-for="IdRoom" class="form-control" />
+                <span asp-validation-for="IdRoom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameRoom" class="control-label">Name Area</label>
+                <input asp-for="NameRoom" class="form-control" />
+                <span asp-validation-for="NameRoom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ListUser" class="control-label"></label>
+                <input asp-for="ListUser" readonly id="ListUsertxt" class="form-control" />
+                <div class="row" style="margin-block:5px">
+                    <span class="col-1" style="padding-block:5px;margin-block:5px">User:</span>
+                    <select class="col-6" style="padding-block:5px;margin-block:5px" id="cboxuser">
+                        @foreach (var Username in UserManager.Users)
+                        {
+                            <option value="@Username.UserName">@Username.UserName</option>
+                        }
+                    </select>
+                    <button type="button" class="col btn btn-info btn-space" style="margin-block:5px" onclick="AddUser()"> ADD </button>
+                    <button type="button" class="col btn btn-danger " style="margin-block:5px; margin-right:12px" onclick="DeleteUser()"> DELETE </button>
+                </div>
+                <span asp-validation-for="ListUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Floor" class="control-label"></label>
+                <input asp-for="Floor" class="form-control" />
+                <span asp-validation-for="Floor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary btn-create animation" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn animation btn-back">Back to List</a>
+</div>
+
+<script>
+    function AddUser() {
+        let listuser = document.getElementById("ListUsertxt").value.split('|');
+        let useradd = document.getElementById("cboxuser").value;
+
+        if (listuser.indexOf(useradd) == -1) {
+            document.getElementById("ListUsertxt").value += (listuser.length > 1 || listuser[0] != "") ? "|" + useradd : useradd;
+        }
+        else {
+            alert("User already !");
+        }
+    }
+
+    function DeleteUser() {
+        let listuser = document.getElementById("ListUsertxt").value.split('|');
+        let useradd = document.getElementById("cboxuser").value;
+
+        if (listuser.indexOf(useradd) != -1) {
+            document.getElementById("ListUsertxt").value = "";
+            listuser.forEach(user => {
+                if (user != useradd) {
+                    if (document.getElementById("ListUsertxt").value != "") {
+                        document.getElementById("ListUsertxt").value += "|" + user;
+                    }
+                    else {
+                        document.getElementById("ListUsertxt").value += user;
+                    }
+                }
+            });
+
+        }
+        else {
+            alert("User is not in List!");
+        }
+    }
+
+
+
+</script>

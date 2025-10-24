@@ -1,0 +1,49 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListRoom
+
+@{
+    ViewData["Title"] = "Details Area";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details Area</h1>
+
+<div>
+    <h4>Area</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            IdArea
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.IdRoom)
+        </dd>
+        <dt class = "col-sm-2">
+            Name Area
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NameRoom)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ListUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ListUser)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Floor)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Floor)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdRoom">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

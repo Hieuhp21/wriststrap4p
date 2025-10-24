@@ -1,0 +1,432 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WEB_SHOW_WRIST_STRAP.Data
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - WEB_SHOW_WRIST_STRAP</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WEB_SHOW_WRIST_STRAP.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.min.js"></script>
+    <style>
+        .nav-link.active {
+            background-color: #007bff; /* Example: Blue background */
+            color: white !important; /* White text */
+            font-weight: bold; /* Bold text */
+        }
+    </style>
+</head>
+
+<body onload="applySavedState()">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <img class="navbar-brand" src="~/image/4P_logo.png?v=6" alt="Logo" height="50px" onclick="window.location = '@Url.Action("Index","Home")'">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        @if (User.Identity.IsAuthenticated)
+
+                        {
+                            <li class="nav-item">
+                                <!-- Group of buttons to select between Wrist-Strap and Lakeage Voltage -->
+                                <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-right: 5px;height:42px">
+                                    <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" onclick="updateView('WristStrap')">
+                                    <label class="btn btn-outline-primary" for="option1">WS</label>
+
+                                    <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" onclick="updateView('LakeageVoltage')">
+                                    <label class="btn btn-outline-primary" for="option2">LV</label>
+                                </div>
+                            </li>
+                            <!-- Layout Menu -->
+                            <li class="nav-item">
+                                <a id="layoutLink" class="nav-link text-dark item-nav @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" && (ViewContext.RouteData.Values["Action"]?.ToString() == "Index" || ViewContext.RouteData.Values["Action"]?.ToString() == "IndexLeakVol") ? "active" : "")" href="#">Layout</a>
+                            </li>
+
+                            <!-- List View Menu -->
+                            <li class="nav-item">
+                                <a id="listViewLink" class="nav-link text-dark item-nav @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ListView" ? "active" : "")" href="#">Detail</a>
+                            </li>
+
+                            <!-- History Menu -->
+                            <li class="nav-item">
+                                <a class="nav-link text-dark item-nav @(ViewContext.RouteData.Values["Controller"]?.ToString() == "History" ? "active" : "")" asp-area="" asp-controller="History" asp-action="Index">History</a>
+                            </li>
+
+                            @if (User.IsInRole("Administrator"))
+
+                            {
+                                <!-- PointList Menu -->
+                                <li class="nav-item">
+                                    <a id="listPoint" class="nav-link text-dark item-nav @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ListPoints" || ViewContext.RouteData.Values["Controller"]?.ToString() == "ListPoint2" ? "active" : "")" href="#">PointList</a>
+                                </li>
+
+                                <!-- LineList Menu -->
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark item-nav @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ListLines" ? "active" : "")" asp-area="" asp-controller="ListLines" asp-action="Index">LineList</a>
+                                </li>
+
+                                <!-- PLCList Menu -->
+                                @*  <li class="nav-item">
+                        <a class="nav-link text-dark item-nav @(ViewContext.RouteData.Values["Controller"]?.ToString() == "ListPlcs" ? "active" : "")" asp-area="" asp-controller="ListPlcs" asp-action="Index">PLCList</a>
+                        </li> *@
+
+                                <!-- Users Menu -->
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark item-nav @(ViewContext.RouteData.Values["Controller"]?.ToString() == "User" ? "active" : "")" asp-area="" asp-controller="User" asp-action="Index">Users</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <partial name="_LoginPartial" />
+            </div>
+        </nav>
+    </header>
+
+    <div>
+        <main style="margin-right:50px;margin-left:50px" role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div style="margin-left:50px">
+            &copy; 2024 - BY BAOANAUTOMATION
+        </div>
+    </footer>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+<script>
+    let isInitialLoad = true;
+    let autoSwitchEnabled = false;
+    let autoSwitchInterval = null;
+    let currentScreenIndex = 0; // 0: WS-T1, 1: WS-T2, 2: LV-T1, 3: LV-T2
+    let reloadIntervalId = null;
+    let currentReloadInterval = null;
+
+    // Danh sách các màn hình (4 chế độ)
+    const screens = [
+        { mode: "WristStrap", floorId: "1" }, // WS-T1
+
+        { mode: "LakeageVoltage", floorId: "1" }, // LV-T1
+
+    ];
+
+    // Hàm kiểm tra xem có đang ở tab Layout không (dựa trên class active của layoutLink)
+    function isLayoutPage() {
+        const layoutLink = document.getElementById("layoutLink");
+        return layoutLink && layoutLink.classList.contains("active");
+    }
+
+    // Xử lý sự kiện nhấn logo
+    function handleLogoClick() {
+    @if (User.IsInRole("Administrator"))
+    {
+        <text>$('#updateIntervalModal').modal('show');</text>
+    }
+    else
+    {
+        <text>window.location = '@Url.Action("Index", "Home")';</text>
+    }
+            }
+
+    function updateView(selectedOption, shouldReload = true) {
+
+        if (autoSwitchEnabled) {
+            // pause tạm, KHÔNG persist
+            setAutoSwitch(false, false);
+        }
+
+        const layoutLink = document.getElementById("layoutLink");
+        const listViewLink = document.getElementById("listViewLink");
+        const listPointLink = document.getElementById("listPoint");
+        let newUrl = "";
+
+        if (selectedOption === "WristStrap") {
+            if (layoutLink) layoutLink.href = '@Url.Action("Index", "Home")';
+            if (listViewLink) listViewLink.href = '@Url.Action("Index", "ListView")';
+            if (listPointLink) listPointLink.href = '@Url.Action("Index", "ListPoints")';
+
+            if (window.location.pathname === '/Home/IndexLeakVol') newUrl = '/home/index';
+            if (window.location.pathname === '/ListPoint2') newUrl = '/ListPoints';
+            if (window.location.pathname === '/ListView/IndexLeakVol') newUrl = '/ListView';
+            const option1 = document.getElementById("option1");
+            if (option1) option1.checked = true;
+        } else if (selectedOption === "LakeageVoltage") {
+            if (layoutLink) layoutLink.href = '@Url.Action("IndexLeakVol", "Home")';
+            if (listViewLink) listViewLink.href = '@Url.Action("IndexLeakVol", "ListView")';
+            if (listPointLink) listPointLink.href = '@Url.Action("Index", "ListPoint2")';
+
+            if (window.location.pathname === '/' || window.location.pathname === '/home/index') newUrl = '/Home/IndexLeakVol';
+            if (window.location.pathname === '/ListPoints') newUrl = '/ListPoint2';
+            if (window.location.pathname === '/ListView') newUrl = '/ListView/IndexLeakVol';
+            const option2 = document.getElementById("option2");
+            if (option2) option2.checked = true;
+        }
+
+        // Lưu trạng thái chế độ vào localStorage
+        localStorage.setItem('selectedOption', selectedOption);
+        window.selectedOption = selectedOption;
+        // Cập nhật URL nếu cần
+        if (newUrl && newUrl !== window.location.pathname) {
+            window.history.pushState({ path: newUrl, mode: selectedOption }, '', newUrl);
+        }
+
+        // Cập nhật currentScreenIndex
+        updateScreenIndex(selectedOption);
+
+        // Cập nhật tiêu đề và logBox dựa trên chế độ và tầng hiện tại
+        updateSystemTitle(selectedOption);
+        const cboxfloor = document.getElementById("cbfloor");
+        const floorId = cboxfloor?.value || "1";
+
+
+        // Reload trang nếu không phải lần tải đầu
+        if (shouldReload && !isInitialLoad) {
+            location.reload();
+        }
+    }
+
+    function applySavedState() {
+        const savedOption = localStorage.getItem('selectedOption') || "WristStrap";
+        updateView(savedOption, false);
+        updateScreenIndex(savedOption);
+
+        const savedAuto = localStorage.getItem('autoSwitchEnabled') === 'true';
+        autoSwitchEnabled = savedAuto;
+        const toggleButton = document.getElementById("toggleAutoSwitch");
+        if (toggleButton) {
+            toggleButton.innerText = autoSwitchEnabled ? "Auto:ON" : "Auto:OFF";
+        }
+        if (autoSwitchEnabled && isLayoutPage() && !autoSwitchInterval) {
+            autoSwitchInterval = setInterval(autoSwitchScreen, 7000);
+        }
+
+        isInitialLoad = false;
+    }
+
+    // Cập nhật tiêu đề hệ thống
+    function updateSystemTitle(mode) {
+        const titleElement = document.querySelector('span[style*="font-size: 27px"]');
+        if (titleElement) {
+            titleElement.innerText = mode === "WristStrap" ? "GROUDING SYSTEM" : "WRIST_STRAP SYSTEM";
+        }
+    }
+
+    // Cập nhật chỉ số màn hình dựa trên chế độ và tầng
+    function updateScreenIndex(mode) {
+        const cboxfloor = document.getElementById("cbfloor");
+        const floorId = cboxfloor?.value || "1";
+        currentScreenIndex = screens.findIndex(s => s.mode === mode && s.floorId === floorId);
+        if (currentScreenIndex === -1) currentScreenIndex = 0; // Mặc định WS-T1
+    }
+
+
+
+    // Hàm chuyển đổi màn hình tự động (4 chế độ)
+    function autoSwitchScreen() {
+        if (!autoSwitchEnabled) return;
+
+        // Thêm điều kiện: Nếu không phải tab Layout thì bỏ qua chuyển đổi (dừng tạm thời)
+        if (!isLayoutPage()) {
+            return;
+        }
+
+        // Tăng chỉ số màn hình, quay lại 0 nếu đến cuối
+        currentScreenIndex = (currentScreenIndex + 1) % screens.length;
+        const nextScreen = screens[currentScreenIndex];
+
+        // Cập nhật chế độ
+        localStorage.setItem('selectedOption', nextScreen.mode);
+        const option1 = document.getElementById("option1");
+        const option2 = document.getElementById("option2");
+        if (option1 && option2) {
+            option1.checked = nextScreen.mode === "WristStrap";
+            option2.checked = nextScreen.mode === "LakeageVoltage";
+        }
+
+        // Cập nhật dropdown tầng
+        const cboxfloor = document.getElementById("cbfloor");
+        if (cboxfloor && cboxfloor.value !== nextScreen.floorId) {
+            cboxfloor.value = nextScreen.floorId;
+            if (typeof cboxchange === "function") {
+                cboxchange(nextScreen.floorId);
+            }
+        }
+
+        // Cập nhật dữ liệu
+        if (typeof FilterPointsByLocalStorage === "function") {
+            FilterPointsByLocalStorage(Allpoint1, Allpoint2);
+        }
+        if (typeof Updatalsbox === "function") {
+            Updatalsbox();
+        }
+        if (nextScreen.mode === "WristStrap" && typeof UpdateWristStrap === "function") {
+            UpdateWristStrap();
+        } else if (nextScreen.mode === "LakeageVoltage" && typeof UpdateLeakageVoltage === "function") {
+            UpdateLeakageVoltage();
+        }
+
+        // Cập nhật tiêu đề và logBox
+        updateSystemTitle(nextScreen.mode);
+
+        // Gọi hàm cập nhật từ Index.cshtml
+        if (typeof updateLayoutAndSignalR === "function") {
+            updateLayoutAndSignalR();
+        }
+
+
+    }
+
+    function setAutoSwitch(enabled, persist = true) {
+        autoSwitchEnabled = !!enabled;
+        // cập nhật nút hiển thị
+        const toggleButton = document.getElementById("toggleAutoSwitch");
+        if (toggleButton) toggleButton.innerText = autoSwitchEnabled ? "Auto:ON" : "Auto:OFF";
+
+        if (autoSwitchEnabled) {
+            if (!autoSwitchInterval && isLayoutPage()) {
+                autoSwitchInterval = setInterval(autoSwitchScreen, 7000);
+                autoSwitchScreen(); // chạy ngay nếu cần
+            }
+        } else {
+            if (autoSwitchInterval) {
+                clearInterval(autoSwitchInterval);
+                autoSwitchInterval = null;
+            }
+        }
+
+        if (persist) {
+            localStorage.setItem('autoSwitchEnabled', autoSwitchEnabled ? 'true' : 'false');
+        }
+    }
+
+    function toggleAutoSwitch() {
+        setAutoSwitch(!autoSwitchEnabled, true); // do user action => persist
+    }
+
+
+    // Thêm nút bật/tắt
+    function addToggleButton() {
+        const nav = document.querySelector(".navbar-collapse");
+        if (nav) {
+            const toggleButton = document.createElement("button");
+            toggleButton.id = "toggleAutoSwitch";
+            toggleButton.className = "btn btn-outline-secondary btn-sm ms-2";
+            toggleButton.style.padding = "2px 8px";
+            toggleButton.style.fontSize = "12px";
+            toggleButton.innerText = "Auto:OFF";
+            toggleButton.onclick = toggleAutoSwitch;
+            nav.appendChild(toggleButton);
+        }
+    }
+
+    // Thiết lập reload định kỳ theo khoảng thời gian
+    function setupPeriodicReload() {
+        function fetchReloadInterval() {
+            $.ajax({
+                url: '@Url.Action("GetReloadInterval", "ReloadTime")',
+                method: 'GET',
+                success: function (response) {
+                    const newInterval = response.interval;
+                    if (newInterval && newInterval !== currentReloadInterval) {
+                        currentReloadInterval = newInterval;
+                        if (reloadIntervalId) {
+                            clearInterval(reloadIntervalId);
+                        }
+                        const intervalMs = newInterval * 60 * 60 * 1000;
+                        reloadIntervalId = setInterval(() => {
+                            location.reload();
+                        }, intervalMs);
+                        console.log(`Trang sẽ reload sau mỗi ${newInterval} giờ`);
+                    }
+                },
+                error: function () {
+                    console.error('Lỗi khi lấy khoảng thời gian reload');
+                    if (!reloadIntervalId) {
+                        const defaultInterval = 4 * 60 * 60 * 1000;
+                        reloadIntervalId = setInterval(() => {
+                            location.reload();
+                        }, defaultInterval);
+                        console.log('Sử dụng khoảng thời gian mặc định: 4 giờ');
+                    }
+                }
+            });
+        }
+
+        fetchReloadInterval();
+        setInterval(fetchReloadInterval, 5 * 60 * 1000);
+    }
+
+    // Xử lý cập nhật khoảng thời gian reload
+    function setupUpdateIntervalForm() {
+        const form = document.getElementById("updateIntervalForm");
+        if (form) {
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+                const intervalInput = document.getElementById("reloadIntervalInput");
+                const newInterval = parseInt(intervalInput.value);
+
+                if (isNaN(newInterval) || newInterval <= 0) {
+                    alert("Vui lòng nhập số giờ hợp lệ (số nguyên dương).");
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("UpdateReloadInterval", "ReloadTime")',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({ interval: newInterval }),
+                    success: function (response) {
+                        if (response.status === "success") {
+                            alert(response.message);
+                            currentReloadInterval = null; // Đặt lại để ép cập nhật
+                            setupPeriodicReload();
+                            $('#updateIntervalModal').modal('hide');
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function (xhr) {
+                        let errorMessage = "Lỗi khi cập nhật khoảng thời gian reload.";
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = xhr.responseJSON.message;
+                        }
+                        alert(errorMessage);
+                    }
+                });
+            });
+        }
+    }
+
+    // Xử lý sự kiện popstate
+    window.addEventListener('popstate', (event) => {
+        if (event.state && event.state.mode) {
+            updateView(event.state.mode, false);
+            updateScreenIndex(event.state.mode);
+        }
+    });
+
+    // Khởi động khi trang tải
+    document.addEventListener('DOMContentLoaded', () => {
+        addToggleButton();
+        // setupUpdateIntervalForm();
+        applySavedState();
+        // setupPeriodicReload();
+    });
+</script>

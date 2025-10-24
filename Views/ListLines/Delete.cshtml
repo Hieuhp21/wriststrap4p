@@ -1,0 +1,75 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListLine
+
+@{
+    ViewData["Title"] = "DELETE LINE";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <dl class="row">
+        <div class="col-md-6">
+            <header class="header">
+                <h3>DELETE LINE</h3>
+            </header>
+            <h4 class="prominent-question">Are you sure you want to delete this?</h4>
+            <hr />
+            <table class="table table-striped table-bordered">
+                <tr>
+                    <td class="col-sm-2">@Html.DisplayNameFor(model => model.IdIviLine)</td>
+                    <td class="col-sm-10">@Html.DisplayFor(model => model.IdIviLine)</td>
+                </tr>
+                <tr>
+                    <td class="col-sm-2">@Html.DisplayNameFor(model => model.NameLine)</td>
+                    <td class="col-sm-10">@Html.DisplayFor(model => model.NameLine)</td>
+                </tr>
+                <tr>
+                    <td class="col-sm-2">@Html.DisplayNameFor(model => model.ListUser)</td>
+                    <td class="col-sm-10">
+                        @{
+                            string[] ArrUser = Model.ListUser?.Split("|");
+
+                            foreach (var user in ArrUser)
+                            {
+                                <a>@user.ToString()</a>
+                                <br />
+                            }
+                        }
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-sm-2">@Html.DisplayNameFor(model => model.Floor)</td>
+                    <td name="txtfloor" onload="GetNameFloors(this,@Model.Floor)"></td>
+                </tr>
+                <tr>
+                    <td class="col-sm-2">@Html.DisplayNameFor(model => model.Note)</td>
+                    <td class="col-sm-10">@Html.DisplayFor(model => model.Note)</td>
+                </tr>
+            </table>
+    <tr>
+        <td></td>
+    </tr>
+</table>
+        </div>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="IdLine" />
+        <input type="submit" value="Delete" style="margin-right:5px" class="btn btn-danger btn-create animation" />
+        <a asp-action="Index" class="btn animation btn-back">Back to List</a>
+    </form>
+</div>
+
+<script>
+    function GetNameFloors(txt, idfloor) {
+        txt.innerHTML = GetFloor(idfloor).NameFloor;
+    }
+
+    async function LoadFloor() {
+        await sleep(500);
+        document.getElementsByName("txtfloor").forEach(function (txt) {
+            txt.onload();
+        });
+    };
+
+    LoadFloor();
+</script>

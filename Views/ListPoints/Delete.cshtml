@@ -1,0 +1,142 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListPoint
+
+@{
+    ViewData["Title"] = "DELETE POINT";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <dl class="row">
+        <div class="col-md-6">
+            <header class="header">
+                <h1>DELETE POINT</h1>
+            </header>
+            <h4 class="prominent-question">Are you sure you want to delete this?</h4>
+            <hr />
+
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Header</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.IdPoint)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.IdPoint)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.IdLine)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.IdLine)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.NamePoint)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.NamePoint)
+                        </td>
+                    </tr>
+                    <tr hidden>
+                        <td>@Html.DisplayNameFor(model => model.MinSpect)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.MinSpect)
+                        </td>
+                    </tr>
+                    <tr hidden>
+                        <td>@Html.DisplayNameFor(model => model.MaxSpect)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.MaxSpect)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Addsread)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.Addsread)
+                        </td>
+                    </tr>
+                    <tr hidden>
+                        <td>@Html.DisplayNameFor(model => model.Addswrite)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.Addswrite)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Plc)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.Plc)
+                        </td>
+                    </tr>
+                    <tr hidden>
+                        <td>@Html.DisplayNameFor(model => model.OffsetValue)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.OffsetValue)
+                        </td>
+                    </tr>
+                    <tr hidden>
+                        <td>@Html.DisplayNameFor(model => model.DeltaValue)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.DeltaValue)
+                        </td>
+                    </tr>
+                    <tr hidden>
+                        <td>@Html.DisplayNameFor(model => model.Timeoff)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.Timeoff)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Enstatus)</td>
+                        <td>
+                            @if (Model.Enstatus == 0)
+                            {
+                                <a>Not Set</a>
+                            }
+                            else if (Model.Enstatus == 3)
+                            {
+                                <a>On Light, On Buzzer</a>
+                            }
+                            else if (Model.Enstatus == 2)
+                            {
+                                <a>On Light, Off Buzzer</a>
+                            }
+                            else if (Model.Enstatus == 1)
+                            {
+                                <a>Off Light, Off Buzzer</a>
+                            }
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Note)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.Note)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Csstop)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.Csstop)
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>@Html.DisplayNameFor(model => model.Cssleft)</td>
+                        <td>
+                            @Html.DisplayFor(model => model.Cssleft)
+                        </td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>
+    </dl>
+    
+    <form asp-action="DeletePoint">
+        <input type="hidden" asp-for="IdPoint" />
+        <input type="hidden" asp-for="IdLine" />
+        <input type="submit" value="Delete" style="margin-right:5px" class="btn btn-danger btn-create animation" />
+        <a asp-action="Index" class="btn animation btn-back">Back to List</a>
+    </form>
+</div>

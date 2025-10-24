@@ -1,0 +1,823 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Dataconfig;
+
+@{
+    string IDLED = ViewBag.IdLed;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+    <link rel="stylesheet" href="~/css/showchart.css" />
+    <script src="~/lib/chart/chart.js"></script>
+    <script src="~/lib/chart/luxon.js"></script>
+    <script src="~/lib/chart/chartjs-adapter-date-fns.js"></script>
+    <script src="~/lib/chart/chartjs-adapter-luxon.js"></script>
+    <script src="~/lib/chart/chart-plugin.js"></script>
+    <script src="~/lib/chart/chartjs-plugin-annotation.min.js"></script>
+    </head>
+
+
+
+<body>
+    <div class="container1">
+
+        <div class="left1">
+            <div style="margin-bottom:5px">
+                <span>Select Area: </span>
+                <select class="input" name=" bell" id="cblsrooms" style="flex: 1;" onchange="updatelistLed(this.value)">
+
+                    <option value="all">All Rooms</option>
+
+                </select>
+                <span style="font-weight:600;color:seagreen;font-size:24px;margin-left:55px">Temperature and humidity monitoring</span>
+            </div>
+            
+            <div id="LsbtnLeds" class="left-temple Blockborder">
+
+            </div>
+            <div class="left-infor Blockborder">
+                <div class="row">
+                    <div class="col-6 Blockborder">
+                        <p class="left-infor-title">INFORMATION</p>
+                        <div class="left-status-title">
+                            <span style="font-size: 28px; font-weight:600">Status:</span>
+                            <span id="StatusLed" class="Statusled">Normal</span>
+                        </div>
+                        <div class="IfmRoom">
+                            <span>Name LED : </span> <span id="NameLEDshow">. . .</span>
+                        </div>
+                        <div class="IfmRoom">
+                            <span>In Room : </span> <span id="NameRoomshow">. . .</span>
+                        </div>
+                        <div class="IfmRoom">
+                            <span>LED Note : </span> <span id="NoteLedshow">. . .</span>
+                        </div>
+                    </div>
+                    <div class="col-6 Blockborder">
+                        <table class="table">
+                            <tr>
+                                <th class="colortemp" style="font-size: 24px; font-weight:600">
+                                    Temperature
+                                </th>
+                                <th class="colortemp" id="TempLed" style="font-size: 28px">
+                                    . . .
+                                </th>
+                                <th class="colortemp" style="font-size: 28px; font-weight:600">
+                                    °C
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="font-size: 24px; font-weight:600; color: blue">
+                                    Humidity
+                                </th>
+                                <th id="HumiLed" style="font-size: 28px;  color: blue">
+                                    . . .
+                                </th>
+                                <th style="font-size: 28px; font-weight:600; color: blue">
+                                    %
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="font-size: 16px">
+                                    Temp. range
+                                </th>
+                                <th id="rangetemp" style="font-size: 16px;">
+                                    . . .
+                                </th>
+                                <th style="font-size: 16px">
+                                    °C
+                                </th>
+                            </tr>
+                            <tr>
+                                <th style="font-size: 16px">
+                                    Humi. range
+                                </th>
+                                <th id="rangehumi" style="font-size: 16px;">
+                                    . . .
+                                </th>
+                                <th style="font-size: 16px">
+                                    %
+                                </th>
+                            </tr>
+                        </table>
+                        <div class="d-grid gap-1">
+                            @if (User.IsInRole("Administrator"))
+                            {
+                                <button type="button" id="btnEditled" class="btn btn-outline-primary" style="margin:auto" onclick="btnEditClick()">Edit LED</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="right1">
+            <div class="right-chart Blockborder">
+                <div id="chartReport">
+                    <p class="right-infor-title" id="Titlechart">Title chart</p>
+                    <canvas class="MyChart" id="myChart"></canvas>
+                </div>
+            </div>
+            <div class="right-down Blockborder">
+                <p class="right-infor-title" id="hisdata">History Data</p>
+                <div class="row" style="height:100%; margin-top:-43px">
+                    <div class="col-5 tablealarm">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th colspan="3" class="titletable">Top Alarm</th>
+                                </tr>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Alarm</th>
+                                    <th>View</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dttopalarm">
+
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="col-7 tableshow">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th colspan="6" class="titletable">Top History Data of selected Led</th>
+                                </tr>
+                                <tr>
+                                    @*<th>ID</th>*@
+                                    <th>Time</th>
+                                    <th>Temp.</th>
+                                    <th>RangeT.</th>
+                                    <th>Humi.</th>
+                                    <th>RangeH.</th>
+                                    <th>Alarm</th>
+                                </tr>
+                            </thead>
+                            <tbody id="datatableshow">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>
+
+<div class="jumbotron text-center" style="margin-bottom:0">
+
+
+    <script>
+        function hello(i) {
+            var bt = document.getElementById("button-" + i);
+            bt.classList.add("buttonalert");
+            bt.textContent += " Tem:50C";
+            document.getElementById("LableChart").textContent = "Data in ROOM-" + i;
+        }
+
+    </script>
+
+    <script>
+
+
+        let myChart;
+        var run = false;
+        let idLednow = -1;
+        let lsidLeduse = new Array();
+        let AllBox;
+
+        function CreateNewChart(idled) {
+            var config = {
+                type: 'line',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Temperature',
+                            borderColor: 'darkorange',
+                            cubicInterpolationMode: 'monotone',
+                            data: [],
+                            yAxisID: 'yt'
+
+                        },
+                        {
+                            label: 'Humidity',
+                            borderColor: 'blue',
+                            cubicInterpolationMode: 'monotone',
+                            data: [],
+                            yAxisID: 'yh'
+                        }
+                    ]
+                },
+                options: {
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                        axis: 'x'
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Temperature and Humidity in IVI room',
+                            font: {
+                                size: 14,
+                                weight: 900
+                            }
+                        },
+                        legend: {
+                            onClick: Legendclick,
+                            labels: {
+                                font: {
+                                    size: 13,
+                                    weight: 700
+                                }
+                            }
+                        },
+                        annotation: {
+                            annotations: {
+                                HTemp: {
+                                    type: 'line',
+                                    borderColor: 'rgba(222, 0, 0, 0.8)',
+                                    borderWidth: 1,
+                                    borderDash: [6, 6],
+                                    borderDashOffset: 0,
+                                    scaleID: 'yt',
+                                    value: 20,
+                                    label: {
+                                        position: 'start',
+                                        backgroundColor: 'rgba(200, 102, 102, 0.5)',
+                                        content: 'H-Temp.',
+                                        display: true,
+                                    }
+                                },
+
+                                LTemp: {
+                                    type: 'line',
+                                    borderColor: 'rgba(222, 0, 0, 0.8)',
+                                    borderWidth: 1,
+                                    borderDash: [6, 6],
+                                    borderDashOffset: 0,
+                                    scaleID: 'yt',
+                                    value: 15,
+                                    label: {
+                                        position: 'start',
+                                        backgroundColor: 'rgba(200, 102, 102, 0.5)',
+                                        content: 'L-Temp.',
+                                        display: true,
+                                    }
+                                },
+
+                                HHumi: {
+                                    type: 'line',
+                                    borderColor: 'rgba(0, 0, 255, 0.8)',
+                                    borderWidth: 1,
+                                    borderDash: [6, 6],
+                                    borderDashOffset: 0,
+                                    scaleID: 'yh',
+                                    value: 75,
+                                    label: {
+                                        position: 'end',
+                                        backgroundColor: 'rgba(102, 102, 200, 0.5)',
+                                        content: 'H-Humi.',
+                                        display: true,
+                                    }
+                                },
+
+                                LHumi: {
+                                    type: 'line',
+                                    borderColor: 'rgba(0, 0, 255, 0.8)',
+                                    borderWidth: 1,
+                                    borderDash: [6, 6],
+                                    borderDashOffset: 0,
+                                    scaleID: 'yh',
+                                    value: 60,
+                                    label: {
+                                        position: 'end',
+                                        backgroundColor: 'rgba(102, 102, 200, 0.5)',
+                                        content: 'L-Humi.',
+                                        display: true,
+                                    }
+                                }
+                            }
+                        }
+                        
+                        
+                        
+
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 13,
+                                    weight: 600
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Time',
+                                font: {
+                                    size: 13,
+                                    weight:600
+                                }
+                            },
+                            type: 'realtime',
+                            realtime: {
+                                duration: @Model.Duration,
+                                refresh: @Model.Refresh,
+                                delay: @Model.Refresh* 3,
+                                onRefresh: chart => {
+                                    updateNow(chart, idled);
+                                }
+                            }
+                        },
+                        yt: {
+                            ticks: {
+                                font: {
+                                    size: 13,
+                                    weight: 600
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Temperature(°C)',
+                                font: {
+                                    size: 13,
+                                    weight: 600
+                                }
+                            },
+                            display: true,
+                            position: 'left',
+                            suggestedMin: @Model.XTempMin,
+                            suggestedMax: @Model.XTempMax
+                            //beginAtZero: true,
+                        },
+                        yh: {
+                            ticks: {
+                                font: {
+                                    size: 13,
+                                    weight: 600
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Humidity(%)',
+                                font: {
+                                    size: 13,
+                                    weight: 600
+                                }
+                            },
+                            display: true,
+                            position: 'right',
+                            suggestedMin: @Model.XHumiMin,
+                            suggestedMax: @Model.XHumiMax,
+                            //beginAtZero: true,
+
+                            // grid line settings
+                            grid: {
+                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                            },
+                        }
+                    }
+                }
+            };
+
+            //myChart.clear();
+            if (myChart) { myChart.destroy(); }
+            //document.querySelector("#chartReport").innerHTML = '<canvas id="myChart"></canvas>';
+            run = true;
+
+            myChart = new Chart(document.getElementById('myChart'), config);
+
+            updateChartnew(idled, myChart);
+        }
+
+        let timeckbf = Date.now();
+        let hideLimitT = false;
+        let hideLimitH = false;
+
+        function Legendclick(e, legendItem, legend) {
+            const index = legendItem.datasetIndex;
+            const ci = legend.chart;
+            if (ci.isDatasetVisible(index)) {
+                ci.hide(index);
+                legendItem.hidden = true;
+            } else {
+                ci.show(index);
+                legendItem.hidden = false;
+            }
+
+            let timespan = Date.now() - timeckbf;
+
+            if (timespan <= 500) {
+                if (index == 0) { hideLimitT = !hideLimitT; }
+                if (index == 1) { hideLimitH = !hideLimitH; }
+            }
+            timeckbf = Date.now();
+
+            let lines = myChart.options.plugins.annotation.annotations;
+
+            // Hide/Show Limit Tmep-Humi
+            if (index == 0) {
+                if (!hideLimitT) { lines.HTemp.display = lines.LTemp.display = !legendItem.hidden; }
+                else { lines.HTemp.display = lines.LTemp.display = false; }
+            }
+            else
+                if (index == 1) {
+                    if (!hideLimitH) { lines.HHumi.display = lines.LHumi.display = !legendItem.hidden; }
+                    else { lines.HHumi.display = lines.LHumi.display = false; }
+                }
+
+            myChart.update();
+        }
+
+
+
+        // Update Data First into Chart
+        function updateChartnew(idled, chart) {
+            $.post('@Url.Action("GetDataFirst","ShowChart")', { _idled: idled },
+                function (input) {
+                    if (input != "[]" && input != "") {
+                        var object = JSON.parse(input);
+
+                        for (let i = object.length - 1; i > -1; i--) {
+                            updatachart(chart, object[i]);
+                        };
+                        chart.update();
+
+                        loaddataLED = false;
+                        run = false;
+                    }
+                    else {
+                        setTimeout(updateChartnew, 100, idled, chart);
+                    }
+
+                });
+        }
+
+
+
+        // Add datanow into Chart
+        function updateNow(chart, idled) {
+            if (!run) {
+                run = true;
+                $.post('@Url.Action("GetData","ShowChart")', { _idled: idled },
+                    function (input) {
+                        try {
+                            if (input != "[]" && input != "") {
+                                var object = JSON.parse(input);
+                                updatachart(chart, object[0]);
+                            }
+                        }
+                        catch { alert("Error UpdateNow!"); }
+                        run = false;
+                    }
+                );
+            }
+            GetlsDataLed(idled);//Update data table
+            UdAllDTnowleds();//Update All Data Led
+        }
+
+        let Minutesbefor;
+        // Hàm con add data in chart
+        function updatachart(chart, data) {
+
+            Minutesnow = (new Date(Date.parse(data.Time0))).getMinutes();
+
+            if (Minutesnow != Minutesbefor) {
+                chart.data.datasets[0].data.push({
+                    x: Date.parse(data.Time0),
+                    y: data.Temp
+                });
+
+                chart.data.datasets[1].data.push({
+                    x: Date.parse(data.Time0),
+                    y: data.Humi
+                });
+
+                document.getElementById("TempLed").textContent = data.Temp;
+                document.getElementById("HumiLed").textContent = data.Humi;
+                upstatusled(data.alarm);
+
+                if (chart.data.datasets[0].data.length > @Model.TotalDatumFisrt* 3) {
+                    chart.data.datasets[0].data.pop();
+                    chart.data.datasets[1].data.pop();
+                }
+
+                Minutesbefor = (new Date(Date.parse(data.Time0))).getMinutes();
+            }
+
+        }
+
+        let Statusled = "Normal";
+        //Update Status LED Information
+        function upstatusled(alarm){
+
+            if(Statusled != GetAlarm(alarm))
+            {
+                Statusled = GetAlarm(alarm);
+                let Txtsts = document.getElementById("StatusLed");
+                if (Statusled == 'None') {
+                    Txtsts.textContent = 'NORMAL';
+                    Txtsts.classList.remove("coloralarm");
+                    Txtsts.classList.add("colornormal");
+
+                }
+                else {
+                    Txtsts.textContent = Statusled;
+                    Txtsts.classList.add("coloralarm");
+                    Txtsts.classList.remove("colornormal");
+                }
+            }
+            
+        }
+
+
+        //Update list Rooms into Combobox
+        function updatelistRoom(){
+            $.post('@Url.Action("GetListRooms","ShowChart")',{},
+                function(input){
+                    
+                    let lsrooms = JSON.parse(input);
+
+                    lsrooms.forEach(function(room){
+
+                        let lsuser = room.ListUser.split('|');
+                        if(lsuser.includes("@User.Identity?.Name"))
+                        {
+                            let cboclsrom = document.getElementById("cblsrooms");
+                            let option = document.createElement("option");
+                            option.text = room.NameRoom ? room.NameRoom : ('ID Room:' + room.IdRoom);
+                            option.value = room.IdRoom;
+                            cboclsrom.add(option);
+                        }
+                    });
+                }
+            );
+        }
+
+        
+        //Event Onchage combobox
+        function updatelistLed(IdRoom){
+            $.post('@Url.Action("GetListLeds","ShowChart")', {},
+                function (input) {
+
+                    let lsleds = JSON.parse(input);
+
+                    document.getElementById("LsbtnLeds").innerHTML = "";
+
+                    lsidLeduse = new Array();
+
+                    let index = 0;
+
+                    let cboclsled = document.getElementById("LsbtnLeds");
+
+                    lsleds.forEach(function (led) {
+
+                        if (lsidroomshow.includes('|' + led.IdRoom + '|')) {
+
+                            if (led.IdRoom == IdRoom || IdRoom == 'all') {
+
+                                let stringled = led.IdLed + "|" + led.MinTemp + " ~ " + led.MaxTemp + "|" + led.MinHumi + " ~ " + led.MaxHumi + "|" + (led.NameLed ? led.NameLed : ("ID LED:" + led.IdLed)) + "|" + led.IdRoom + "|" + (led.Note?led.Note:'None');
+
+                                let htmlbutton = '<button id="btn' + led.IdLed + '" class="box1" onclick="ClickbtnLed(\'' + stringled + '\')">  <span class="box-title" >' + (led.NameLed ? led.NameLed : ("ID LED:" + led.IdLed)) + '</span>      <div class="box-infor">  <p class="temple colortemp" id="Temp' + led.IdLed + '">  Temp.:. . .°C  </p>  <p class="humidity" id="Humi' + led.IdLed + '">   Humi.:. . .%  </p >  </div >  </button >';
+
+                                cboclsled.innerHTML += htmlbutton;
+
+                                if (IDLEDSHOW == "") {
+                                    if (index == 0) { ClickbtnLed(stringled); }//Tester
+                                }
+                                else {
+                                    if (led.IdLed == IDLEDSHOW) { ClickbtnLed(stringled); IDLEDSHOW = ""; }
+                                }
+
+                                lsidLeduse.push(led.IdLed);
+
+                                index++;
+                            }
+                        }
+                        
+                    });
+
+                    AllBox = document.querySelectorAll(".box1");
+
+                    
+
+                }
+            );
+            
+        }
+
+        let loaddataLED = false;
+
+        // Evebt Click btn LED
+        function ClickbtnLed(stringled) {
+
+            if (loaddataLED) { alert("Waiting DATA . . ."); return; }
+
+            loaddataLED = true;
+
+            let ledarry = stringled.split('|');
+            
+            //Active one btn LED
+            try
+            { 
+                for (let i = 0; i < AllBox.length; i++) 
+                {
+                    AllBox[i].classList.remove("box1select");
+                }
+            } catch{}
+            document.getElementById('btn' + ledarry[0]).classList.add("box1select");
+
+            idLednow = ledarry[0];
+
+            CreateNewChart(ledarry[0]);
+            document.getElementById("TempLed").textContent = '. . .';
+            document.getElementById("HumiLed").textContent = '. . .';
+            document.getElementById("rangetemp").textContent = ledarry[1];
+            document.getElementById("rangehumi").textContent = ledarry[2];
+            document.getElementById("NameLEDshow").textContent = ledarry[3];
+            document.getElementById("Titlechart").textContent = ledarry[3];
+            document.getElementById("NoteLedshow").textContent = ledarry[5];
+
+            //Update line Limit
+            let lines = myChart.options.plugins.annotation.annotations;
+            lines.LTemp.value = ledarry[1].split(" ~ ")[0];
+            lines.HTemp.value = ledarry[1].split(" ~ ")[1];
+            lines.LHumi.value = ledarry[2].split(" ~ ")[0];
+            lines.HHumi.value = ledarry[2].split(" ~ ")[1];
+
+            //show name Room
+            let nameroom = GetnameRoom(ledarry[4]);
+            document.getElementById("NameRoomshow").textContent = nameroom ? nameroom : ('ID Room:' + ledarry[4]);
+
+            Updatetablealarm(idLednow);
+
+        }
+        let indextable = 0;
+        // Get Data of Led (IdLed) into Table
+        function GetlsDataLed(IdLed) {
+            $.post('@Url.Action("GetDataTable","ShowChart")', { _idled : IdLed },
+                function (input) {
+
+                    let lstables = JSON.parse(input);
+
+                    indextable = 0;
+
+                    document.getElementById("datatableshow").innerHTML = "";
+
+                    lstables.forEach(function (led) {
+
+                        let table = document.getElementById("datatableshow");
+
+                        let Time = new Date(Date.parse(led.Time0));
+
+                        let StrAlarm = GetAlarm(led.alarm);
+
+                        let classalarmrow = StrAlarm != 'None' ? 'tablerowalarm':'';
+
+                        let htmlrowtb = '<tr> <td>' + Time.toLocaleDateString() + " " + Time.toLocaleTimeString() + '</td> <td>' + led.Temp + '°C </td> <td>' + led.min_temp + '~' + led.max_temp + '°C' + '</td> <td>' + led.Humi + '%</td > <td>' + led.min_humi + '~' + led.max_humi + '%' + '</td > <td class = "' + classalarmrow  + '"> ' + StrAlarm + ' </td> </tr > ';
+
+                        table.innerHTML += htmlrowtb;
+
+                        //Update data top Alarm
+                        if (indextable == 0 && StrAlarm != 'None') 
+                        {
+                            Updatetablealarm(IdLed);
+                        }
+
+                        indextable++;
+
+                    });
+                }
+            );
+        }
+
+        let alarmsound = false;
+
+        //Update All Data of List LED Show in List Button
+        function UdAllDTnowleds(){
+            if (lsidLeduse.length>0)
+            {
+                lsidLeduse.forEach(function(idled)
+                {
+                    $.post('@Url.Action("GetData","ShowChart")', { _idled: idled },
+                        function (input) {
+                            try {
+                                if (input != "[]" && input != "") {
+                                    var object = JSON.parse(input);
+                                    let lbtemp = document.getElementById('Temp' + idled);
+                                    let lbhumi = document.getElementById('Humi' + idled);
+
+                                    if (object[0].alarm == 9) {
+                                        lbtemp.innerHTML = "Dis. LED";
+                                        lbhumi.innerHTML = "...";
+                                    }
+                                    else if (object[0].alarm == 10) {
+                                        lbtemp.innerHTML = "Dis. PLC";
+                                        lbhumi.innerHTML = "...";
+                                    }
+                                    else {
+                                        lbtemp.innerHTML = 'Temp.:' + object[0].Temp + '°C';
+                                        lbhumi.innerHTML = 'Humi.:' + object[0].Humi + '%';
+                                    }
+
+                                    let Status = GetStatusLED(idled);
+                                    if (GetAlarm(object[0].alarm) != 'None' && Status != 2) {
+                                         {
+                                            document.getElementById('btn' + idled).classList.add("btnAlarm");
+                                            
+                                            if (Status == 3 || Status == 0) {
+                                                alarmsound = true;
+                                            }
+                                        } 
+                                    }
+                                    else
+                                    {
+                                        document.getElementById('btn' + idled).classList.remove("btnAlarm");
+                                    }
+                                }
+                            }
+                            catch {}
+                        })
+                });
+
+                if (alarmsound) {
+                    CheckOnBuzzer();
+                }
+                else {
+                    alarmctr.pause();
+                }
+
+                alarmsound = false;
+
+            }
+        }
+
+        //Event Click btn Edit Led
+        function btnEditClick(){
+            if (idLednow != -1){
+                let _link = '@Url.Action("Edit","ListLeds")';
+                _link += "/" + idLednow;
+                window.location = _link;
+            }
+        }
+
+
+        //Update Data Table Top Alarm of selected LED
+        function Updatetablealarm(IdLed){
+            $.post('@Url.Action("GetDataTopAlarm","ShowChart")', { _idled: IdLed },
+                function (input) {
+
+                    let lstables = JSON.parse(input);
+
+                    document.getElementById("dttopalarm").innerHTML = "";
+
+                    lstables.forEach(function (led) {
+
+                        let table = document.getElementById("dttopalarm");
+
+                        let Time = new Date(Date.parse(led.Time0));
+
+                        let StrAlarm = GetAlarm(led.alarm);
+
+                        let classalarmrow = StrAlarm != 'None' ? 'tablerowalarm' : '';
+
+                        let htmlrowtb = '<tr> <td>' + Time.toLocaleDateString() + " " + Time.toLocaleTimeString() + '</td> <td class = "' + classalarmrow + '"> ' + StrAlarm + ' </td> <td> <a href="/CkHistory?IdLog=' + led.id_log + '&IdLed=' + led.id_led +'">View</a> </td> </tr > ';
+
+                        table.innerHTML += htmlrowtb;
+
+                    });
+                }
+            );
+        }
+
+        let IDLEDSHOW;
+
+        // Load web
+        window.onload = function () {
+            IDLEDSHOW = "@IDLED";
+            setTimeout(skip, 500);
+        }
+
+        function skip() {
+            if (document.getElementById("NameLEDshow").textContent == ". . .") {
+                setTimeout(LoadWeb, 500);
+            }
+        }
+
+        function LoadWeb(){
+            updatelistRoom();
+            updatelistLed('all');
+            
+            setTimeout(skip, 1000);
+        }
+
+    </script>
+
+</div>

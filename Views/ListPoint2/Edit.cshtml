@@ -1,0 +1,123 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListPoint2
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>ListPoint2</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdPoint" class="control-label"></label>
+                <input readonly asp-for="IdPoint" class="form-control" />
+                <span asp-validation-for="IdPoint" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdLine" class="control-label">Line</label>
+                <input hidden asp-for="IdLine" class="form-control" />
+                <br />
+                <input readonly id="txtLine" class="form-control" />
+                <span asp-validation-for="IdPoint" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NamePoint" class="control-label"></label>
+                <input asp-for="NamePoint" class="form-control" />
+                <span asp-validation-for="NamePoint" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="MinSpect" class="control-label"></label>
+                <input asp-for="MinSpect" class="form-control" />
+                <span asp-validation-for="MinSpect" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="MaxSpect" class="control-label"></label>
+                <input asp-for="MaxSpect" class="form-control" />
+                <span asp-validation-for="MaxSpect" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Addsread" class="control-label"></label>
+                <input asp-for="Addsread" class="form-control" />
+                <span asp-validation-for="Addsread" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Addswrite" class="control-label"></label>
+                <input asp-for="Addswrite" class="form-control" />
+                <span asp-validation-for="Addswrite" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Plc" class="control-label"></label>
+                <input asp-for="Plc" class="form-control" />
+                <span asp-validation-for="Plc" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="OffsetValue" class="control-label"></label>
+                <input asp-for="OffsetValue" class="form-control" />
+                <span asp-validation-for="OffsetValue" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="DeltaValue" class="control-label"></label>
+                <input asp-for="DeltaValue" class="form-control" />
+                <span asp-validation-for="DeltaValue" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Timeoff" class="control-label"></label>
+                <input asp-for="Timeoff" class="form-control" />
+                <span asp-validation-for="Timeoff" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Enstatus" class="control-label"></label>
+                <input asp-for="Enstatus" hidden id="txtenstatus" class="form-control" />
+                <select class="input-group" style="padding-block:5px" id="cboxenstatus" onchange="SetStatus(this.value)">
+                    <option name="opiontSt" value="3">On Light, On Buzzer</option>
+                    <option name="opiontSt" value="2">On Light, Off Buzzer</option>
+                    <option name="opiontSt" value="1">Off Light, Off Buzzer</option>
+                </select>
+                <span asp-validation-for="Enstatus" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="UserChange" class="control-label"></label>
+                <input asp-for="UserChange" class="form-control" />
+                <span asp-validation-for="UserChange" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="TimeChange" class="control-label"></label>
+                <input asp-for="TimeChange" class="form-control" />
+                <span asp-validation-for="TimeChange" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Change" class="control-label"></label>
+                <input asp-for="Change" class="form-control" />
+                <span asp-validation-for="Change" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Csstop" class="control-label"></label>
+                <input asp-for="Csstop" class="form-control" />
+                <span asp-validation-for="Csstop" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cssleft" class="control-label"></label>
+                <input asp-for="Cssleft" class="form-control" />
+                <span asp-validation-for="Cssleft" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-create animation" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

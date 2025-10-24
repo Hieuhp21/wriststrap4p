@@ -1,0 +1,144 @@
+﻿@model IEnumerable<WEB_SHOW_WRIST_STRAP.Models.Entities.ListLine>
+
+@{
+    ViewData["Title"] = "LINE LIST";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="~/css/listview.css" asp-append-version="true" />
+<style>
+    .scrollable-tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .scrollable-tbody td, .scrollable-tbody th {
+        width: 25%;
+    }
+
+    table thead, table tbody tr {
+        display: table;
+        width: 100%;
+        table-layout: fixed;
+    }
+
+
+    .scrollable-tbody {
+        display: block;
+        max-height: 70vh; /* Chiều cao cố định cho tbody */
+        overflow-y: auto; /* Tạo thanh cuộn */
+    
+</style>
+<header class="header">
+    <h1>LINE LIST</h1>
+</header>
+<div style="display:flex">
+
+    <p>
+        <a asp-action="Create" style="margin-top:15px" class="btn btn-success animation">Create New</a>
+        <button style="margin-top:15px; margin-left:10px" class="btn btn-primary animation" onclick="window.location.href = '/Home/EditLayout'">Edit Layout</button>
+    </p>
+    <div style="margin-left: 10%; display:flex; margin-top: 15px" hidden>
+        <label for="floorFilter" style="margin-top: 8px">Filter by Floor:    </label>
+        <select id="floorFilter" class="form-control" style="width:200px; height:45px; margin-left:10px">
+            <option value="">All</option>
+            @foreach (var floor in Model.Select(m => m.Floor).Distinct())
+            {
+                <option value="@floor">Floor @floor</option>
+            }
+        </select>
+    </div>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr style="background-color: #888">
+            <th>Line ID</th>
+            <th hidden>IVI ID</th>
+            <th>Line Name</th>
+            <th>@Html.DisplayNameFor(model => model.ListUser)</th>
+            <th hidden>@Html.DisplayNameFor(model => model.Floor)</th>
+            <th>Status</th>
+            <th hidden>@Html.DisplayNameFor(model => model.Note)</th>
+            <th hidden>@Html.DisplayNameFor(model => model.Csstop)</th>
+            <th hidden>@Html.DisplayNameFor(model => model.Cssleft)</th>
+            <th hidden>@Html.DisplayNameFor(model => model.Csswidth)</th>
+            <th hidden>@Html.DisplayNameFor(model => model.Cssheight)</th>
+            <th hidden>@Html.DisplayNameFor(model => model.TotalPointAlarm)</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody id="lineTableBody" class="scrollable-tbody">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.IdLine)</td>
+                <td hidden>@Html.DisplayFor(modelItem => item.IdIviLine)</td>
+                <td>@Html.DisplayFor(modelItem => item.NameLine)</td>
+                <td>
+                    @{
+                        string[] ArrUser = item.ListUser?.Split("|");
+                        foreach (var user in ArrUser)
+                        {
+                            <a>@user.ToString()</a>
+
+                            <br />
+                        }
+                    }
+                </td>
+                <td hidden class="floorCell" name="txtfloor" onload="GetNameFloors(this,@item.Floor)"></td> <!-- Thêm class floorCell -->
+                <td>
+                    <form asp-action="UpdateStatus" method="post">
+                        <input type="hidden" name="id" value="@item.IdLine" />
+                        <select name="status" onchange="this.form.submit()" style="height:31px;">
+                            <option value="1" selected="@(item.Status == 1)">Active</option>
+                            <option value="2" selected="@(item.Status == 2)">Inactive</option>
+                        </select>
+
+                    </form>
+                </td>
+                <td hidden>@Html.DisplayFor(modelItem => item.Note)</td>
+                <td hidden>@Html.DisplayFor(modelItem => item.Csstop)</td>
+                <td hidden>@Html.DisplayFor(modelItem => item.Cssleft)</td>
+                <td hidden>@Html.DisplayFor(modelItem => item.Csswidth)</td>
+                <td hidden>@Html.DisplayFor(modelItem => item.Cssheight)</td>
+                <td hidden>@Html.DisplayFor(modelItem => item.TotalPointAlarm)</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.IdLine" class="btn btn-primary animationbase" style="height:auto;font-size:12px">EDIT</a>
+                    <a asp-action="Delete" asp-route-id="@item.IdLine" class="btn btn-danger animationbase" style="height:auto;font-size:12px">DELETE</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+   
+    function GetNameFloors(txt, idfloor) {
+        let floor = GetFloor(idfloor);
+        txt.innerHTML = floor ? floor.NameFloor : 'Deleted: FloorID:' + idfloor;
+    }
+
+    async function LoadFloor() {
+        await sleep(500);
+        document.getElementsByName("txtfloor").forEach(function (txt) {
+            txt.onload();
+        });
+    };
+
+    document.getElementById('floorFilter').addEventListener('change', function () {
+        var filterValue = this.value.toLowerCase();
+        var rows = document.querySelectorAll('#lineTableBody tr');
+
+        rows.forEach(function (row) {
+            var floorValue = row.querySelector('.floorCell').textContent.toLowerCase(); 
+            if (filterValue === "" || floorValue.includes(filterValue)) {
+                row.style.display = "";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    });
+
+    LoadFloor();
+</script>

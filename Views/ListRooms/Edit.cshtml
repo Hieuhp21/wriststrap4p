@@ -1,0 +1,146 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WEB_SHOW_WRIST_STRAP.Data
+
+@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListRoom
+
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "Edit Area";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <header class="header">
+            <h3>EDIT AREA</h3>
+        </header>
+        <hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdRoom" />
+            <div class="form-group">
+                <label asp-for="IdRoom" class="control-label">IdArea</label>
+                <input asp-for="IdRoom" disabled class="form-control" />
+                <span asp-validation-for="IdRoom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameRoom" class="control-label">Name Area</label>
+                <input asp-for="NameRoom" class="form-control" />
+                <span asp-validation-for="NameRoom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ListUser" class="control-label"></label>
+                <input asp-for="ListUser" readonly id="ListUsertxt" class="form-control" style="row-gap:" />
+                <div class="row" style="margin-block:5px">
+                    <span class="col-1" style="padding-block:5px;margin-block:5px">User:</span>
+                    <select class="col-6" style="padding-block:5px;margin-block:5px" id="cboxuser">
+                        @foreach (var Username in UserManager.Users)
+                        {
+                            <option value="@Username.UserName">@Username.UserName</option>
+                        }
+                    </select>
+                    <button type="button" class="col btn btn-info btn-space animation" style="margin-block:5px" onclick="AddUser()"> ADD </button>
+                    <button type="button" class="col btn btn-danger animation" style="margin-block:5px; margin-right:5px" onclick="DeleteUser()"> DELETE </button>
+                    <button type="button" class="col btn btn-danger animation" style="margin-block:5px; margin-right:12px" onclick="EditManual()"> EDIT </button>
+                </div>
+                <span asp-validation-for="ListUser" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Floor" class="control-label"></label>
+                <input asp-for="Floor" class="form-control" />
+                <span asp-validation-for="Floor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary btn-create animation" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn animation btn-back">Back to List</a>
+</div>
+
+<script>
+
+    const start = function CheckUser() {
+
+        let txtlsuser = document.getElementById("ListUsertxt");
+
+        let listuser = txtlsuser.value.split('|');
+
+        txtlsuser.value = "";
+
+        let cboxuser = document.getElementById("cboxuser");
+
+        listuser.forEach(function (user) {
+
+            if (cboxuser.innerHTML.includes(user)) {
+                if (txtlsuser.value != "") {
+                    txtlsuser.value += "|" + user;
+                }
+                else {
+                    txtlsuser.value += user;
+                }
+            }
+
+        });
+
+    }
+
+    function AddUser()
+    {
+        let listuser = document.getElementById("ListUsertxt").value.split('|');
+        let useradd = document.getElementById("cboxuser").value;
+
+        if (listuser.indexOf(useradd) == -1)
+        {
+            document.getElementById("ListUsertxt").value += (listuser.length > 1 || listuser[0] != "" ) ? "|" + useradd : useradd;
+        }
+        else
+        {
+            alert("User already !");
+        }
+    }
+
+    function DeleteUser() {
+        let listuser = document.getElementById("ListUsertxt").value.split('|');
+        let useradd = document.getElementById("cboxuser").value;
+
+        if (listuser.indexOf(useradd) != -1) {
+            document.getElementById("ListUsertxt").value = "";
+            listuser.forEach(user => {
+                if(user != useradd)
+                {
+                    if (document.getElementById("ListUsertxt").value != "")
+                    {
+                        document.getElementById("ListUsertxt").value += "|" + user;
+                    }
+                    else
+                    {
+                        document.getElementById("ListUsertxt").value += user;
+                    }
+                }
+            });
+            
+        }
+        else {
+            alert("User is not in List!");
+        }
+    }
+
+    
+
+    function EditManual()
+    {
+        $("#ListUsertxt").removeAttr("readonly");
+    }
+
+    start();
+</script>

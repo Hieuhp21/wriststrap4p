@@ -1,0 +1,41 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListFloor
+
+@{
+    ViewData["Title"] = "EDIT FLOOR";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <header class="header">
+            <h1>EDIT FLOOR</h1>
+        </header>
+        <hr />
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdFloor" class="control-label"></label>
+                <input readonly asp-for="IdFloor" class="form-control" />
+                <span asp-validation-for="IdFloor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NameFloor" class="control-label"></label>
+                <input asp-for="NameFloor" class="form-control" />
+                <span asp-validation-for="NameFloor" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary btn-create animation" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn animation btn-back">Back to List</a>
+</div>
+

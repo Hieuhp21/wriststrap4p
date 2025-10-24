@@ -1,0 +1,399 @@
+﻿@using WEB_SHOW_WRIST_STRAP.Controllers;
+@model WEB_SHOW_WRIST_STRAP.Dataconfig;
+@{
+    ViewData["Title"] = "System Charts";
+}
+
+<style>
+    .main-title {
+        text-align: center;
+        font-size: 28px;
+        font-weight: 700;
+        margin-bottom: 30px;
+        color: #00bcd4;
+        text-shadow: 0 2px 4px rgba(0, 188, 212, 0.3);
+    }
+
+    .system-section {
+        background: linear-gradient(145deg, #1c1f26, #252833);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        margin-bottom: 35px;
+        padding: 30px;
+        border: 1px solid rgba(44, 49, 60, 0.5);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .system-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #00bcd4, #4fc3f7, #00bcd4);
+            border-radius: 20px 20px 0 0;
+        }
+
+    .system-title {
+        font-size: 24px;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 25px;
+        color: #9cdcfe;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+        position: relative;
+        z-index: 1;
+    }
+
+    .chart-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 25px;
+    }
+
+    .chart-box {
+        background: linear-gradient(145deg, #11151c, #1a1f28);
+        border: 1px solid #2c313c;
+        border-radius: 16px;
+        padding: 20px;
+        height: 420px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+        transition: all 0.3s ease;
+    }
+
+        .chart-box:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 188, 212, 0.15);
+        }
+
+        .chart-box::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00bcd4, transparent);
+            border-radius: 16px 16px 0 0;
+        }
+</style>
+
+
+<div class="container-fluid">
+    <!-- Wrist Strap -->
+    <div class="system-section">
+        <div class="system-title">🖐 Wrist Strap System</div>
+        <div class="chart-grid">
+            <div class="chart-box">
+                <div id="wristOverviewChart" style="width: 100%; height: 100%;"></div>
+            </div>
+            <div class="chart-box">
+                <div id="wristDetailChart" style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Leakage Voltage -->
+    <div class="system-section">
+        <div class="system-title">⚡ Leakage Voltage System</div>
+        <div class="chart-grid">
+            <div class="chart-box">
+                <div id="leakageOverviewChart" style="width: 100%; height: 100%;"></div>
+            </div>
+            <div class="chart-box">
+                <div id="leakageDetailChart" style="width: 100%; height: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+<script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+
+<script>
+    am4core.useTheme(am4themes_animated);
+
+    let charts = {};
+    let Alline = JSON.parse(localStorage.getItem('Allline')) || [];
+
+    const previousLines = {
+        wrist: localStorage.getItem('previousWristLine') || '1',
+        leakage: localStorage.getItem('previousLeakageLine') || '1'
+    };
+
+    function GetNameLine(idline) {
+        return Alline.find(d => d.IdLine == idline)?.NameLine || '';
+    }
+
+    // 🟢 Hàm tạo gradient OK/NG
+    function createGradient(colorStart, colorEnd) {
+        let gradient = new am4core.LinearGradient();
+        gradient.rotation = 90; // hướng dọc
+        gradient.addColor(am4core.color(colorStart));
+        gradient.addColor(am4core.color(colorEnd));
+        return gradient;
+    }
+
+    async function loadCharts() {
+        const wristData = await fetchData('@Url.Action("GetAllpointNow", "ListPoints")');
+        renderCharts('wrist', wristData);
+
+        const leakageData = await fetchData('@Url.Action("GetAllpointNow", "ListPoint2")');
+        renderCharts('leakage', leakageData);
+    }
+
+    async function fetchData(apiUrl) {
+        try {
+            const response = await fetch(apiUrl, { method: 'POST' });
+            const text = await response.text();
+            return text ? JSON.parse(text) : [];
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            return [];
+        }
+    }
+
+   function initChart(id, is3D = true) {
+    if (charts[id]) {
+        return charts[id];
+    }
+
+    const chartType = is3D ? am4charts.PieChart3D : am4charts.PieChart;
+    let chart = am4core.create(id, chartType);
+    chart.hiddenState.properties.opacity = 0;
+
+    let series = chart.series.push(is3D ? new am4charts.PieSeries3D() : new am4charts.PieSeries());
+    series.dataFields.value = "value";
+    series.dataFields.category = "category";
+    series.slices.template.propertyFields.fill = "color";
+    series.alignLabels = false;
+    series.sortBySeries = true;
+        if (is3D) {
+            chart.depth = 20;
+            chart.angle = 45; 
+           
+        }
+
+    
+        chart.responsive.enabled = true;
+
+
+    // ✨ Viền lát & hiệu ứng
+    series.slices.template.stroke = am4core.color("#000");
+    series.slices.template.strokeWidth = 0.5;
+    series.slices.template.strokeOpacity = 0.4;
+    series.slices.template.tooltipText = "{category}: {value}";
+
+    // 🏷️ Label
+    series.alignLabels = true;
+    series.labels.template.fill = am4core.color("#fff");
+    series.labels.template.fontSize = 13;
+    series.labels.template.maxWidth = 200;
+    series.labels.template.wrap = true;
+    series.labels.template.textAlign = "left";
+    series.labels.template.horizontalCenter = "left";
+        // Màu đường nối label
+        series.ticks.template.stroke = am4core.color("#ccc");
+        series.ticks.template.strokeWidth = 1.5;
+        series.ticks.template.strokeOpacity = 0.8;
+
+    // 🎯 Tiêu đề
+    let chartTitle = chart.titles.create();
+    chartTitle.fontSize = 16;
+    chartTitle.fontWeight = "bold";
+    chartTitle.fill = am4core.color("#e6e6e6");
+    chartTitle.marginBottom = 40;
+
+    chart.padding(10, 10, 10, 10);
+
+    charts[id] = chart;
+    return chart;
+}
+
+
+    function updateChart(id, data, title, rotationAngle, labelAdapter) {
+        let chart = initChart(id, true);
+        chart.startAngle = rotationAngle;
+        chart.endAngle = rotationAngle + 359.9; // tránh trùng điểm đầu-cuối
+
+
+        let series = chart.series.getIndex(0);
+        series.labels.template.adapter.remove("text");
+        if (labelAdapter) {
+            series.labels.template.adapter.add("text", labelAdapter);
+        }
+
+        chart.titles.getIndex(0).text = title;
+        chart.data = data;
+        chart.invalidateData();
+        // 🧩 Thêm 3 dòng fix lỗi chồng lát
+        chart.invalidateRawData();
+        chart.validateLayout();
+        chart.series.each(s => s.sortBySeries = true);
+    }
+
+    function renderCharts(system, data) {
+        if (!data?.length || !Alline?.length) {
+            renderEmptyCharts(system);
+            return;
+        }
+
+        const validLineIds = Alline.map(l => l.IdLine);
+        const filteredData = data.filter(p => validLineIds.includes(p.IdLine));
+
+        if (!filteredData.length) {
+            renderEmptyCharts(system);
+            return;
+        }
+
+        const lines = {};
+        filteredData.forEach(p => {
+            lines[p.IdLine] = [...(lines[p.IdLine] || []), p];
+        });
+
+        const lineIds = validLineIds;
+        const ngCounts = lineIds.map(id =>
+            lines[id] ? lines[id].filter(p => GetStatus(p.Alarm) === 'NG').length : 0
+        );
+        const okCounts = lineIds.map(id =>
+            lines[id] ? lines[id].length - lines[id].filter(p => GetStatus(p.Alarm) === 'NG').length : 0
+        );
+
+        const totalLines = lineIds.length;
+        const ngLines = ngCounts.filter(c => c > 0).length;
+        const okLines = totalLines - ngLines;
+
+        renderOverviewPie(system, lineIds, ngCounts, okCounts);
+
+        let maxLine = lineIds.reduce((best, id) => {
+            const ng = ngCounts[lineIds.indexOf(id)];
+            return ng > best.count ? { id, count: ng } : best;
+        }, { id: null, count: 0 });
+
+        const chosenLine = maxLine.id || previousLines[system];
+        previousLines[system] = chosenLine;
+        localStorage.setItem(`previous${system[0].toUpperCase() + system.slice(1)}Line`, chosenLine);
+
+        renderDetailChart(system, lines[chosenLine] || [], chosenLine, maxLine.count);
+    }
+
+    function renderEmptyCharts(system) {
+        const emptyData = [{ category: 'No Data', value: 1, color: '#6c757d' }];
+        const rotationAngle = -90;
+        updateChart(`${system}OverviewChart`, emptyData, 'No Data', rotationAngle, null);
+        updateChart(`${system}DetailChart`, emptyData, 'No Data', rotationAngle, null);
+    }
+
+    // 🟢 Biểu đồ tổng quan (Overview) — dùng gradient xanh/lá và đỏ/cam
+    function renderOverviewPie(system, lineIds, ngCounts, okCounts) {
+        const totalLines = lineIds.length;
+        const ngTotal = ngCounts.filter(c => c > 0).length;
+        const okTotal = totalLines - ngTotal;
+
+        const okGradient = createGradient("#0fa", "#095");      // xanh ngọc -> xanh lá
+        const ngGradient = createGradient("#f33", "#f77");      // đỏ -> hồng cam
+
+        const data = [
+            { category: 'OK Lines', value: okTotal, color: okGradient },
+            { category: 'NG Lines', value: ngTotal, color: ngGradient }
+        ];
+        // 🧮 Tính phần trăm OK / NG
+        const total = okTotal + ngTotal;
+        const okPercent = total > 0 ? ((okTotal / total) * 100).toFixed(1) : 0;
+        const ngPercent = total > 0 ? ((ngTotal / total) * 100).toFixed(1) : 0;
+
+        // Gắn thêm vào label text
+        data[0].labelText = `OK (${okPercent}%)`;
+        data[1].labelText = `NG (${ngPercent}%)`;
+
+        const rotationAngle = ngTotal > 0 ? -90 : -90;
+
+        const labelAdapter = function (text, target) {
+            const dataContext = target.dataItem.dataContext;
+            if (dataContext.category === 'NG Lines' && dataContext.value > 0) {
+                // NG giữ nguyên hiển thị danh sách Line
+                const ngLines = lineIds
+                    .map((id, i) => ({
+                        name: GetNameLine(id),
+                        count: ngCounts[i]
+                    }))
+                    .filter(l => l.count > 0)
+                    .map(l => `${l.name} (${l.count} NG)`);
+
+                return `NG (${ngPercent}%)\n` + ngLines.join("\n");
+            } else if (dataContext.category === 'OK Lines') {
+                // OK hiển thị phần trăm
+                return `OK (${okPercent}%)`;
+            }
+            return "";
+        };
+
+
+        const id = `${system}OverviewChart`;
+        updateChart(id, data, `Overview: ${okTotal}/${totalLines} Lines OK`, rotationAngle, labelAdapter);
+
+        let chart = charts[id];
+        let series = chart.series.getIndex(0);
+
+
+        series.slices.template.events.on("ready", function () {
+            const ngSlice = series.slices.getIndex(1);
+            if (ngSlice && ngSlice.dataItem.value > 0) ngSlice.isActive = true;
+        });
+    }
+
+    // 🟢 Biểu đồ chi tiết (Detail) — dùng cùng gradient để thống nhất
+    function renderDetailChart(system, points, lineId, ngCount) {
+        const id = `${system}DetailChart`;
+        if (!points.length) {
+            const emptyData = [{ category: 'No Data', value: 1, color: '#6c757d' }];
+            const rotationAngle = -90;
+            updateChart(id, emptyData, 'No Data', rotationAngle, null);
+            return;
+        }
+
+        let allPointsForSystem = system === 'wrist' ? Allpoint1 : Allpoint2;
+        const okGradient = createGradient("#7ff59c", "#6fcf87");
+        // xanh pastel đậm hơn, vẫn dịu
+        const ngGradient = createGradient("#b3471b", "#d66b2a");   // cam đất
+
+        const data = points.map(p => {
+            const match = allPointsForSystem.find(
+                x => x.IdPoint == p.IdPoint && x.IdLine == p.IdLine
+            );
+            const label = match?.NamePoint || p.NamePoint || 'None';
+            const status = GetStatus(p.Alarm);
+            const color = status === 'NG' ? ngGradient : okGradient;
+            return { category: label, value: 1, color: color, isNG: status === 'NG' };
+        });
+
+        const rotationAngle = ngCount > 0 ? -90 : -90;
+
+        const labelAdapter = (text, target) => target.dataItem.dataContext.isNG ? target.dataItem.category : "";
+
+        updateChart(id, data, `Detail: ${GetNameLine(lineId)} (NG: ${ngCount})`, rotationAngle, labelAdapter);
+
+        let chart = charts[id];
+        let series = chart.series.getIndex(0);
+        series.slices.template.events.on("ready", function () {
+            series.slices.each(slice => {
+                if (slice.dataItem.dataContext.isNG) slice.isActive = true;
+            });
+        });
+    }
+
+    window.addEventListener('load', async () => {
+        await GetAllPoints();
+        setTimeout(() => {
+            loadCharts();
+            setInterval(loadCharts, 3000);
+        }, 200);
+    });
+</script>

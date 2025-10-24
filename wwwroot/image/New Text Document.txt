@@ -1,0 +1,3 @@
+<div id="List_box_led">  </div>
+
+<div class="boxlayout pointbox1 colorgreen"> <div class="boxlayout-name"> Name </div> <div id="templed1" class="boxlayout-temp"> 20.8°C </div> <div id="humiled1" class="boxlayout-humi"> 15.6% </div> </div>

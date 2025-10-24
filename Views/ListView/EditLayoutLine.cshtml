@@ -1,0 +1,215 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Dataconfig;
+
+@{
+    int IDLINE = ViewBag.IdLine;
+
+    int? IDCLUSTER = ViewBag.IdCluster;
+
+    var lines = ViewBag.Lines as List<int>;
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Edit Layout Cluster</title>
+    <style>
+        .line-container {
+            position: relative;
+            display: inline-block;
+            height: auto;
+            border: 1px solid gray;
+            margin-right: 20px;
+            max-width: 1800px;
+        }
+
+            .line-container img {
+                width: 100%;
+                height: auto;
+                max-height: 2000px;
+            }
+
+        .point {
+            position: absolute;
+            color: white;
+            border-radius: 5px;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+            background-color: rgba(0, 0, 0, 0.5);
+            cursor: move;
+        }
+
+        button {
+            margin-top: 10px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h3 style="text-align:center">Edit Layout Cluster (Line @IDLINE)</h3>
+    </div>
+    <div>
+        <p>Leakage Voltage(V)</p>
+    </div>
+    <div class="home-container1" id="clayout">
+        @foreach (var idLine in lines)
+
+        {
+            <div class="line-container" data-line-id="@idLine">
+                <div id="imgline_@idLine"></div>
+            </div>
+        }
+    </div>
+    <button id="saveBtn" class="btn-success animationbase" style="border-radius:3px;">Save</button>
+    <button id="backBtn" class="btn-primary animationbase" style="border-radius:3px;">Back</button>
+
+    <script>
+        const idLine = '@ViewBag.IdLine';
+        const lines = @Html.Raw(Json.Serialize(lines));
+
+        // Hàm khởi tạo
+        function Loadfirst() {
+            lines.forEach(idLine => {
+                let imgWidth;
+                // Xác định kích thước ảnh dựa trên cụm
+                if (idLine >= 1 && idLine <= 9) {
+                    imgWidth = 1800; // Cụm 1, 2
+                } else if (idLine >= 10 && idLine <= 12) {
+                    imgWidth = 1200; // Cụm 3
+                } else if (idLine >= 13 && idLine <= 14) {
+                    imgWidth = 800; // Cụm 4
+                } else if (idLine == 15) {
+                    imgWidth = 1000; // Cụm 5
+                } else if (idLine == 16) {
+                    imgWidth = 1000; // Cụm 6
+                } else {
+                    imgWidth = 1800; // Mặc định
+                }
+                $(`#imgline_${idLine}`).html(`<img id="lineImage_${idLine}" style="width:${imgWidth}px;" src="/image/${idLine}.png?v=1.2.3" onerror="handleImageError(this, ${idLine})"/>`);
+            });
+            loadEditablePoints();
+        }
+
+        function handleImageError(imgElement, idLine) {
+            console.warn(`Failed to load image for line ${idLine}`);
+            imgElement.src = "/image/default.png?v=1.12"; // Thay bằng ảnh mặc định nếu lỗi
+        }
+
+        let pointPositions = []; // Danh sách điểm và vị trí mới
+
+        // Tải và hiển thị điểm có thể kéo thả
+        function loadEditablePoints() {
+            const selectedOption = localStorage.getItem("selectedOption");
+            let getUrl = "/ListView/GetPointLine";
+            if (selectedOption == "LakeageVoltage") {
+                getUrl = "/ListView/GetPointLine2";
+            }
+
+            $.ajax({
+                url: getUrl,
+                type: 'GET',
+                data: { idLine: idLine },
+                success: function (data) {
+                    data.forEach(point => {
+                        // Xác định tỷ lệ dựa trên kích thước ảnh
+                        let baseWidth;
+                        if (point.idLine >= 1 && point.idLine <= 9) {
+                            baseWidth = 1800; // Cụm 1, 2
+                        } else if (point.idLine >= 10 && point.idLine <= 12) {
+                            baseWidth = 1200; // Cụm 3
+                        } else if (point.idLine >= 13 && point.idLine <= 14) {
+                            baseWidth = 800; // Cụm 4
+                        } else if (point.idLine == 15) {
+                            baseWidth = 1000; // Cụm 5
+                        } else if (point.idLine == 16) {
+                            baseWidth = 1000; // Cụm 6
+                        } else {
+                            baseWidth = 1800; // Mặc định
+                        }
+                        const scaleFactor = baseWidth / 1800; // Tỷ lệ so với kích thước chuẩn 1800px
+                        const top = (point.topDetail != null ? point.topDetail : point.csstop) * scaleFactor;
+                        const left = (point.leftDetail != null ? point.leftDetail : point.cssleft) * scaleFactor;
+
+                        let pointDiv = $(`<div class="point" data-id="${point.idPoint}" data-line="${point.idLine}">${point.idPoint}</div>`);
+                        pointDiv.css({
+                            top: top + "px",
+                            left: left + "px"
+                        });
+                        $(`.line-container[data-line-id="${point.idLine}"]`).append(pointDiv);
+
+                        // Kích hoạt kéo thả
+                        pointDiv.draggable({
+                            containment: `.line-container[data-line-id="${point.idLine}"]`,
+                            stop: function (event, ui) {
+                                const id = $(this).data('id');
+                                const lineId = $(this).data('line');
+                                const newTop = ui.position.top / scaleFactor; // Lưu vị trí gốc
+                                const newLeft = ui.position.left / scaleFactor; // Lưu vị trí gốc
+
+                                // Cập nhật vị trí vào danh sách cần lưu
+                                updatePointPosition(id, lineId, newTop, newLeft);
+                            }
+                        });
+                    });
+                },
+                error: function () {
+                    alert("Failed to load points.");
+                }
+            });
+        }
+
+        // Lưu vị trí điểm chỉnh sửa vào danh sách
+        function updatePointPosition(id, lineId, top, left) {
+            const index = pointPositions.findIndex(p => p.idPoint === id && p.idLine === lineId);
+            if (index !== -1) {
+                pointPositions[index].csstop = top;
+                pointPositions[index].cssleft = left;
+            } else {
+                pointPositions.push({ idLine: lineId, idPoint: id, csstop: top, cssleft: left });
+            }
+        }
+
+        // Gửi dữ liệu lưu về backend
+        function saveChanges() {
+            const selectedOption = localStorage.getItem("selectedOption");
+            let saveUrl = "/ListView/UpdatePointPositions";
+            if (selectedOption == "LakeageVoltage") {
+                saveUrl = "/ListView/UpdatePointPositions2";
+            }
+
+            $.ajax({
+                url: saveUrl,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(pointPositions),
+                success: function () {
+                    alert("Positions updated successfully!");
+                    window.location.href = '/ListView/Detail?IdLine=' + idLine;
+                },
+                error: function () {
+                    alert("Failed to update positions.");
+                }
+            });
+        }
+
+        // Sự kiện khi nhấn nút lưu
+        $("#saveBtn").click(function () {
+            saveChanges();
+        });
+
+        // Quay lại trang Detail
+        $("#backBtn").click(function () {
+            window.location.href = '/ListView/Detail?IdLine=' + idLine;
+        });
+
+        // Bắt đầu tải dữ liệu
+        $(document).ready(function () {
+            Loadfirst();
+        });
+    </script>
+</body>
+</html>

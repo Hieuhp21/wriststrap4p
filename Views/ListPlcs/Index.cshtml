@@ -1,0 +1,88 @@
+﻿@model IEnumerable<WEB_SHOW_WRIST_STRAP.Models.Entities.ListPlc>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var unitType = ViewBag.ActUnitTypes as SelectList;
+    var protocolType = ViewBag.ActProtocolTypes as SelectList;
+}
+<link rel="stylesheet" href="~/css/listview.css" asp-append-version="true" />
+<header class="header">
+    <h1>LINE PLC</h1>
+</header> 
+<p>
+    <a asp-action="Create" style="margin-top:15px" class="btn btn-success animation">Create New</a>
+</p>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr style="background-color:#888">
+            <th>
+               PLC ID
+            </th>
+           
+            <th>
+                @Html.DisplayNameFor(model => model.ActTimeOut)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ActPassword)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddRead)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberReads)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddReadV)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberReadsV)
+            </th>
+            <th>
+                LineID
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusUse)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody class="scrollable-tbody">
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPlc)
+            </td>
+               
+            <td>
+                @Html.DisplayFor(modelItem => item.ActTimeOut)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ActPassword)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddRead)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberReads)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddReadV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberReadsV)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdLine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StatusUse)
+            </td>
+            <td>
+                    <a asp-action="Edit" asp-route-id="@item.IpPlc" class="btn btn-primary animationbase" style="height:auto;font-size:12px">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@item.IpPlc" class="btn btn-danger animationbase" style="height:auto;font-size:12px">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

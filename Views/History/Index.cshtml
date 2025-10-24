@@ -1,0 +1,1225 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model WEB_SHOW_WRIST_STRAP.Dataconfig;
+
+@{
+
+}
+
+<script src="~/lib/chart/chart.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+
+	<link rel="stylesheet" href="~/css/listview.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/history.css" asp-append-version="true" />
+	<style>
+		.scrollable-tbody {
+			display: block;
+			max-height: 570px;
+			/* Chiều cao cố định cho tbody */
+			overflow-y: auto;
+			/* Tạo thanh cuộn */
+		}
+
+			.scrollable-tbody tr {
+				display: table;
+				width: 100%;
+				table-layout: fixed;
+			}
+
+			.scrollable-tbody td,
+			.scrollable-tbody th {
+				width: 14.2857%;
+				/* Chia đều cho 7 cột */
+			}
+
+		table thead,
+		table tbody tr {
+		@* display: table; *@
+			width: 100%;
+			table-layout: fixed;
+		}
+
+		#ListboxLines thead {
+			display: table;
+		}
+
+		table thead {
+			/* width: calc(100% - 1em); /* Để tránh thanh cuộn ảnh hưởng đến thead */
+			*/
+		}
+
+		/* Thiết lập bảng chuẩn */
+	</style>
+</head>
+
+<body>
+	<div>
+		<div class="home-container">
+
+			@* <div id="LsBoxPoint" class="home-container2">
+            <div class="home-container3 button">
+            <span id="NLineBox" class="home-text01">IVI</span>
+            </div>
+            </div> *@
+			<header class="header">
+				<h2>HISTORY</h2>
+			</header>
+			<div class="home-container5" style="min-height:750px">
+
+				<div id="ListboxLines" class="home-container6">
+
+					<div class="col-md-12">
+						<div class="card">
+							<div class="card-header card-header" style="color:darkcyan">
+								Search Tool
+							</div>
+							<div class="card-body">
+								<form id="searchForm" class="row g-3">
+									<div class="col-10">
+										<div class="row ">
+											<div class="col-md-6">
+												<label for="timeStart" class="form-label label">Start Time:</label>
+												<input type="datetime-local" id="timeStart" name="timeStart"
+													   class="form-control">
+											</div>
+											<div class="col-md-6">
+												<label for="timeEnd" class="form-label label">End Time:</label>
+												<input type="datetime-local" id="timeEnd" name="timeEnd"
+													   class="form-control">
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 d-none">
+												<label for="floorSelect" class="form-label label">Floor:</label>
+												<select id="floorSelect" name="floorSelect" class="form-select">
+													<option value="">All</option>
+													<option value="floor1">Floor1</option>
+													<option value="floor2">Florr2</option>
+													<!-- Thêm các tầng khác nếu cần -->
+												</select>
+											</div>
+											<div class="col-md-6">
+												<label for="lineSelect" class="form-label label">Line:</label>
+												<select id="lineSelect" name="lineSelect" class="form-select">
+													<option value="">All</option>
+													<option value="line1">Line1</option>
+													<option value="line2">Line2</option>
+
+												</select>
+											</div>
+										</div>
+									</div>
+
+									<div class="col-md-2 align-self-end">
+										<button type="button" class="btn btn-primary search"
+												onclick="Search()">
+											Search
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div>
+						<div class="divtbtopalarm-history">
+							<table class="table table-striped table-bordered">
+								<thead>
+									<tr>
+										<th colspan="7" class="titletable">
+											History <button class="btn btnExporttable"
+												 onclick="ExportData()"></button>
+										</th>
+									</tr>
+									<tr style="background-color:#888">
+										<th width="500px">Begin Time </th>
+										<th>Line Name</th>
+										<th>Point Name </th>
+										<th>Status</th>
+										<th>Value</th>
+										<th>Total Time</th>
+										<th>End Time</th>
+									</tr>
+									<tr>
+										<th></th>
+
+										<th>
+											<input type="text" id="filter-nameLine" class="form-control"
+												   onkeyup="filterTable()">
+										</th>
+										<th>
+											<input type="text" id="filter-namePoint" class="form-control"
+												   onkeyup="filterTable()">
+										</th>
+										<th>
+											<input type="text" id="filter-status" class="form-control"
+												   onkeyup="filterTable()">
+										</th>
+										<th>
+											<input type="text" id="filter-value" class="form-control"
+												   onkeyup="filterTable()">
+										</th>
+										<th>
+											<select class="form-control filter" data-column="0" id="filter-totaltime"
+													onchange="filterTable()">
+												<option value="">All</option>
+												<option value="under15">under 15 m</option>
+												<option value="15to30">15 to 30 m</option>
+												<option value="over30">over 30 m</option>
+											</select>
+										</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody id="dttopdataline" class="scrollable-tbody">
+								</tbody>
+							</table>
+						</div>
+					</div>
+					<!-- tổng hợp -->
+					@* <div class="in-for-his">
+						<div class="row" style="width:100%">
+							<p class="left-his-infor-title">Information</p>
+							<div class="col-6" style="font-size: 16px;">
+
+
+								<div class="IfmRoom" ">
+									<span class="lable">Point ID:</span> <span id="IdPoint">. . .</span>
+								</div>
+								<div class="IfmRoom" ">
+									<span class="lable">Point Name:</span> <span id="NamePointshow">. . .</span>
+								</div>
+								<div class="IfmRoom" ">
+									<span class="lable">Line:</span> <span id="LineShow">. . .</span>
+								</div>
+								<div class="IfmRoom" ">
+									<span class="lable">Floor:</span> <span id="FloorShow">. . .</span>
+								</div>
+
+							</div>
+							<div class="col-6" style="font-size: 16px; ;">
+								<div class="IfmRoom" style="display:none; ">
+									<span>IdLog:</span> <span id="IdLog" style="font-weight: 400;">. . .</span>
+								</div>
+								<div class="ft-his-status-title" " style="margin-bottom: 10px;">
+									<span class="lable">Status:</span>
+									<span id="Status" class="Statusled">OK</span>
+								</div>
+								<div style="margin-bottom: 10px;">
+									<span class="lable">Begin Time:</span> <span id="TimeBeginShow">. . .</span>
+								</div>
+								<div style="margin-bottom: 10px;">
+									<span class="lable">End Time:</span> <span id="TimeEndShow">. . .</span>
+								</div>
+								<div style="margin-bottom: 10px;">
+									<span class="lable">Total Time:</span> <span id="TotalTimeShow">. . .</span>
+								</div>
+							</div>
+						</div>
+
+						<div style="margin-top:20px">
+							<div style="display: flex; ">
+								<p style="margin-right:62.5%;margin-left:5px; margin-top:16px; font-weight:bold">Note</p>
+								<button class="btn btnExport animation" onclick="OpenExport()"></button>
+								<button style="margin-left:1%;" class="btn btn-success animation" onclick="btnsavenote()">Update Note</button>
+
+							</div>
+							<div style="display:flex; margin-top: 10px;">
+								<div id="displayNote" class="savedalarm" style="font-size:14px; padding:6px; width: calc(72ch + 12px); height:200px; overflow-y: auto; white-space: pre-wrap; margin-left: 5px;"></div>
+
+							</div>
+						</div>
+					</div> *@
+
+				</div>
+				<div class="home-text27-1"></div>
+				<div class="home-text27">History Data</div>
+				<div class="home-container7" style="max-height: 100%; overflow-y: auto;">
+
+					<table class="table table-bordered">
+						<thead>
+							<tr id="headerRow">
+								<th>Line</th>
+								<th>IdPoint</th>
+							</tr>
+						</thead>
+						<tbody id="dataTable"></tbody>
+					</table>
+				</div>
+			</div>
+			<div class="home-container5">
+				<div class="divchart-history">
+					<canvas id="myChart" class="ChartAlarm"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script>
+
+		let Lscountpoint = {};
+		let page = 1;
+		let pageSize = 15;
+		let loading = false;
+		let totalPages = 1;
+		let tabletophisdata = document.getElementById("dttopdataline");
+		let Alline = []
+		Alline = JSON.parse(window.localStorage.getItem('Allline'));
+		function GetNameLine(idline){
+		   try{
+		   let res = ''
+		   res = Alline?.filter(d => d.IdLine == idline)[0]?.NameLine
+		   return res;
+		   }catch (err){
+			   console.log(err)
+		   }
+	   }
+		function GetHistoryTableData() {
+			const timeStart = new Date(document.getElementById("timeStart").value);
+			const timeEnd = new Date(document.getElementById("timeEnd").value);
+			const floorSelect = document.getElementById("floorSelect").value;
+			const lineSelect = document.getElementById("lineSelect").value;
+			const selectedOption = localStorage.getItem('selectedOption');
+			let apiUrl = '@Url.Action("GetHistory", "History")';
+
+			if (selectedOption === "LakeageVoltage") {
+				apiUrl = '@Url.Action("GetHistory2", "History")';
+			}
+			const timeStartLocal = timeStart.toLocaleString('sv-SE'); // "YYYY-MM-DD HH:mm:ss"
+			const timeEndLocal = timeEnd.toLocaleString('sv-SE');
+			loading = true;
+			$.get(apiUrl, {
+				timeStart: timeStartLocal,
+				timeEnd: timeEndLocal,
+				floorSelect: floorSelect,
+				lineSelect: lineSelect,
+				page: page,
+				pageSize: pageSize
+			}, function (input) {
+
+				if (input && input.items.length > 0) {
+					// Cập nhật totalPages từ phản hồi
+					totalPages = input.totalPages;
+
+					let htmlinner = "";
+					input.items.forEach(function (itemhis) {
+						let TotalTime = 'None';
+
+						if (itemhis.totalTime) {
+							let hours = Math.floor(itemhis.totalTime / 3600);
+							let minutes = Math.floor((itemhis.totalTime % 3600) / 60);
+							let remainingSeconds = itemhis.totalTime % 60;
+							TotalTime =
+								String(hours).padStart(2, '0') + ':' +
+								String(minutes).padStart(2, '0') + ':' +
+								String(remainingSeconds).padStart(2, '0');
+						}
+
+						let TimeEnd = 'None';
+						if (itemhis.timeStop) {
+							let Timeend_date = new Date(Date.parse(itemhis.timeStop));
+							TimeEnd = Timeend_date.toLocaleDateString() + " " + Timeend_date.toLocaleTimeString();
+						}
+
+						let stylealarm = "";
+						if (GetStatus(itemhis.alarm) == "NG") {
+							// UdlegthArr(Lscountpoint, itemhis.idPoint, itemhis.idLine, itemhis.totalTime);
+							stylealarm = 'font-weight:400;color:red;';
+						} else {
+							stylealarm = 'font-weight:400;';
+						}
+
+						let Timeck_date = new Date(Date.parse(itemhis.timeCheck));
+						let Timeckstr = Timeck_date.toLocaleDateString() + " " + Timeck_date.toLocaleTimeString();
+						let point = GetPoint(itemhis.idPoint, itemhis.idLine);
+						let namePoint = point ? point.NamePoint : "None";
+
+						let idfloor = GetLine(itemhis.idLine).Floor;
+						let floorName = GetFloor(idfloor).NameFloor;
+						let htmlrow = '<tr onclick="selectRow(this)" data-id="' + itemhis.idPoint + '" data-idlog="' + itemhis.idLog + '" data-name="' + namePoint + '" data-line="' + GetLine(itemhis.idLine).NameLine + '" data-floor="' + floorName + '" data-note="' + itemhis.note + '" data-timebegin="' + Timeckstr + '" data-status="' + GetAlarm(itemhis.alarm) + '" data-timeend="' + TimeEnd + '" data-totaltime="' + TotalTime + '">' +
+							'<th style="font-weight:400;">' + Timeckstr + '</th>' +
+							'<th style="font-weight:400;">' + GetLine(itemhis.idLine).NameLine + '</th>' +
+							'<th style="font-weight:400;">' + namePoint + '</th>' +
+							'<th style="' + stylealarm + '">' + GetAlarm(itemhis.alarm) + '</th>' +
+							'<th style="font-weight:400;">' + itemhis.value + '</th>' +
+							'<th style="font-weight:400;">' + TotalTime + '</th>' +
+							'<th style="font-weight:400;">' + TimeEnd + '</th>' +
+							'</tr>';
+
+						htmlinner += htmlrow;
+					});
+
+					tabletophisdata.innerHTML += htmlinner;
+					filterTable();
+				}
+
+
+				loading = false;
+			});
+		}
+
+
+		function selectRow(row) {
+			const rows = document.querySelectorAll('#dttopdataline tr');
+			rows.forEach(r => {
+				r.style.backgroundColor = '';
+			});
+
+
+			// Thêm style trực tiếp vào hàng được chọn
+			row.style.backgroundColor = 'aqua';
+			document.getElementById('IdLog').innerText = row.getAttribute('data-idLog');
+			document.getElementById('IdPoint').innerText = row.getAttribute('data-id');
+			document.getElementById('NamePointshow').innerText = row.getAttribute('data-name');
+			document.getElementById('LineShow').innerText = row.getAttribute('data-line');
+			document.getElementById('FloorShow').innerText = row.getAttribute('data-floor');
+
+			let noteContent = row.getAttribute('data-note').split('\n').join('<hr>');
+
+			// Tách phần trước và sau dấu phẩy đầu tiên
+			let firstCommaIndex = noteContent.indexOf(',', noteContent.indexOf(' '));
+			let beforeComma = noteContent.slice(0, firstCommaIndex + 1);
+			let afterComma = noteContent.slice(firstCommaIndex + 1).trim();
+
+			// Thêm strong cho phần trước dấu phẩy
+			beforeComma = beforeComma.replace(/, (.+)/, ', <strong>$1</strong>');
+
+			// Xử lý tất cả các "Reason:" và "Solution:" trong phần afterComma
+			afterComma = afterComma.replace(/Reason:/g, '<br><strong>Reason:</strong>')
+				.replace(/Solution:/g, '<br><strong>Solution:</strong>');
+
+			let finalContent = beforeComma + ' ' + afterComma;
+
+			document.getElementById('displayNote').innerHTML = finalContent;
+
+			document.getElementById('TimeBeginShow').innerText = row.getAttribute('data-timebegin');
+			document.getElementById('TimeEndShow').innerText = row.getAttribute('data-timeend');
+			document.getElementById('TotalTimeShow').innerText = row.getAttribute('data-totaltime');
+			// Lấy giá trị của thuộc tính data-status từ phần tử row
+			let status = row.getAttribute('data-status');
+			let statusElement = document.getElementById('Status');
+			statusElement.innerText = status;
+			statusElement.style.color = ['OK', 'WAIT', 'OFF'].includes(status) ? '' : 'red';
+
+		}
+		function loadAllHistoryChartData() {
+
+			const timeStart = new Date(document.getElementById("timeStart").value);
+			const timeEnd = new Date(document.getElementById("timeEnd").value);
+			const floorSelect = document.getElementById("floorSelect").value;
+			const lineSelect = document.getElementById("lineSelect").value;
+			const selectedOption = localStorage.getItem('selectedOption');
+			let apiUrl = '@Url.Action("GetHistoryChartDataV2", "History")';
+
+			if (selectedOption === "LakeageVoltage") {
+				apiUrl = '@Url.Action("GetHistoryChartData2", "History")';
+			}
+			const timeStartLocal = timeStart.toLocaleString('sv-SE'); // "YYYY-MM-DD HH:mm:ss"
+			const timeEndLocal = timeEnd.toLocaleString('sv-SE');
+			$.get(apiUrl, {
+				timeStart: timeStartLocal,
+				timeEnd: timeEndLocal,
+				floorSelect: floorSelect,
+				lineSelect: lineSelect
+			}, function (input) {
+				console.log(input);
+				if (input && input.length > 0) {
+					input.forEach(function (itemhis) {
+
+						UdlegthArr(Lscountpoint, itemhis.idPoint, itemhis.idLine, itemhis.totalTime);
+					});
+
+					updateChart();
+				}
+
+				loading = false;
+			});
+		}
+		function txtalchage() {
+			document.getElementById("txtnoteAlarm").classList.remove('savedalarm');
+		}
+		//Event Click Btn Save Note alarm
+		function btnsavenote() {
+			let IDLOG = document.getElementById("IdLog").innerText;
+			if (IDLOG != null) {
+				// Hiển thị modal với 2 textarea cho Reason và Solution
+				let modalContent = `
+						<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="noteModalLabel">Add Note</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<div class="mb-3">
+											<label for="reason${IDLOG}" class="form-label">Reason</label>
+											<textarea class="form-control" id="reason${IDLOG}" rows="3"></textarea>
+										</div>
+										<div class="mb-3">
+											<label for="solution${IDLOG}" class="form-label">Solution</label>
+											<textarea class="form-control" id="solution${IDLOG}" rows="3"></textarea>
+										</div>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary" onclick="submitInput(${IDLOG})">Save</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					`;
+
+				// Thêm modal vào body
+				document.body.insertAdjacentHTML('beforeend', modalContent);
+
+				// Hiển thị modal
+				let noteModal = new bootstrap.Modal(document.getElementById('noteModal'), {});
+				noteModal.show();
+			} else {
+				alert('Note is not selected!');
+			}
+		}
+
+		function submitInput(id_log) {
+			let reason = document.getElementById(`reason${id_log}`).value;
+			let solution = document.getElementById(`solution${id_log}`).value;
+
+			let note = `Reason: ${reason}, Solution: ${solution}`;
+			const selectedOption = localStorage.getItem("selectedOption");
+			let apiUrl = '@Url.Action("UpdateNote", "History")';
+
+			if (selectedOption === "LakeageVoltage") {
+				apiUrl += "2";
+			}
+
+			$.post(apiUrl, { id: id_log, note: note }, function (response) {
+				if (response.success) {
+
+					alert("Lưu thành công!");
+				} else {
+					alert("Lưu thất bại!");
+				}
+			});
+
+			// Ẩn modal sau khi lưu
+			let noteModal = bootstrap.Modal.getInstance(document.getElementById('noteModal'));
+			noteModal.hide();
+		}
+
+
+		function ExportData() {
+			const timeStart = new Date(document.getElementById("timeStart").value);
+			const timeEnd = new Date(document.getElementById("timeEnd").value);
+			const floorSelect = document.getElementById("floorSelect").value;
+			const lineSelect = document.getElementById("lineSelect").value;
+
+			const timeStartISO = timeStart.toISOString();
+			const timeEndISO = timeEnd.toISOString();
+			const selectedOption = localStorage.getItem("selectedOption");
+			let apiUrl = '@Url.Action("ExportToExcel", "History")';
+
+			if (selectedOption === "LakeageVoltage") {
+				apiUrl += "2";  // Thêm "2" vào cuối URL nếu selectedOption là "LakeageVoltage"
+			}
+
+			const timeStartLocal = timeStart.toLocaleString('sv-SE'); // "YYYY-MM-DD HH:mm:ss"
+			const timeEndLocal = timeEnd.toLocaleString('sv-SE');
+			// Gọi API để xuất dữ liệu
+			$.ajax({
+				url: apiUrl,
+				type: 'GET',
+				data: {
+					timeStart: timeStartLocal,
+					timeEnd: timeEndLocal,
+					floorSelect: floorSelect,
+					lineSelect: lineSelect
+				},
+				xhrFields: {
+					responseType: 'blob' // Để xử lý dữ liệu trả về dạng file
+				},
+				success: function (response) {
+					const url = window.URL.createObjectURL(response);
+					const a = document.createElement('a');
+					a.href = url;
+					a.download = 'dataExport.xlsx';
+					document.body.appendChild(a);
+					a.click();
+					document.body.removeChild(a);
+					window.URL.revokeObjectURL(url);
+				},
+				error: function (xhr, status, error) {
+					alert("Có lỗi xảy ra khi xuất dữ liệu: " + error);
+				}
+			});
+		}
+
+		function Search() {
+			const timeStart = new Date(document.getElementById("timeStart").value);
+			const timeEnd = new Date(document.getElementById("timeEnd").value);
+			const sixMonthsInMillis = 6 * 30 * 24 * 60 * 60 * 1000; // 6 months in milliseconds
+			if(!document.getElementById("timeStart").value){
+				alert("Vui lòng nhập thời gian bắt đầu.");
+				return;
+			}
+			if(!document.getElementById("timeEnd").value){
+				alert("Vui lòng nhập thời gian kết thúc.");
+				return;
+			}
+				  if (timeEnd < timeStart) {
+			alert("Thời gian kết thúc không được nhỏ hơn thời gian bắt đầu.");
+			return;
+		}
+			if ((timeEnd - timeStart) > sixMonthsInMillis) {
+				alert("Thời gian nhập vào tối đa là 6 tháng.");
+				return;
+			}
+
+			const floorSelect = document.getElementById("floorSelect").value;
+			const lineSelect = document.getElementById("lineSelect").value;
+			console.log(lineSelect);
+			Lscountpoint = [];
+			tabletophisdata.innerHTML = "";
+			page = 1;
+			hasMoreData = true;
+			GetHistoryTableData();
+
+			loadAllHistoryChartData();
+			loadLogData(lineSelect?lineSelect:0,timeStart, timeEnd);
+		}
+
+
+		function UdlegthArr(Arrinput, idPoint, idLine, totaltime) {
+			if (totaltime) {
+				const key = `${idPoint}-${idLine}`; // Tạo một khóa duy nhất cho mỗi cặp idPoint và idLine
+
+				// Khởi tạo giá trị cho phần tử nếu nó chưa tồn tại
+				if (!Arrinput[key]) {
+					Arrinput[key] = { totalTime: 0, count: 0 };
+				}
+
+				// Cập nhật tổng thời gian và số lần
+				Arrinput[key].totalTime += totaltime;
+				Arrinput[key].count += 1;
+			}
+
+			return Arrinput;
+		}
+
+
+		// Hàm tạo màu ngẫu nhiên không gần màu xanh lá
+		function getRandomColor() {
+			let color;
+			do {
+				const letters = '0123456789ABCDEF';
+				color = '#';
+				for (let i = 0; i < 6; i++) {
+					color += letters[Math.floor(Math.random() * 16)];
+				}
+			} while (isCloseToGreen(color));
+			return color;
+		}
+
+		// Kiểm tra màu gần xanh lá
+		function isCloseToGreen(color) {
+			const rgb = parseInt(color.slice(1), 16);
+			const r = (rgb >> 16) & 0xff;
+			const g = (rgb >> 8) & 0xff;
+			const b = (rgb >> 0) & 0xff;
+			return g > r && g > b;
+		}
+
+		// Hàm tính toán barThickness
+		function calculateBarThickness(numBars) {
+			const barThickness = Math.max(minBarThickness, Math.min(maxBarThickness, maxBarThickness - (numBars - 1) * 5));
+			return barThickness;
+		}
+
+		// Hàm cập nhật đồ thị
+
+		let data = [];
+
+		const ctx = document.getElementById('myChart').getContext('2d');
+		const maxBarThickness = 50; // Giá trị tối đa cho barThickness
+		const minBarThickness = 10; // Giá trị tối thiểu cho barThickness
+		const myChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: data.map(item => item.label),
+				datasets: [{
+					label: 'Dataset 1',
+					data: data.map(item => item.value),
+					backgroundColor: [
+						'rgba(255, 0, 0, 1)', // Đỏ
+						'rgba(255, 255, 0, 1)' // Vàng
+					],
+					borderColor: 'rgba(0, 0, 0, 1)',
+					borderWidth: 1
+				}]
+			},
+			options: {
+				indexAxis: 'x',
+				responsive: true,
+				maintainAspectRatio: false,
+				scales: {
+					x: {
+						beginAtZero: true,
+						ticks: { color: 'white' },
+						title: { display: true, text: 'Line', color: 'white' },
+					},
+					y: {
+						title: { display: true, text: 'Error Count', color: 'white' },
+						ticks: { autoSkip: false, color: 'white' }
+					}
+				},
+				plugins: {
+					legend: {
+						labels: {
+							boxWidth: 0 // Ẩn ô màu
+						}
+					},
+					tooltip: {
+						callbacks: {
+							label: function (tooltipItem) {
+								const item = data[tooltipItem.dataIndex];
+								const totalSeconds = item.count * 60; // Giả sử dữ liệu trong phút
+								const formattedTime = formatTime(totalSeconds);
+								return `${item.value} lần (${formattedTime})`; // Hiển thị thời gian và số lần
+							}
+						}
+					}
+				}
+			}
+		});
+
+		function formatTime(totalSeconds) {
+			totalSeconds = Math.round(totalSeconds);
+
+			let hours = Math.floor(totalSeconds / 3600);
+			let minutes = Math.floor((totalSeconds % 3600) / 60);
+			let remainingSeconds = totalSeconds % 60;
+
+			return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+		}
+		function updateChart() {
+			if (Lscountpoint && Object.keys(Lscountpoint).length > 0) {
+				const lineSelect = document.getElementById("lineSelect").value;
+				if (lineSelect == "") {
+					// Tổng hợp dữ liệu theo từng line
+					const lineData = {};
+					Object.keys(Lscountpoint).forEach(key => {
+						const [, idLine] = key.split('-').map(Number);
+						if (!lineData[idLine]) {
+							lineData[idLine] = { totalTime: 0, count: 0 };
+						}
+						lineData[idLine].totalTime += Lscountpoint[key].totalTime;
+						lineData[idLine].count += Lscountpoint[key].count;
+					});
+
+					// const chartData = Object.keys(lineData).map(idLine => {
+					// 	return {
+
+					// 		label: ` ${GetLine(idLine).IdIviLine}`, // Gắn nhãn theo line
+					// 		// value: lineData[idLine].totalTime / 60, // Chuyển đổi thành phút
+					// 		// count: lineData[idLine].count
+					// 		count: lineData[idLine].totalTime / 60, // Chuyển đổi thành phút
+					// 		value: lineData[idLine].count
+					// 	};
+					// });
+					console.log(Allline)
+					const chartData = Allline.map(el => {
+						let idLine = el.IdLine
+						return {
+
+							label: ` ${GetLine(idLine).NameLine}`, // Gắn nhãn theo line
+							// value: lineData[idLine].totalTime / 60, // Chuyển đổi thành phút
+							// count: lineData[idLine].count
+							count: lineData[idLine] ? lineData[idLine].totalTime / 60 : 0, // Chuyển đổi thành phút
+							value: lineData[idLine] ? lineData[idLine].count : 0
+						};
+					});
+
+					data = chartData.sort((a, b) => b.value - a.value);
+				} else {
+					// Hiển thị dữ liệu theo từng điểm của line cụ thể
+					const chartData = Object.keys(Lscountpoint).map(key => {
+						const [idPoint, idLine] = key.split('-').map(Number);
+						return {
+							label: idPoint,
+							count: Lscountpoint[key].totalTime / 60,
+							value: Lscountpoint[key].count
+						};
+					});
+
+					data = chartData.sort((a, b) => b.value - a.value);
+				}
+
+				// Cập nhật biểu đồ
+				myChart.data.labels = data.map(item => item.label);
+				myChart.data.datasets[0].data = data.map(item => item.value);
+
+				// Màu ngẫu nhiên và cập nhật barThickness
+				const backgroundColorGradient = data.map((item, index) => {
+					const percent = index / data.length;
+					return getGradientColor('#99fa9d', '#E0FFF5', percent);
+				});
+
+				myChart.data.datasets[0].backgroundColor = backgroundColorGradient;
+				const barThickness = calculateBarThickness(data.length);
+				myChart.data.datasets[0].barThickness = barThickness;
+
+				// Cập nhật biểu đồ
+				myChart.update();
+			}
+		}
+
+		// Hàm tạo màu xanh ngọc nhạt dần
+		function getGradientColor(startColor, endColor, percent) {
+			const start = hexToRgb(startColor);
+			const end = hexToRgb(endColor);
+
+			const r = Math.round(start.r + percent * (end.r - start.r));
+			const g = Math.round(start.g + percent * (end.g - start.g));
+			const b = Math.round(start.b + percent * (end.b - start.b));
+
+			return `rgba(${r}, ${g}, ${b}, 1)`;
+		}
+
+		// Chuyển đổi mã hex thành đối tượng RGB
+		function hexToRgb(hex) {
+			const bigint = parseInt(hex.slice(1), 16);
+			const r = (bigint >> 16) & 255;
+			const g = (bigint >> 8) & 255;
+			const b = bigint & 255;
+			return { r, g, b };
+		}
+
+
+
+		// Hàm tạo màu ngẫu nhiên
+		function getRandomColor() {
+			const letters = '0123456789ABCDEF';
+			let color = '#';
+			for (let i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * 16)];
+			}
+			return color;
+		}
+
+		// Tính toán barThickness (nếu cần thiết)
+		function calculateBarThickness(length) {
+			// Ví dụ tính toán barThickness tùy thuộc vào số lượng dữ liệu
+			return Math.max(10, Math.min(50, 100 / length));
+		}
+		document.querySelector('.scrollable-tbody').addEventListener('scroll', function () {
+			console.log(this.scrollTop, "this.scrollTop")
+			console.log(this.clientHeight, "this.clientHeight")
+			console.log(this.scrollHeight, "this.scrollHeight")
+			if (this.scrollTop + this.clientHeight >= this.scrollHeight - 1) {
+				if (!loading && page <= totalPages) {
+					GetHistoryTableData();
+				}
+			}
+		});
+		function OpenExport() {
+			let url = "/History/LogExport";
+			window.open(url, 'LOG', 'width=600,height=400');
+		}
+		function PopulateFloorSelect() {
+			const floorSelect = document.getElementById('floorSelect');
+			floorSelect.innerHTML = ''; // Xóa các tùy chọn hiện tại
+
+			// Thêm tùy chọn mặc định "All"
+			let defaultOption = document.createElement('option');
+			defaultOption.value = '';
+			defaultOption.text = 'All';
+			floorSelect.appendChild(defaultOption);
+
+			Allfloor.forEach(floor => {
+				let option = document.createElement('option');
+				option.value = floor.IdFloor;
+				option.text = floor.NameFloor;
+				floorSelect.appendChild(option);
+			});
+		}
+		function PopulateLineSelect() {
+			const lineSelect = document.getElementById('lineSelect');
+
+			lineSelect.innerHTML = ''; // Xóa các tùy chọn hiện tại
+
+			// Thêm tùy chọn mặc định "All"
+			let defaultOption = document.createElement('option');
+			defaultOption.value = '';
+			defaultOption.text = 'All';
+			lineSelect.appendChild(defaultOption);
+
+			Userline.forEach(line => {
+				let option = document.createElement('option');
+				option.value = line.IdLine;
+				option.text = line.NameLine;
+				lineSelect.appendChild(option);
+			});
+		}
+
+		function PopulateLineSelectByFloor(idfloor) {
+			const lineSelect = document.getElementById('lineSelect');
+			lineSelect.innerHTML = ''; // Xóa các tùy chọn hiện tại
+
+			// Thêm tùy chọn mặc định "All"
+			let defaultOption = document.createElement('option');
+			defaultOption.value = '';
+			defaultOption.text = 'All';
+			lineSelect.appendChild(defaultOption);
+
+			let userLinesByFloor = GetUserLineofFloor(idfloor);
+			userLinesByFloor.forEach(line => {
+				let option = document.createElement('option');
+				option.value = line.IdLine;
+				option.text = line.NameLine;
+				lineSelect.appendChild(option);
+			});
+		}
+		document.addEventListener('DOMContentLoaded', function () {
+			GetAllFloor();
+			GetAllLine();
+
+			// Sau khi dữ liệu được tải, cập nhật các thẻ <select>
+			setTimeout(() => {
+				PopulateFloorSelect();
+				PopulateLineSelect();
+			}, 1000); // Điều chỉnh thời gian chờ phù hợp nếu cần
+
+			// Thêm sự kiện thay đổi cho thẻ floorSelect để cập nhật lineSelect theo sàn được chọn
+			document.getElementById('floorSelect').addEventListener('change', function () {
+				const selectedFloorId = this.value;
+				if (selectedFloorId) {
+					PopulateLineSelectByFloor(selectedFloorId);
+				} else {
+					PopulateLineSelect();
+				}
+			});
+
+		});
+		function filterTable() {
+
+
+			const valueFilter = document.getElementById("filter-value").value.toLowerCase();
+			const namePointFilter = document.getElementById("filter-namePoint").value.toLowerCase();
+			const nameLineFilter = document.getElementById("filter-nameLine").value.toLowerCase();
+			const statusFilter = document.getElementById("filter-status").value.toLowerCase();
+			const totalTimeElement = document.getElementById('filter-totaltime').value;
+			const totalTimeFilter = totalTimeElement ? totalTimeElement.value : '';
+
+			Array.from(tabletophisdata.getElementsByTagName("tr")).forEach(function (row) {
+				const value = row.cells[4].textContent.toLowerCase();
+				const namePoint = row.cells[2].textContent.toLowerCase();
+				const nameLine = row.cells[1].textContent.toLowerCase();
+				const status = row.cells[3].textContent.toLowerCase();
+				const totalTime = row.cells[5].textContent;
+				var timeParts = totalTime.split(':');
+				var totalM = parseInt(timeParts[0]) * 60 + parseInt(timeParts[1]) + parseInt(timeParts[2]) / 60;
+				var totalMinutes = totalM;
+				let showRow = true;
+
+				if (valueFilter && !value.includes(valueFilter)) {
+					showRow = false;
+				}
+				if (namePointFilter && !namePoint.includes(namePointFilter)) {
+					showRow = false;
+				}
+				if (nameLineFilter && !nameLine.includes(nameLineFilter)) {
+					showRow = false;
+				}
+				if (statusFilter && !status.includes(statusFilter)) {
+					showRow = false;
+				}
+				if (totalTimeElement) {
+
+					if (totalTimeElement === "under15" && totalMinutes >= 15) {
+						showRow = false;
+					} else if (totalTimeElement === "15to30" && (totalMinutes < 15 || totalMinutes > 30)) {
+						showRow = false;
+					} else if (totalTimeElement === "over30" && totalTimeMinutes <= 30) {
+						showRow = false;
+					}
+				}
+
+				row.style.display = showRow ? "" : "none";
+			});
+			const rows = Array.from(document.getElementById("dttopdataline").getElementsByTagName("tr"));
+			const visibleRows = rows.filter(row => row.style.display !== "none");
+
+			if (visibleRows.length == 0 && page <= totalPages) {
+				GetHistoryTableData();
+
+
+			}
+			if (visibleRows.length < pageSize && page <= totalPages) {
+				GetHistoryTableData();
+				page++;
+			}
+		}
+
+		function loadLogData(idLine, startTime, endTime) {
+			let startTimeToAPI = startTime.toLocaleString('sv-SE')
+			let endTimeToAPI = endTime.toLocaleString('sv-SE')
+			let apiUrl = "/ListView/GetLogDataHistory";
+
+			if (selectedOption === "LakeageVoltage") {
+				apiUrl = "/ListView/GetLogDataHistory2";
+			}
+			$.ajax({
+				url: apiUrl,
+				type: "GET",
+				data: { idLine: idLine, startTime: startTimeToAPI, endTime: endTimeToAPI },
+				success: function (rawData) {
+					let uniqueDays = [...new Set(rawData.filter(d => d.type === "Day").map(d => d.date))].sort();
+					let uniqueWeeks = [...new Set(rawData.filter(d => d.type === "Week").map(d => d.date))].sort();
+					let uniqueMonths = [...new Set(rawData.filter(d => d.type === "Month").map(d => d.date))].sort();
+
+					let headerRow = $("#headerRow");
+					let idLineCheck = idLine
+					if(idLine){
+						headerRow.html(`<th>IdPoint</th>`);
+					}
+					else{
+					headerRow.html(`<th>Line</th><th>IdPoint</th>`);
+					}
+					uniqueDays.forEach(day => headerRow.append(`<th>${day}</th>`));
+					uniqueWeeks.forEach(week => headerRow.append(`<th>${week}</th>`));
+					uniqueMonths.forEach(month => headerRow.append(`<th>${month}</th>`));
+
+					// Nhóm dữ liệu theo idLine và idPoint
+					let groupedData = {};
+					rawData.forEach(item => {
+						let key = `${item.idLine}_${item.idPoint}`;
+						if (!groupedData[item.idLine]) {
+							groupedData[item.idLine] = {};
+						}
+						if (!groupedData[item.idLine][item.idPoint]) {
+							groupedData[item.idLine][item.idPoint] = { idLine: item.idLine, idPoint: item.idPoint, values: {} };
+						}
+						groupedData[item.idLine][item.idPoint].values[item.date] = item.avgValue;
+					});
+
+					function getColorClass(type, value) {
+						if (type === "Day" && value === 0) return "bg-green";
+						if (type === "Week" && value === 0) return "bg-green";
+						if (type === "Month" && value === 0) return "bg-green";
+						if (value < 0.95) return "bg-green";
+						 if (value >= 0.95 && value <= 1) return "#FF9800 ";
+						return "bg-red";
+					}
+
+					// Render bảng với rowspan và làm tròn số
+					let tbody = $("#dataTable");
+					tbody.empty();
+					Object.keys(groupedData).forEach(idLine => {
+						let points = Object.values(groupedData[idLine]);
+						points.forEach((point, index) => {
+							let tr = '<tr>';
+							if (index === 0) {
+								tr += idLineCheck ? "": `<td rowspan="${points.length}">${GetNameLine(idLine)}</td>`;
+							}
+							tr += `<td>${point.idPoint}</td>`;
+
+							uniqueDays.concat(uniqueWeeks, uniqueMonths).forEach(date => {
+								let value = point.values[date];
+								let entry = rawData.find(d =>
+									d.date === date &&
+									d.idPoint === point.idPoint &&
+									d.idLine === point.idLine
+								);
+								let formattedValue = value !== undefined ? parseFloat(value).toFixed(2) : "-";
+								let colorClass = value !== undefined && entry ? getColorClass(entry.type, value) : "";
+								tr += `<td class="${colorClass}" style="background-color: ${colorClass ? colorClass.replace("bg-", "") : ""} !important;">${formattedValue}</td>`;
+							});
+							tr += '</tr>';
+							tbody.append(tr);
+						});
+					});
+				},
+				error: function () {
+					alert("Failed to load log data.");
+				}
+			});
+		}
+		$(document).ready(function () {
+			// loadLogData();
+		});
+				// Trong event listener dblclick
+		tabletophisdata.addEventListener('dblclick', function (event) {
+			let row = event.target.closest('tr');
+			if (row) {
+				let idLog = row.getAttribute('data-idlog');
+				let status = row.getAttribute('data-status');
+				let value = row.cells[4].textContent;
+				let note = row.getAttribute('data-note');
+				let beginTime = row.cells[0].textContent;
+				let lineName = row.cells[1].textContent;
+				let pointName = row.cells[2].textContent;
+				let totalTime = row.cells[5].textContent;
+				let endTime = row.cells[6].textContent;
+				// Tách note thành các dòng
+				let lines = note ? note.split('\n') : [];
+				let historyNotes = lines.length > 1 ? lines.slice(0, -1).join('\n') : '';
+				let lastLine = lines.length > 0 ? lines[lines.length - 1] : '';
+				// Tách reason và solution từ dòng cuối
+				let reason = '';
+				let solution = '';
+				if (lastLine) {
+					const reasonMatch = lastLine.match(/Reason: (.*?)(?:, Solution:|$)/);
+					const solutionMatch = lastLine.match(/Solution: (.*)$/);
+					reason = reasonMatch ? reasonMatch[1] : '';
+					solution = solutionMatch ? solutionMatch[1] : '';
+				}
+				showEditModal(idLog, status, value, reason, solution, beginTime, lineName, pointName, totalTime, endTime, historyNotes);
+			}
+		});
+		// Hàm showEditModal cập nhật với bố cục đẹp hơn
+		function showEditModal(idLog, status, value, reason, solution, beginTime, lineName, pointName, totalTime, endTime) {
+			// Xóa modal cũ nếu tồn tại
+			let existingModal = document.getElementById('editModal');
+			if (existingModal) {
+				existingModal.remove();
+			}
+
+			let modalHtml = `
+			<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+			  <div class="modal-dialog modal-lg"> <!-- Tăng kích thước modal -->
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="editModalLabel">Edit Data</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				  </div>
+				  <div class="modal-body">
+					<div class="row g-3">
+					  <!-- Cột trái: Thông tin hiển thị -->
+					  <div class="col-md-6">
+						<div class="mb-3">
+						  <label for="displayBeginTime" class="form-label">Begin Time</label>
+						  <input type="text" id="displayBeginTime" class="form-control" value="${beginTime}" disabled>
+						</div>
+						<div class="mb-3">
+						  <label for="displayLineName" class="form-label">Line Name</label>
+						  <input type="text" id="displayLineName" class="form-control" value="${lineName}" disabled>
+						</div>
+						<div class="mb-3">
+						  <label for="displayPointName" class="form-label">Point Name</label>
+						  <input type="text" id="displayPointName" class="form-control" value="${pointName}" disabled>
+						</div>
+						<div class="mb-3">
+						  <label for="displayTotalTime" class="form-label">Total Time</label>
+						  <input type="text" id="displayTotalTime" class="form-control" value="${totalTime}" disabled>
+						</div>
+						<div class="mb-3">
+						  <label for="displayEndTime" class="form-label">End Time</label>
+						  <input type="text" id="displayEndTime" class="form-control" value="${endTime}" disabled>
+						</div>
+					  </div>
+					  <!-- Cột phải: Thông tin chỉnh sửa -->
+					  <div class="col-md-6">
+						<div class="mb-3">
+						  <label for="editStatus" class="form-label">Status</label>
+						  <select id="editStatus" class="form-control">
+							<option value="OK" ${status === 'OK' ? 'selected' : ''}>OK</option>
+							<option value="NG" ${status === 'NG' ? 'selected' : ''}>NG</option>
+							<option value="Fixing" ${status === 'Fixing' ? 'selected' : ''}>Fixing</option>
+							<option value="OFF" ${status === 'OFF' ? 'selected' : ''}>OFF</option>
+							<option value="DIS. POINT" ${status === 'DIS. POINT' ? 'selected' : ''}>DIS. POINT</option>
+						  </select>
+						</div>
+						<div class="mb-3">
+						  <label for="editValue" class="form-label">Value</label>
+						  <input type="text" id="editValue" class="form-control" value="${value}">
+						</div>
+						<div class="mb-3">
+						  <label for="editReason" class="form-label">Reason</label>
+						  <textarea id="editReason" class="form-control" rows="3">${reason}</textarea>
+						</div>
+						<div class="mb-3">
+						  <label for="editSolution" class="form-label">Solution</label>
+						  <textarea id="editSolution" class="form-control" rows="3">${solution}</textarea>
+						</div>
+					  </div>
+					</div>
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary" onclick="saveEdit(${idLog}, this.closest('.modal'))">Save</button>
+				  </div>
+				</div>
+			  </div>
+			</div>
+		  `;
+			document.body.insertAdjacentHTML('beforeend', modalHtml);
+			let editModal = new bootstrap.Modal(document.getElementById('editModal'));
+			editModal.show();
+
+			// Xóa modal khi đóng
+			editModal._element.addEventListener('hidden.bs.modal', function () {
+				document.getElementById('editModal').remove();
+			});
+		}
+		function saveEdit(idLog, modalElement) {
+			let newStatus = document.getElementById('editStatus').value;
+			let newValue = document.getElementById('editValue').value;
+			let newReason = document.getElementById('editReason').value.trim();
+			let newSolution = document.getElementById('editSolution').value.trim();
+			let newNote = `Reason: ${newReason}, Solution: ${newSolution}`;
+
+			const selectedOption = localStorage.getItem("selectedOption");
+			let apiUrl = '@Url.Action("UpdateHistory", "History")';
+			if (selectedOption === "LakeageVoltage") {
+				apiUrl += "2";
+			}
+
+			$.post(apiUrl, {
+				idLog: idLog,
+				status: newStatus,
+				value: newValue,
+				note: newNote
+			}, function (response) {
+				if (response.success) {
+					alert("Cập nhật thành công!");
+					// Tìm row tương ứng và cập nhật trực tiếp
+					let rows = document.querySelectorAll('#dttopdataline tr');
+					rows.forEach(r => {
+						if (r.getAttribute('data-idlog') === idLog.toString()) {
+							r.cells[3].textContent = newStatus; // Cập nhật Status
+							r.cells[3].style.color = ['OK', 'WAIT', 'OFF'].includes(newStatus) ? '' : 'red';
+							r.cells[4].textContent = newValue; // Cập nhật Value
+							r.setAttribute('data-status', newStatus);
+							r.setAttribute('data-note', response.updatedNote); // Sử dụng note đã cập nhật từ server
+							// Cập nhật hiển thị note ở phần thông tin
+							if (document.getElementById('displayNote')) {
+								let noteContent = response.updatedNote.split('\n').join('<hr>');
+								let firstCommaIndex = noteContent.indexOf(',', noteContent.indexOf(' '));
+								let beforeComma = noteContent.slice(0, firstCommaIndex + 1);
+								let afterComma = noteContent.slice(firstCommaIndex + 1).trim();
+								beforeComma = beforeComma.replace(/, (.+)/, ', <strong>$1</strong>');
+								afterComma = afterComma.replace(/Reason:/g, '<br><strong>Reason:</strong>')
+									.replace(/Solution:/g, '<br><strong>Solution:</strong>');
+								document.getElementById('displayNote').innerHTML = beforeComma + ' ' + afterComma;
+							}
+						}
+					});
+				} else {
+					alert("Cập nhật thất bại!");
+				}
+			}).fail(function (xhr, status, error) {
+				alert("Lỗi khi gửi yêu cầu: " + error);
+			});
+
+			// Ẩn modal
+			bootstrap.Modal.getInstance(modalElement).hide();
+		}
+	</script>
+</body>

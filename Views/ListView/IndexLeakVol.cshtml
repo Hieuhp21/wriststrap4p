@@ -1,0 +1,1370 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model WEB_SHOW_WRIST_STRAP.Dataconfig;
+
+@{
+    int IDPOINT = ViewBag.IdPoint;
+
+
+
+    int IDLINE = ViewBag.IdLine;
+}
+
+<script src="~/lib/chart/chart.js"></script>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="~/css/listview.css" asp-append-version="true" />
+    <script src="~/lib/chart/chart.js"></script>
+    <script src="~/lib/chart/luxon.js"></script>
+    <script src="~/lib/chart/chartjs-adapter-date-fns.js"></script>
+    <script src="~/lib/chart/chartjs-adapter-luxon.js"></script>
+    <script src="~/lib/chart/chart-plugin.js"></script>
+    <script src="~/lib/chart/chartjs-plugin-annotation.min.js"></script>
+    <style>
+        .scrollable-tbody {
+            display: block;
+            max-height: 52.1vh;
+            /* Chiều cao cố định cho tbody */
+            overflow-y: auto;
+            /* Tạo thanh cuộn */
+        }
+
+
+            .scrollable-tbody tr {
+                display: table;
+                width: 100%;
+                table-layout: fixed;
+            }
+
+            .scrollable-tbody td,
+            .scrollable-tbody th {
+                width: 16.66667%;
+            }
+
+        table thead,
+        table tbody tr {
+        @* display: table; *@ width: 100%;
+            table-layout: fixed;
+        }
+
+
+        .divtbtopalarm-listview thead {
+            display: table !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div>
+        <div class="home-container">
+            <div class="home-container1" id="clayout">
+                @*  <span class="home-text">Line Layout</span> *@
+                <div id="imgline"></div>
+                <div id="layoutline"></div>
+            </div>
+            <div id="LsBoxPoint" class="home-container2">
+                <div class="home-container3 button">
+                    <span id="NLineBox" class="home-text01">IVI</span>
+                </div>
+            </div>
+            <div class="home-container4">
+                @* <div class="TextName01 animationbase">
+                <span class="">Area:</span>
+                </div>
+                <select id="CboxFloor" class="selectFloor" onchange="Loadlsboxline(this.value)">
+                <option value="all">All Floor</option>
+                </select> *@
+                <div style="width:0%"></div>
+                <div class="TextName01 animationbase">
+                    <span class=""> Line:</span>
+                    <span id="TxtnameLine" class="">BMW POST</span>
+                </div>
+                <div class="TextName01 animationbase" style="display:none">
+                    <span id="TxtIdivi" class="">IVI59</span>
+                </div>
+                @*   <div class="TextName01 animationbase">
+                <span class="">Area:</span>
+                <span id="TxtNameFloor" class="">IVIFloor1</span>
+                </div> *@
+                <div class="TextName01 animationbase">
+                    <span class="">Note:</span>
+                    <span id="TxtNoteLine" class=""></span>
+                </div>
+            </div>
+            <div class="home-container5">
+                <div class="home-text26-1"></div>
+                <div class="home-text26">List Of Lines</div>
+                <div id="ListboxLines" class="home-container6">
+                </div>
+                <div class="home-text27-1"></div>
+                <div class="home-text27">History Data</div>
+
+
+                <div class="home-container7" style="">
+
+                    <div id="newChartContainer" style="position: relative; display: none;">
+                        <button id="closeChartButton" class="close-chart-button" onclick="closeNewChart()">></button>
+                        <div class="mode-selector">
+                            <button class="mode-btn active" data-mode="day" onclick="changeChartMode('day')">Day</button>
+                            <button class="mode-btn" data-mode="week" onclick="changeChartMode('week')">Week</button>
+                            <button class="mode-btn" data-mode="month" onclick="changeChartMode('month')">Month</button>
+                        </div>
+                        <div id="chartLoading" class="loading-spinner"></div>
+                        <div id="chartError" class="error-message"></div>
+                        <canvas id="newChart"></canvas>
+                    </div>
+                    <div class="chardf" style="display:flex; width:100%; height:100%;">
+                        @*  <div class="divchart" id="divchart">
+                        <canvas id="myChart" class="ChartAlarm"></canvas>
+                        </div> *@
+                        <div class="divtbtopalarm-listview">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th colspan="6" class="titletable">Alarm History</th>
+                                    </tr>
+                                    <tr style="background-color:#888">
+                                        <th>Point Name</th>
+                                        <th>Status</th>
+                                        <th>Value</th>
+                                        <th>Start Time</th>
+
+                                        <th>End Time</th>
+                                        <th>Total Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dttopdataline" class="scrollable-tbody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="" style="height: 500px; overflow-y: auto; margin-top: 20px; width: 100%;">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr id="headerRow">
+                            <th>Name Line</th>
+                            <th>IdPoint</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+
+
+<script>
+    let Alline = []
+    $(document).ready(function () {
+        Alline = JSON.parse(window.localStorage.getItem('Allline'));
+        FirstloadLogData();
+    });
+    function GetNameLine(idline) {
+        try {
+            let res = ''
+            res = Alline?.filter(d => d.IdLine == idline)[0]?.NameLine
+            return res;
+        } catch (err) {
+            console.log(err)
+        }
+    }
+    function loadLogData(idline) {
+        $.ajax({
+            url: "/ListView/GetLogData2",
+            type: "GET",
+            data: { idLine: idline },
+            success: function (rawData) {
+                if (rawData && rawData.length > 0) {
+                    rawData = rawData.filter(d => d.idLine == idline);
+                }
+                let uniqueDays = [...new Set(rawData.filter(d => d.type === "Day").map(d => d.date))].sort();
+                let uniqueWeeks = [...new Set(rawData.filter(d => d.type === "Week").map(d => d.date))].sort();
+                let uniqueMonths = [...new Set(rawData.filter(d => d.type === "Month").map(d => d.date))].sort();
+
+                let headerRow = $("#headerRow");
+                headerRow.html(`<th class="d-none">Line</th><th>IdPoint</th>`)
+                uniqueDays.forEach(day => headerRow.append(`<th>${day}</th>`));
+                uniqueWeeks.forEach(week => headerRow.append(`<th>${week}</th>`));
+                uniqueMonths.forEach(month => headerRow.append(`<th>${month}</th>`));
+
+                // Nhóm dữ liệu theo idLine và idPoint
+                let groupedData = {};
+                rawData.forEach(item => {
+                    let key = `${item.idLine}_${item.idPoint}`;
+                    if (!groupedData[item.idLine]) {
+                        groupedData[item.idLine] = {};
+                    }
+                    if (!groupedData[item.idLine][item.idPoint]) {
+                        groupedData[item.idLine][item.idPoint] = { idLine: item.idLine, idPoint: item.idPoint, values: {} };
+                    }
+                    groupedData[item.idLine][item.idPoint].values[item.date] = item.avgValue;
+                });
+
+                function getColorClass(type, value) {
+                    if (value <= 1) return "bg-green";
+                    if (type === "Day" && value == 0) return "bg-green";
+                    if (type === "Week" && value == 0) return "bg-green";
+                    if (type === "Month" && value == 0) return "bg-green";
+                    return "bg-red";
+                }
+
+                // Render bảng với rowspan và làm tròn số
+                let tbody = $("#dataTable");
+                tbody.html("");
+                Object.keys(groupedData).forEach(idLine => {
+                    let points = Object.values(groupedData[idLine]);
+                    points.forEach((point, index) => {
+                        let tr = '<tr>';
+                        if (index === 0) {
+                            tr += `<td rowspan="${points.length}" class="d-none">${GetNameLine(idLine)}</td>`;
+                        }
+                        tr += `<td>${point.idPoint}</td>`;
+
+                        uniqueDays.concat(uniqueWeeks, uniqueMonths).forEach(date => {
+                            let value = point.values[date];
+                            let entry = rawData.find(d =>
+                                d.date === date &&
+                                d.idPoint === point.idPoint &&
+                                d.idLine === point.idLine
+                            );
+                            let formattedValue = value !== undefined ? parseFloat(value).toFixed(2) : "-";
+                            let colorClass = value !== undefined && entry ? getColorClass(entry.type, value) : "";
+                            tr += `<td class="${colorClass}" style="background-color: ${colorClass ? colorClass.replace("bg-", "") : ""} !important;">${formattedValue}</td>`;
+                        });
+                        tr += '</tr>';
+                        tbody.append(tr);
+                    });
+                });
+            },
+            error: function () {
+                alert("Failed to load log data.");
+            }
+        });
+    }
+    function FirstloadLogData() {
+        $.ajax({
+            url: "/ListView/GetLogData2",
+            type: "GET",
+            data: { idLine: 0 },
+            success: function (rawData) {
+                console.log("rawData:", rawData);
+
+                // Nếu server trả về object có "error" thì báo lỗi luôn
+                if (rawData && rawData.error) {
+                    alert("Server error: " + rawData.error);
+                    return;
+                }
+                let uniqueDays = [...new Set(rawData.filter(d => d.type === "Day").map(d => d.date))].sort();
+                let uniqueWeeks = [...new Set(rawData.filter(d => d.type === "Week").map(d => d.date))].sort();
+                let uniqueMonths = [...new Set(rawData.filter(d => d.type === "Month").map(d => d.date))].sort();
+
+                let headerRow = $("#headerRow");
+                uniqueDays.forEach(day => headerRow.append(`<th>${day}</th>`));
+                uniqueWeeks.forEach(week => headerRow.append(`<th>${week}</th>`));
+                uniqueMonths.forEach(month => headerRow.append(`<th>${month}</th>`));
+
+                // Nhóm dữ liệu theo idLine và idPoint
+                let groupedData = {};
+                rawData.forEach(item => {
+                    let key = `${item.idLine}_${item.idPoint}`;
+                    if (!groupedData[item.idLine]) {
+                        groupedData[item.idLine] = {};
+                    }
+                    if (!groupedData[item.idLine][item.idPoint]) {
+                        groupedData[item.idLine][item.idPoint] = { idLine: item.idLine, idPoint: item.idPoint, values: {} };
+                    }
+                    groupedData[item.idLine][item.idPoint].values[item.date] = item.avgValue;
+                });
+
+                function getColorClass(type, value) {
+                    if (value <= 1) return "bg-green";
+                    if (type === "Day" && value < 1) return "bg-green";
+                    if (type === "Week" && value < 1) return "bg-green";
+                    if (type === "Month" && value < 1) return "bg-green";
+                    return "bg-red";
+                }
+
+                // Render bảng với rowspan và làm tròn số
+                let tbody = $("#dataTable");
+                console.log(groupedData);
+                Object.keys(groupedData).forEach(idLine => {
+                    let points = Object.values(groupedData[idLine]);
+                    points.forEach((point, index) => {
+                        let tr = '<tr>';
+                        if (index === 0) {
+                            tr += `<td rowspan="${points.length}">${GetNameLine(idLine)}</td>`;
+                        }
+                        tr += `<td>${point.idPoint}</td>`;
+
+                        uniqueDays.concat(uniqueWeeks, uniqueMonths).forEach(date => {
+                            let value = point.values[date];
+                            let entry = rawData.find(d =>
+                                d.date === date &&
+                                d.idPoint === point.idPoint &&
+                                d.idLine === point.idLine
+                            );
+                            let formattedValue = value !== undefined ? parseFloat(value).toFixed(2) : "-";
+                            let colorClass = value !== undefined && entry ? getColorClass(entry.type, value) : "";
+                            tr += `<td class="${colorClass}" style="background-color: ${colorClass ? colorClass.replace("bg-", "") : ""} !important;">${formattedValue}</td>`;
+                        });
+                        tr += '</tr>';
+                        tbody.append(tr);
+                    });
+                });
+            },
+            error: function () {
+                alert("Failed to load log data.");
+            }
+        });
+    }
+    let newChart;
+    let run = false;
+    let currentMode = 'day';
+    let currentIdPoint = null;
+    const MAX_DATA_POINTS = 1000;
+
+    // Định nghĩa duration và stepSize toàn cục dựa trên currentMode
+    const durations = {
+        day: 8 * 3600 * 1000, // 8 giờ
+        week: 7 * 24 * 3600 * 1000, // 7 ngày
+        month: 30 * 24 * 3600 * 1000 // 30 ngày
+    };
+    const stepSizes = {
+        day: 30, // 30 phút
+        week: 4, // 4 giờ
+        month: 2 // 2 ngày
+    };
+    let duration = durations[currentMode]; // Giá trị mặc định
+    let stepSize = stepSizes[currentMode]; // Giá trị mặc định
+
+    // Hàm debounce để giới hạn tần suất gọi hàm
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    // Hiển thị/ẩn spinner và thông báo lỗi
+    function showLoading(show) {
+        const loadingDiv = document.getElementById('chartLoading');
+        if (loadingDiv) {
+            loadingDiv.style.display = show ? 'block' : 'none';
+        } else {
+            console.warn('Element #chartLoading not found in DOM.');
+        }
+    }
+
+    function showError(message) {
+        const errorDiv = document.getElementById('chartError');
+        if (errorDiv) {
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => errorDiv.style.display = 'none', 5000);
+        } else {
+            console.warn('Element #chartError not found in DOM.');
+        }
+    }
+
+    function closeNewChart() {
+        const newChartContainer = document.getElementById('newChartContainer');
+        if (newChartContainer) {
+            newChartContainer.style.display = 'none';
+        }
+        const chardf = document.querySelector('.chardf');
+        if (chardf) {
+            chardf.style.display = 'flex';
+        }
+        if (newChart) {
+            newChart.destroy();
+            newChart = null;
+            run = false;
+        }
+    }
+
+    function createNewChart(idPoint, mode = 'day') {
+        if (!idPoint) {
+            console.error('idPoint is undefined or null');
+            showError('Invalid Point ID. Please select a point again.');
+            return;
+        }
+
+        showLoading(true);
+        const idLine = lineshownow?.IdLine;
+        if (!idLine) {
+            console.error('idLine is undefined or null');
+            showError('Invalid Line ID. Please select a line again.');
+            showLoading(false);
+            return;
+        }
+
+        const ctx = document.getElementById('newChart')?.getContext('2d');
+        if (!ctx) {
+            console.error('Canvas #newChart not found in DOM');
+            showError('Chart canvas not found. Please try again.');
+            showLoading(false);
+            return;
+        }
+
+        currentMode = mode; // Cập nhật currentMode
+        duration = durations[mode]; // Cập nhật duration theo mode
+        stepSize = stepSizes[mode]; // Cập nhật stepSize theo mode
+
+        const timeUnit = {
+            day: 'minute',
+            week: 'hour',
+            month: 'day'
+        }[mode];
+
+        const displayFormats = {
+            day: {
+                minute: 'HH:mm',
+                hour: 'HH:mm'
+            },
+            week: {
+                hour: 'MMM D HH:mm',
+                day: 'MMM D'
+            },
+            month: {
+                day: 'MMM D'
+            }
+        }[mode];
+
+        const config = {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: `Wrist Strap - ${mode.charAt(0).toUpperCase() + mode.slice(1)}`,
+                    borderColor: 'darkorange',
+                    backgroundColor: 'rgba(255, 140, 0, 0.2)',
+                    cubicInterpolationMode: 'monotone',
+                    data: [],
+                    yAxisID: 'yl',
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                    axis: 'xy'
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: `Wrist Strap Monitoring - Point ID: ${idPoint || 'undefined'} (${mode.charAt(0).toUpperCase() + mode.slice(1)})`,
+                        font: { size: 14, weight: 900 },
+                        color: 'white'
+                    },
+                    legend: {
+                        onClick: (e, legendItem, legend) => {
+                            const index = legendItem.datasetIndex;
+                            const chart = legend.chart;
+                            chart.getDatasetMeta(index).hidden = !chart.getDatasetMeta(index).hidden;
+                            toggleAnnotations(chart, index);
+                            chart.update();
+                        },
+                        labels: {
+                            color: 'white',
+                            font: { size: 13, weight: 700 }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                const value = context.parsed.y.toFixed(2);
+                                const time = new Date(context.parsed.x).toLocaleTimeString();
+                                return `Status: ${value} at ${time}`;
+                            }
+                        },
+                        mode: 'nearest',
+                        intersect: false
+                    },
+                    annotation: {
+                        annotations: {
+                            HLeakage: {
+                                type: 'line',
+                                borderColor: 'rgba(222, 0, 0, 0.8)',
+                                borderWidth: 1,
+                                borderDash: [6, 6],
+                                scaleID: 'yl',
+                                value: 2,
+                                label: {
+                                    position: 'start',
+                                    backgroundColor: 'rgba(200, 102, 102, 0.5)',
+                                    content: 'NG',
+                                    display: true
+                                }
+                            },
+                            LLeakage: {
+                                type: 'line',
+                                borderColor: '',
+                                borderWidth: 1,
+                                borderDash: [6, 6],
+                                scaleID: 'yl',
+                                value: 0,
+                                label: {
+                                    position: 'start',
+                                    backgroundColor: '',
+                                    content: '',
+                                    display: true
+                                }
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        type: 'realtime',
+                        time: {
+                            unit: timeUnit,
+                            stepSize: stepSize,
+                            displayFormats: displayFormats
+                        },
+                        ticks: {
+                            font: { size: 13, weight: 600 },
+                            autoSkip: true,
+                            maxTicksLimit: mode === 'day' ? 16 : mode === 'week' ? 42 : 15,
+                            maxRotation: 45,
+                            minRotation: 45,
+                            color: 'white'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Time',
+                            font: { size: 13, weight: 600 },
+                            color: 'white'
+                        },
+                        realtime: {
+                            duration: duration,
+                            refresh: mode === 'day' ? 10000 : 30000,
+                            delay: 0,
+                            onRefresh: debounce(chart => updateChartDataNew(idPoint, idLine, chart, mode), 500)
+                        }
+                    },
+                    yl: {
+                        ticks: {
+                            font: { size: 13, weight: 600 },
+                            color: 'white',
+                            callback: value => value.toFixed(2)
+                        },
+                        title: {
+                            display: true,
+                            text: 'Leakage Voltage (V)',
+                            font: { size: 13, weight: 600 },
+                            color: 'white'
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 6,
+                        position: 'left'
+                    }
+                },
+                zoom: {
+                    pan: { enabled: true, mode: 'xy', threshold: 10 },
+                    zoom: {
+                        wheel: { enabled: true },
+                        pinch: { enabled: true },
+                        mode: 'xy'
+                    }
+                }
+            }
+        };
+
+        if (newChart) {
+            newChart.destroy();
+        }
+
+        newChart = new Chart(ctx, config);
+        run = true;
+        currentIdPoint = idPoint;
+        showLoading(false);
+    }
+
+    function toggleAnnotations(chart, datasetIndex) {
+        const annotations = chart.options.plugins.annotation.annotations;
+        if (datasetIndex === 0) {
+            annotations.HLeakage.display = !annotations.HLeakage.display;
+            annotations.LLeakage.display = !annotations.LLeakage.display;
+        }
+        chart.update();
+    }
+
+    function updateChartDataNew(idPoint, idLine, chart, mode) {
+        if (!run || !idPoint || !idLine) {
+            console.warn('Chart update skipped: ', { run, idPoint, idLine });
+            return;
+        }
+
+        showLoading(true);
+        const duration = durations[mode]; // Sử dụng duration từ toàn cục
+        const stepSize = stepSizes[mode]; // Sử dụng stepSize từ toàn cục
+        $.get('@Url.Action("GetChartDataNew2", "History")', { idPoint: idPoint, idLine: idLine, mode: mode })
+            .done(function (data) {
+                showLoading(false);
+                console.log('Received data:', data);
+                if (data && Array.isArray(data)) {
+                    const newData = data.map(item => ({
+                        x: new Date(item.timestamp).getTime(),
+                        y: parseFloat(item.u) || 0
+                    }));
+
+                    if (newData.length === 0) {
+                        console.warn('No data received from API');
+                        showError('No data available for this period.');
+                        return;
+                    }
+
+                    // Chỉ sử dụng trực tiếp dữ liệu từ API
+                    chart.data.datasets[0].data = newData.slice(-MAX_DATA_POINTS);
+
+                    const values = newData.map(d => d.y);
+                    const minValue = Math.min(...values, 0);
+                    const maxValue = Math.max(...values, 6);
+                    chart.options.scales.yl.suggestedMin = minValue;
+                    chart.options.scales.yl.suggestedMax = maxValue + 0.1;
+
+                    chart.update();
+                } else {
+                    showError('Invalid data format received from server.');
+                }
+            })
+            .fail(function (error) {
+                showLoading(false);
+                showError('Failed to fetch chart data. Please try again.');
+                console.error('Error fetching data:', error);
+            });
+    }
+
+    function changeChartMode(mode) {
+        if (currentMode === mode) return;
+        currentMode = mode;
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.mode === mode);
+        });
+        if (currentIdPoint && run) {
+            console.log('Changing mode to', mode, 'with idPoint', currentIdPoint);
+            createNewChart(currentIdPoint, mode);
+        } else {
+            console.warn('Cannot change mode: idPoint or chart is not initialized', { currentIdPoint, run });
+            showError('Please select a point first.');
+        }
+    }
+
+    function showNewChart(idPoint) {
+        const chardf = document.querySelector('.chardf');
+        const newChartContainer = document.getElementById('newChartContainer');
+
+        if (!newChartContainer) {
+            console.error('Element #newChartContainer not found in DOM.');
+            showError('Chart container not found.');
+            return;
+        }
+        if (chardf) {
+            chardf.style.display = 'none';
+        }
+        newChartContainer.style.display = 'block';
+        currentIdPoint = idPoint;
+        createNewChart(idPoint, currentMode);
+    }
+
+    let timeckbf = Date.now();
+    let hideLimitLeakage = false;
+    let hideLimitVoltage = false;
+
+    function Legendclick(e, legendItem, legend) {
+        const index = legendItem.datasetIndex;
+        const ci = legend.chart;
+
+        if (ci.isDatasetVisible(index)) {
+            ci.hide(index);
+            legendItem.hidden = true;
+        } else {
+            ci.show(index);
+            legendItem.hidden = false;
+        }
+
+        let timespan = Date.now() - timeckbf;
+
+        if (timespan <= 500) {
+            if (index == 0) { hideLimitLeakage = !hideLimitLeakage; }
+            if (index == 1) { hideLimitVoltage = !hideLimitVoltage; }
+        }
+        timeckbf = Date.now();
+
+        let lines = ci.options.plugins.annotation.annotations;
+
+        if (index == 0) {
+            if (!hideLimitLeakage) {
+                lines.HLeakage.display = lines.LLeakage.display = !legendItem.hidden;
+            } else {
+                lines.HLeakage.display = lines.LLeakage.display = false;
+            }
+        } else if (index == 1) {
+            if (!hideLimitVoltage) {
+                lines.HVoltage.display = lines.LVoltage.display = !legendItem.hidden;
+            } else {
+                lines.HVoltage.display = lines.LVoltage.display = false;
+            }
+        }
+
+        ci.update();
+    }
+
+    // function showNewChart(idPoint) {
+
+    //     document.querySelector('.chardf').style.display = 'none';
+
+    //     const newChartContainer = document.getElementById('newChartContainer');
+    //     newChartContainer.style.display = 'block';
+
+    //     CreateNewChart(idPoint);
+    // }
+
+
+
+    // let data = [];
+
+    // const ctx = document.getElementById('myChart').getContext('2d');
+    // const maxBarThickness = 50; // Giá trị tối đa cho barThickness
+    // const minBarThickness = 10; // Giá trị tối thiểu cho barThickness
+
+    // const myChart = new Chart(ctx, {
+    //     type: 'bar',
+    //     data: {
+    //         labels: data.map(item => item.label),
+    //         datasets: [{
+    //             label: 'Dataset 1',
+    //             data: data.map(item => item.value),
+    //             backgroundColor: [], // Mảng chứa màu sẽ được tạo động
+    //             borderColor: 'rgba(0, 0, 0, 1)',
+    //             borderWidth: 1
+    //         }]
+    //     },
+    //     options: {
+    //         indexAxis: 'y',
+    //         responsive: true,
+    //         maintainAspectRatio: false,
+    //         scales: {
+    //             x: {
+    //                 beginAtZero: true,
+    //                 title: {
+    //                     display: true,
+    //                     text: 'Time Alarm (min)',
+    //                     color: 'white' // Đổi màu chữ của title trục X
+    //                 },
+    //                 ticks: {
+    //                     color: 'white' // Màu chữ của nhãn trục X
+    //                 }
+    //             },
+    //             y: {
+    //                 title: { display: true, text: 'Point ID', color: 'white' },
+    //                 ticks: { autoSkip: false, color: 'white' }
+
+    //             }
+    //         },
+    //         plugins: {
+    //             legend: {
+    //                 labels: {
+
+    //                     boxWidth: 0 // Ẩn ô màu
+    //                 }
+    //             },
+    //             tooltip: {
+    //                 callbacks: {
+    //                     label: function (tooltipItem) {
+    //                         const item = data[tooltipItem.dataIndex];
+    //                         const totalSeconds = item.value * 60; // Giả sử dữ liệu trong phút
+    //                         const formattedTime = formatTime(totalSeconds);
+    //                         return `${formattedTime} (${item.count} lần)`; // Hiển thị thời gian và số lần
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // });
+
+    // Hàm tạo màu xanh ngọc nhạt dần
+    function getGradientColor(startColor, endColor, percent) {
+        const start = hexToRgb(startColor);
+        const end = hexToRgb(endColor);
+
+        const r = Math.round(start.r + percent * (end.r - start.r));
+        const g = Math.round(start.g + percent * (end.g - start.g));
+        const b = Math.round(start.b + percent * (end.b - start.b));
+
+        return `rgba(${r}, ${g}, ${b}, 1)`;
+    }
+
+    // Chuyển đổi mã hex thành đối tượng RGB
+    function hexToRgb(hex) {
+        const bigint = parseInt(hex.slice(1), 16);
+        const r = (bigint >> 16) & 255;
+        const g = (bigint >> 8) & 255;
+        const b = bigint & 255;
+        return { r, g, b };
+    }
+
+    // Hàm tính toán barThickness
+    function calculateBarThickness(numBars) {
+        const barThickness = Math.max(minBarThickness, Math.min(maxBarThickness, maxBarThickness - (numBars - 1) * 5));
+        return barThickness;
+    }
+
+    // Hàm cập nhật đồ thị
+    function updateChart() {
+        if (Lscountpoint && Lscountpoint.length > 0) {
+            // Cập nhật dữ liệu biểu đồ
+            data = [];  // Reset data before updating
+
+            Lscountpoint.forEach((item, index) => {
+                if (item.count > 0) {
+                    let itemdatas = data.find(x => x.label == index);
+                    if (itemdatas) {
+                        itemdatas.value = item.totalTime / 60;
+                    } else {
+                        data.push({
+                            label: index,
+                            value: item.totalTime / 60,
+                            count: item.count
+                        });
+                    }
+                }
+            });
+
+            // Sắp xếp dữ liệu theo tổng thời gian
+            data.sort((a, b) => b.value - a.value);
+
+            // Cập nhật nhãn và dữ liệu biểu đồ
+            myChart.data.labels = data.map(item => `${item.label}`);
+
+            myChart.data.datasets[0].data = data.map(item => item.value);
+
+            // Tạo màu xanh ngọc nhạt dần
+            const startColor = '#99fa9d'; // Màu xanh ngọc đậm
+            const endColor = '#E0FFF5'; // Màu xanh ngọc nhạt
+            const backgroundColorGradient = data.map((item, index) => {
+                const percent = index / data.length;
+                return getGradientColor(startColor, endColor, percent);
+            });
+
+            // Gán màu nền với gradient màu xanh ngọc nhạt dần
+            myChart.data.datasets[0].backgroundColor = backgroundColorGradient;
+
+            // Tính toán và cập nhật barThickness
+            const barThickness = calculateBarThickness(data.length);
+            myChart.data.datasets[0].barThickness = barThickness;
+
+            // Cập nhật biểu đồ
+            myChart.update();
+        }
+    }
+
+    function formatTime(totalSeconds) {
+        // Làm tròn số giây thành số nguyên
+        totalSeconds = Math.round(totalSeconds);
+
+        let hours = Math.floor(totalSeconds / 3600);
+        let minutes = Math.floor((totalSeconds % 3600) / 60);
+        let remainingSeconds = totalSeconds % 60;
+
+        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    }
+
+
+    let Layout_lines = document.getElementById("layoutline");
+
+    let imgline = document.getElementById("imgline");
+
+    let Listboxlines = document.getElementById("ListboxLines");
+
+
+    let LsLineshow;
+
+    function Loadlsboxline(idfloor) {
+        Listboxlines.innerHTML = "";
+
+        let txthtmlinner = "";
+
+        if (idfloor == "all") {
+            LsLineshow = Userline;
+        }
+        else {
+            LsLineshow = GetUserLineofFloor(idfloor);
+        }
+
+        LsLineshow.forEach(function (line) {
+            let itemtxthtml =
+                '<button id="Boxl' + line.IdLine + '" type="button" class="BoxLine btn alert-shake" ' +
+                'onclick="ClickBoxLine(' + line.IdLine + '); loadLogData(' + line.IdLine + ')">' +
+
+                '<span id="BoxlName' + line.IdLine + '" class="Boxline-mid">' + line.NameLine + '</span>' +
+                '</button>';
+
+            txthtmlinner += itemtxthtml;
+
+        });
+
+        Listboxlines.innerHTML = txthtmlinner;
+
+        if (LsLineshow.length > 0) {
+            document.getElementById("Boxl" + LsLineshow[0].IdLine).focus();
+            ClickBoxLine(LsLineshow[0].IdLine);
+        }
+
+    }
+
+    function ClickBoxLine(idline) {
+        data = [];
+        Lscountpoint = new Array();
+        page = 1;
+        let line = GetLine(idline);
+
+        imgline.innerHTML = "";
+
+        // Xác định kích thước ảnh và tỷ lệ dựa trên idline
+        let imgWidth;
+        let imgRatio;
+        if (idline >= 1 && idline <= 9) {
+            imgWidth = 1100; // Cụm 1, 2
+            imgRatio = 1800 / 1100;
+        } else if (idline >= 10 && idline <= 12) {
+            imgWidth = 800; // Cụm 3
+            imgRatio = 1200 / 530; // ~1.5
+        } else if (idline >= 13 && idline <= 14) {
+            imgWidth = 600; // Cụm 4
+            imgRatio = 800 / 260;
+        } else if (idline == 15 || idline == 16) {
+            imgWidth = 700; // Cụm 5, 6
+            imgRatio = 1000 / 380; // ~1.8
+        } else {
+            imgWidth = 1800; // Mặc định
+            imgRatio = 1; // 1800/1800
+        }
+
+        // Tạo thẻ img với width tùy chỉnh
+        imgline.innerHTML = `<img id="imgl" border="1px" style="width: ${imgWidth}px;" src="/image/${idline}.png?v=1.2.8" onerror="handleImageError(this, ${idline})"/>`;
+
+        LoadInfomationLine(line);
+        LoadLlsPointBox(line);
+        displayPointsOnImage(line, imgRatio); // Truyền imgRatio vào hàm displayPointsOnImage
+        UpdAllShow();
+        Udhisofline();
+        loadAllHistoryChartData();
+    }
+
+    // Hàm xử lý lỗi tải ảnh (đồng bộ với file chi tiết)
+    function handleImageError(imgElement, idline) {
+        console.warn(`Failed to load image for line ${idline}`);
+        imgElement.src = "/image/default.png?v=1.12";
+    }
+
+    let NameLineLb = document.getElementById("TxtnameLine");
+    let IdIVILineLb = document.getElementById("TxtIdivi");
+    let NameFloorLb = document.getElementById("TxtNameFloor");
+    let NoteLineLb = document.getElementById("TxtNoteLine");
+
+    function LoadInfomationLine(line) {
+        NameLineLb.innerHTML = line.NameLine;
+        IdIVILineLb.innerHTML = line.IdIviLine;
+        // NameFloorLb.innerHTML = GetFloor(line.Floor).NameFloor;
+        NoteLineLb.innerHTML = (line.Note ? line.Note : "");
+    }
+
+    let LsPointLinenow;
+
+    let LsBoxPoint = document.getElementById("LsBoxPoint");
+
+    let lineshownow;
+
+    function LoadLlsPointBox(line) {
+
+        lineshownow = line;
+
+        LsPointLinenow = GetPointofline(line.IdLine);
+        LsBoxPoint.innerHTML = '';
+        let htmlinner = "";
+
+        let htmlboxNLine = '<div id="BoxNameShow' + line.IdLine + '" class="home-container3 button"><span id="NLineBox' + line.IdLine + '" class="home-text01">' + line.NameLine + '</span></div>';
+
+        htmlinner += htmlboxNLine;
+
+        LsPointLinenow.forEach(function (point) {
+            let htmlboxpointit = `
+                        <button id="Boxp${point.IdPoint}" type="button" class="home-button btn animationbase tooltipbox box-hidden" onclick="showNewChart(${point.IdPoint})">
+                            <span id="Tooltippoint${point.IdPoint}" class="tooltiptext">${point.NamePoint}<br/>Note:${point.Note ? point.Note : ""}</span>
+                            <span id="BoxpID${point.IdPoint}" class="home-text02">ID${point.IdPoint}</span>
+                            <span id="BoxpSts${point.IdPoint}" class="home-text03 hidden">...</span>
+                            <span id="BoxpName${point.IdPoint}" class="home-text031 two-line-ellipsis">${point.NamePoint}</span>
+                        </button>`;
+            htmlinner += htmlboxpointit;
+        });
+
+
+
+        LsBoxPoint.innerHTML = htmlinner;
+
+        setTimeout(ShowAnimationBoxPoint, 50);
+    }
+    function displayPointsOnImage(line, scaleFactor = 2.13) {
+        let imgElement = document.getElementById("imgl");
+        let clayout = document.getElementById("clayout");
+
+        if (!imgElement) return;
+
+        imgElement.onload = function () {
+            document.querySelectorAll('[id^="pointCircle"]').forEach(function (point) {
+                point.remove();
+            });
+
+            let imgRect = imgElement.getBoundingClientRect();
+            let imgWidth = imgRect.width;
+            let imgHeight = imgRect.height;
+
+            let zoomFactor = 2; // Zoom ảnh lớn (không cần thay đổi)
+
+            let containerWidth = clayout.offsetWidth;
+            let offsetX = (containerWidth - imgWidth) / 2;
+
+            LsPointLinenow.forEach(function (point) {
+                // Điều chỉnh vị trí dựa trên scaleFactor
+                let adjustedCssLeft = (point.LeftDetail / scaleFactor) + offsetX;
+
+                let adjustedCssTop = point.TopDetail / scaleFactor;
+                // if (adjustedCssTop > 40) {
+                //     adjustedCssTop = 40;
+                // }
+                let pointCircle = document.createElement("div");
+                pointCircle.id = "pointCircle" + point.IdPoint;
+                pointCircle.style.position = "absolute";
+                pointCircle.style.width = "20px";
+                pointCircle.style.height = "20px";
+                pointCircle.style.left = adjustedCssLeft + "px";
+                pointCircle.style.top = adjustedCssTop + "px";
+
+                pointCircle.style.borderRadius = "50%";
+                pointCircle.style.border = "1px solid gray";
+                pointCircle.innerHTML = "<span class='pointcir'>" + point.IdPoint + "</span>";
+
+                imgline.appendChild(pointCircle);
+            });
+        };
+
+        // Kích hoạt onload ngay lập tức nếu ảnh đã được load
+        if (imgElement.complete) {
+            imgElement.onload();
+        }
+    }
+
+    function ShowAnimationBoxPoint() {
+        // Add animation class after the boxes are added to the DOM
+        let boxes = document.querySelectorAll('.box-hidden');
+        boxes.forEach((box, index) => {
+            setTimeout(() => {
+                box.classList.remove('box-hidden');
+                box.classList.add('box-animated');
+            }, index * 100); // Stagger the animation for each box
+        });
+        setTimeout(Clearclassbox, 600);
+    }
+
+    function Clearclassbox() {
+        let boxes = document.querySelectorAll('.box-animated');
+        boxes.forEach((box, index) => {
+            setTimeout(() => {
+                box.classList.remove('box-animated');
+            }, index * 100); // Stagger the animation for each box
+        });
+    }
+
+    let CboxFloorls = document.getElementById("CboxFloor");
+
+    function UpdateStsLsLine() {
+        CboxFloorls.innerHTML = "";
+        let htmlinner = "";
+        Allfloor.forEach(function (floor) {
+            htmlinner += '<option value="' + floor.IdFloor + '">' + floor.NameFloor + '</option>';
+        });
+        CboxFloorls.innerHTML = htmlinner;
+    }
+
+    function UdrealtimeLines() {
+
+    }
+
+    // Update data to all box show
+    function UpdateLineStatus(line, totalpointalarm, alarmline) {
+        // Update boxline
+        let boxline = document.getElementById("Boxl" + line.IdLine);
+        if (boxline) {
+            if (alarmline) {
+                boxline.classList.add("alert-box-line");
+            } else {
+                boxline.classList.remove("alert-box-line");
+            }
+        }
+
+        // Update line head name
+        let lineheadname = document.getElementById("BoxNameShow" + line.IdLine);
+        if (lineheadname) {
+            if (alarmline) {
+                lineheadname.classList.add("alert-head-line");
+            } else {
+                lineheadname.classList.remove("alert-head-line");
+            }
+        }
+    }
+
+    function UpdatePointLayout(point, Statusp, STS) {
+        let Pointlayout = document.getElementById('Boxp' + point.IdPoint);
+        if (Pointlayout) {
+            // Clear old classes
+            Pointlayout.classList.remove('ng-box-point', 'displc-box-point', 'alert-box-point', 'off-box-point', 'ok-box-point1');
+
+            // Add new class based on status
+            if (Statusp == 'NG') {
+                Pointlayout.classList.add('ng-box-point');
+            }
+            else if (Statusp == 'DisConnect') {
+                Pointlayout.classList.add('displc-box-point');
+            }
+            else if (Statusp == 'ERR') {
+                Pointlayout.classList.add('alert-box-point');
+            }
+            else if (Statusp == 'OFF') {
+                Pointlayout.classList.add('off-box-point');
+            } else {
+                Pointlayout.classList.add('ok-box-point1');
+            }
+
+            let BoxpSts = document.getElementById("BoxpSts" + point.IdPoint);
+            if (STS.includes('DIS')) {
+                BoxpSts.classList.add('alert-box-point-sts');
+                STS = STS.substring(4);
+            } else {
+                BoxpSts.classList.remove('alert-box-point-sts');
+            }
+            BoxpSts.innerHTML = STS;
+        }
+
+        // Update pointCircle
+        let pointCircleLayout = document.getElementById('pointCircle' + point.IdPoint);
+        if (pointCircleLayout) {
+            pointCircleLayout.classList.remove('alert-box-point1', 'off-box-point1', 'ok-box-point', 'pointfix');
+            if (Statusp == 'NG') {
+                pointCircleLayout.classList.add('alert-box-point1');
+            }
+            else if (Statusp == 'DisConnect') {
+                pointCircleLayout.classList.add('alert-box-point1');
+            }
+            else if (Statusp == 'ERR') {
+                pointCircleLayout.classList.add('alert-box-point1');
+            }
+            else if (Statusp == 'OFF') {
+                pointCircleLayout.classList.add('off-box-point1');
+            } else if (Statusp == 'Fixing') {
+                pointCircleLayout.classList.add('pointfix');
+            }
+            else {
+                pointCircleLayout.classList.add('ok-box-point');
+            }
+
+            let CircleSts = document.getElementById("CircleSts" + point.IdPoint);
+            if (CircleSts) {
+                CircleSts.innerHTML = STS;
+            }
+        }
+    }
+
+    function UpdAllShow() {
+        $.post('@Url.Action("GetAllpointNow", "ListPoint2")', {},
+            function (input) {
+                if (input != "") {
+                    let LsPointnow = JSON.parse(input);
+
+                    LsLineshow.forEach(function (line) {
+                        let totalpointalarm = 0;
+                        let lspointofline = GetPointofline(line.IdLine);
+
+                        for (let point of lspointofline) {
+                            LsPointnow.some(function (pointnow) {
+                                if (pointnow.IdPoint == point.IdPoint && pointnow.IdLine == point.IdLine) {
+                                    let Statusp = GetStatusview(pointnow.Alarm);
+                                    if (Statusp == 'NG' || Statusp == 'DisConnect' || Statusp == 'ERR') {
+                                        totalpointalarm++;
+                                    }
+
+                                    if (lineshownow.IdLine == line.IdLine) {
+                                        let STS = GetAlarm(pointnow.Alarm);
+                                        UpdatePointLayout(point, Statusp, STS);
+                                    }
+
+                                    return true;
+                                }
+                            });
+                        }
+
+                        let alarmline = totalpointalarm > 0;
+                        UpdateLineStatus(line, totalpointalarm, alarmline);
+                    });
+                }
+            }
+        );
+    }
+
+
+
+    function UdlegthArr(Arrinput, index, totaltime) {
+        // Khởi tạo giá trị cho phần tử nếu nó chưa tồn tại
+        if (!Arrinput[index]) {
+            Arrinput[index] = { totalTime: 0, count: 0 };
+        }
+
+        if (totaltime) {
+            if (index < Arrinput.length) {
+                Arrinput[index].count += 1;
+                Arrinput[index].totalTime += totaltime;
+            } else {
+                Arrinput[index].count += 1;
+                Arrinput.push({ totalTime: 0, count: 1 });
+                UdlegthArr(Arrinput, index, totaltime);
+            }
+        }
+
+        return Arrinput;
+    }
+
+    let page = 1;
+    let pageSize = 100;
+    let Lscountpoint = new Array();
+
+    let tabletophisdata = document.getElementById("dttopdataline");
+    function Udhisofline() {
+        if (lineshownow.IdLine) {
+            idline = lineshownow.IdLine;
+            Lscountpoint = new Array();
+            tabletophisdata.innerHTML = "";
+            let htmlinner = "";
+            $.get('@Url.Action("GetPaginatedDataTable2", "History")', {
+                idline: idline,
+                page: page,
+                pageSize: pageSize
+            },
+                function (input) {
+                    if (input != "") {
+                        let Lsdatahisofline = input.items;
+
+                        Lsdatahisofline.forEach(function (itemhis) {
+                            let TotalTime = 'None';
+
+                            if (itemhis.totalTime) {
+                                let hours = Math.floor(itemhis.totalTime / 3600);
+                                let minutes = Math.floor((itemhis.totalTime % 3600) / 60);
+                                let remainingSeconds = itemhis.totalTime % 60;
+
+                                TotalTime =
+                                    String(hours).padStart(2, '0') + ':' +
+                                    String(minutes).padStart(2, '0') + ':' +
+                                    String(remainingSeconds).padStart(2, '0');
+                            }
+
+                            let TimeEnd = 'None';
+                            if (itemhis.timeStop) {
+                                let Timeend_date = new Date(Date.parse(itemhis.timeStop));
+                                TimeEnd = Timeend_date.toLocaleDateString() + " " + Timeend_date.toLocaleTimeString();
+                            }
+
+                            let stylealarm = "";
+                            if (GetStatus(itemhis.alarm) == "NG") {
+                                UdlegthArr(Lscountpoint, itemhis.idPoint, itemhis.totalTime);
+                                stylealarm = 'font-weight:700;color:red;'
+                            } else {
+                                stylealarm = 'font-weight:400;'
+                            }
+
+                            let Timeck_date = new Date(Date.parse(itemhis.timeCheck));
+                            let Timeckstr = Timeck_date.toLocaleDateString() + " " + Timeck_date.toLocaleTimeString();
+
+                            let point = GetPoint(itemhis.idPoint, itemhis.idLine);
+                            let NamePoint = point ? point.NamePoint : "Not Exists";
+
+                            // Giả sử itemhis.u chứa giá trị (dựa trên hàm updateChartDataNew)
+                            let Value = (itemhis.value !== undefined && itemhis.value !== null)
+                                ? parseFloat(itemhis.value).toFixed(2)
+                                : "";
+                            let htmlrow = '<tr>' +
+                                '<td style="font-weight:400;">' + NamePoint + '</td>' +
+                                '<td style="' + stylealarm + '">' + GetAlarm(itemhis.alarm) + '</td>' +
+                                '<td style="font-weight:400;">' + Value + '</td>' +
+                                '<td style="font-weight:400;">' + Timeckstr + '</td>' +
+                                '<td style="font-weight:400;">' + TimeEnd + '</td>' +
+                                '<td style="font-weight:400;">' + TotalTime + '</td>' +
+                                '</tr>';
+
+                            htmlinner += htmlrow;
+                        });
+                        tabletophisdata.innerHTML = htmlinner;
+                    }
+                });
+        }
+    }
+    function loadAllHistoryChartData() {
+        const idLine = lineshownow.IdLine; // Lấy IdLine hiện tại
+
+        if (idLine) {
+            // Gọi API để lấy dữ liệu lịch sử
+            $.get('@Url.Action("GetDataForChart2", "History")', { idline: idLine }, function (input) {
+                if (input && input.length > 0) {
+                    input.forEach(function (itemhis) {
+
+                        UdlegthArr(Lscountpoint, itemhis.idPoint, itemhis.idLine, itemhis.totalTime);
+                    });
+
+                    updateChart();
+                }
+            });
+        }
+    }
+
+
+
+    //___________________________________________ LOAD FIRST ___________________________________________________
+
+    Loadfirstall();
+    const idLineFromViewBag = '@ViewBag.IdLine';
+    async function Loadfirstall() {
+        while (Allfloor == null || Userline == null || Userpoint == null) {
+            await sleep(50);
+        }
+        //UpdateStsLsLine();
+        if (Allfloor.length > 0) {
+            Loadlsboxline(Allfloor[0].IdFloor);
+            if (idLineFromViewBag && GetLine(idLineFromViewBag)) {
+                ClickBoxLine(idLineFromViewBag); // Tải line từ ViewBag nếu hợp lệ
+            } else if (LsLineshow.length > 0) {
+                ClickBoxLine(LsLineshow[0].IdLine); // Tải line đầu tiên nếu không có 
+            }
+            setInterval(UpdAllShow, 5000);
+            setInterval(Udhisofline, 60000);
+        }
+    }
+
+</script>

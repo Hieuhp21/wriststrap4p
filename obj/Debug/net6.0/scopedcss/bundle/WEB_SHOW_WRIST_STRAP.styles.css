@@ -1,0 +1,78 @@
+/* _content/WEB_SHOW_WRIST_STRAP/Views/History/LogExport.cshtml.rz.scp.css */
+ul[b-xv7modqru7], li[b-xv7modqru7] {
+    list-style-type: none;
+}
+/* _content/WEB_SHOW_WRIST_STRAP/Views/Shared/_Layout.cshtml.rz.scp.css */
+/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand[b-k4ee9bwdnk] {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+a[b-k4ee9bwdnk] {
+  color: #0077cc;
+}
+
+.btn-primary[b-k4ee9bwdnk] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.nav-pills .nav-link.active[b-k4ee9bwdnk], .nav-pills .show > .nav-link[b-k4ee9bwdnk] {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.border-top[b-k4ee9bwdnk] {
+  border-top: 1px solid #e5e5e5;
+}
+.border-bottom[b-k4ee9bwdnk] {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow[b-k4ee9bwdnk] {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy[b-k4ee9bwdnk] {
+  font-size: 1rem;
+  line-height: inherit;
+}
+
+.footer[b-k4ee9bwdnk] {
+  position: absolute;
+  bottom: 0;
+  height: 0px;
+  width: 100%;
+  white-space: nowrap;
+  line-height: 60px;
+}
+/* _content/WEB_SHOW_WRIST_STRAP/Views/ShowChart/Test.cshtml.rz.scp.css */
+.left-temple[b-plq5srskub] {
+    border: 2px solid #888;
+    padding: 10px;
+    max-height: 20%;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    overflow-y: auto;
+}
+
+.right[b-plq5srskub] {
+    flex: 1;
+    border: 2px solid #999;
+    margin-left: 10px;
+    height: 40%;
+}
+
+.left-infor[b-plq5srskub] {
+    height: auto;
+    border: 2px solid #888;
+    margin-top: 10px;
+    padding: 10px 20px;
+}

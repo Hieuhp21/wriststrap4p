@@ -1,0 +1,1084 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WEB_SHOW_WRIST_STRAP.Data;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        var user = await UserManager.FindByNameAsync(User?.Identity?.Name);
+        string _Name = user?.FirstName + " " + user?.LastName;
+
+       
+        <li class="nav-item">
+            <a class="btnnotifi" data-bs-toggle="modal" data-bs-target="#myModal" title="Notification Alarm" onclick="Clinknotifibtn()">
+                <div id="amoutnotifi" class="icon icon-notifi" data-icon-label="0">
+                    <svg width="40px" height="40px" viewBox="0 0 20 30"><path fill="#707070" d="M21,19V20H3V19L5,17V11C5,7.9 7.03,5.17 10,4.29C10,4.19 10,4.1 10,4A2,2 0 0,1 12,2A2,2 0 0,1 14,4C14,4.1 14,4.19 14,4.29C16.97,5.17 19,7.9 19,11V17L21,19M14,21A2,2 0 0,1 12,23A2,2 0 0,1 10,21"></path></svg>
+                </div>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <button id="toggleAlarmBtn" class="btn btn-space" title="Toggle Alarm Sound">
+                <img id="alarmIcon" src="/image/soundon.png" alt="Alarm Sound" style="width: 32px; height: 32px;border-radius:20px">
+            </button>
+        </li>
+
+        <li class="nav-item">
+            <a id="manage" class="btn btn-primary btn-space" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@_Name </a>
+        </li>
+
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="btn btn-danger btn-space" title="Logout">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10.146 11.354a.5.5 0 0 1 0-.708L12.793 8 10.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0z" />
+                        <path fill-rule="evenodd" d="M4.5 8a.5.5 0 0 1 .5-.5h7.5a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5z" />
+                        <path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 0 1 3.5 2h6A1.5 1.5 0 0 1 11 3.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 0 9.5 3h-6a.5.5 0 0 0-.5.5v9A.5.5 0 0 0 3.5 13h6a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 1 1 0v2A1.5 1.5 0 0 1 9.5 14h-6A1.5 1.5 0 0 1 2 12.5v-9z" />
+                    </svg>
+                </button>
+            </form>
+        </li>
+
+        @if (User.IsInRole("Administrator"))
+        {
+           @*  <li class="nav-item">
+                <a onclick="$('#delayModal').modal('show');">*</a>
+            </li> *@
+        }
+    }
+    else
+    {
+        <li class="nav-item btn-space">
+            <a title="Login" class="btn btn-primary" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+    <li class="nav-item">
+        @*<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+        <button id="logout" type="submit" class="btn btn-danger btn-space">Logout</button>
+        </form>*@
+        <img class="navbar-brand" style="margin-right:0px; background-color: black;" asp-area="" asp-controller="Home" asp-action="Index" src="~/image/logo_baoan.png" alt="Logoba" height="45px">
+    </li>
+</ul>
+
+<div class="modal" id="myModal">
+    <div class="modal-dialog" style="width:800px; max-width:none">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">TOP ALARM ALL POINT</h4>
+                <button id="btnnotifi" class="btn btn-primary animation" style="margin-left:380px" onclick="Clinknotifibtn()">
+                    <span id="spanbtnnotifi"></span>
+                    Reload</button>
+                <button hidden id="btnbuzzeroff" class="btn btn-warning animation" style="margin-left:25px" onclick="Buzzer_Off()">
+                    Buzzer Off
+                </button>
+                <button type="button" class="btn btn-close animation" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body modal-body-custom">
+                <div class="tablealarmall">
+                    <table id="table-noti-error" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>Line</th>
+                                <th>Point</th>
+                                <th>Alarm</th>
+                                <th>Total Time</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dtalarmall">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger animation" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="delayModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Set Delay Time</h5>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <input type="number" id="delayTimeInput" placeholder="Enter delay time (s)" class="form-control" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveDelayTime()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="ModalPLC">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">List PLC</h4>
+                <button id="btloadplc" class="btn btn-primary" style="margin-left:50px" onclick="ShowListPlc()">
+                    <span id="spanbtnnotifi"></span>
+                    Reload
+                </button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body modal-body-custom">
+                <div class="tablealarmall">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>Status Now</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dtlsplc">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div id="audioWarning" style="position: fixed; top: 10px; right: 10px; background-color: #ff9999; color: white; padding: 10px; border-radius: 5px; display: none; cursor: pointer;" onclick="requestAudioPermission()">
+    Âm thanh báo động không phát được. Nhấn để bật âm thanh.
+</div>
+
+<audio id="alarm_sound" hidden loop webkit-playsinline="true" playsinline="true">
+    <source src="~/sound/alarm.mp3" type="audio/mp3" />
+</audio>
+
+<script>
+    let alarmAudio = document.getElementById("alarm_sound");
+    let isPlaying = false; // Biến theo dõi trạng thái phát âm thanh
+    let isAudioEnabled = localStorage.getItem("isAudioEnabled") === "true"; // Lấy trạng thái mở khóa âm thanh từ localStorage
+    let audioWarning = document.getElementById("audioWarning");
+    window.isAlarmMuted = localStorage.getItem("isAlarmMuted") === "true"; // Lấy trạng thái mute từ localStorage
+    let pausedByAlarm = false; // true nếu auto bị pause do alarm phát
+
+    // Hàm yêu cầu mở khóa âm thanh bằng alert
+    function requestAudioPermission() {
+        audioWarning.style.display = "none"; // Ẩn cảnh báo khi người dùng nhấp
+        window.alert("Web giám sát cần quyền phát âm thanh báo động. Nhấn OK để bật âm thanh.");
+
+        // Sau khi người dùng nhấp OK, phát âm thanh ngắn để mở khóa
+        alarmAudio.muted = true; // Tạm thời tắt tiếng để không gây phiền
+        let playPromise = alarmAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                alarmAudio.pause();
+                alarmAudio.currentTime = 0;
+                alarmAudio.muted = false; // Bỏ tắt tiếng
+                isAudioEnabled = true;
+                localStorage.setItem("isAudioEnabled", "true"); // Lưu trạng thái mở khóa
+                console.log("Quyền phát âm thanh đã được mở khóa.");
+                // Thử phát âm thanh nếu không bị mute
+                if (!window.isAlarmMuted) {
+                    playAlarm();
+                }
+            }).catch(error => {
+                console.error("Lỗi khi mở khóa âm thanh:", error);
+                audioWarning.style.display = "block"; // Hiện cảnh báo nếu không mở khóa được
+            });
+        }
+    }
+
+    // Kiểm tra trạng thái mở khóa âm thanh khi tải trang
+    if (!isAudioEnabled) {
+        requestAudioPermission(); // Hiển thị alert nếu chưa mở khóa
+    }
+
+    $(document).ready(function () {
+        // Cập nhật icon dựa trên trạng thái từ localStorage
+        $("#alarmIcon").attr("src", window.isAlarmMuted ? "/image/soundoff.png" : "/image/soundon.png");
+
+        $("#toggleAlarmBtn").click(function () {
+            window.isAlarmMuted = !window.isAlarmMuted;
+            localStorage.setItem('isAlarmMuted', window.isAlarmMuted); // Lưu trạng thái mute vào localStorage
+            $("#alarmIcon").attr("src", window.isAlarmMuted ? "/image/soundoff.png" : "/image/soundon.png");
+            if (window.isAlarmMuted) {
+                stopAlarm(); // Tắt âm thanh ngay khi mute
+            } else {
+                playAlarm(); // Thử phát âm thanh khi unmute
+            }
+        });
+    });
+
+    // Hàm phát âm thanh báo động
+    function playAlarm() {
+        if (!isAudioEnabled) {
+            console.log("Âm thanh chưa được mở khóa. Hiển thị cảnh báo.");
+            audioWarning.style.display = "block"; // Hiện cảnh báo nếu âm thanh chưa mở khóa
+            // Hiệu ứng nhấp nháy cho cảnh báo
+            let blink = setInterval(() => {
+                audioWarning.style.opacity = audioWarning.style.opacity === "1" ? "0.5" : "1";
+            }, 500);
+            setTimeout(() => clearInterval(blink), 5000); // Dừng nhấp nháy sau 5 giây
+            return;
+        }
+
+        if (!window.isAlarmMuted && !isPlaying) {
+            let playPromise = alarmAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    isPlaying = true;
+                  //  console.log("Âm thanh báo động đang phát.");
+                    if (autoSwitchEnabled) {
+                        pausedByAlarm = true;
+                        setAutoSwitch(false, false); // Pause tạm, không lưu localStorage
+                        console.log("Auto switch paused do alarm.");
+                    }
+                }).catch(error => {
+                    console.error("Error playing alarm: ", error);
+                    isPlaying = false;
+                    audioWarning.style.display = "block"; // Hiện cảnh báo nếu âm thanh bị chặn
+                    let blink = setInterval(() => {
+                        audioWarning.style.opacity = audioWarning.style.opacity === "1" ? "0.5" : "1";
+                    }, 500);
+                    setTimeout(() => clearInterval(blink), 5000);
+                });
+            }
+        } else if (window.isAlarmMuted) {
+            console.log("Alarm muted, skipping play.");
+        }
+    }
+
+    // Hàm dừng âm thanh báo động
+    function stopAlarm() {
+        if (isPlaying) {
+            alarmAudio.pause();
+            alarmAudio.currentTime = 0; // Reset về đầu
+            isPlaying = false;
+          //  console.log("Âm thanh báo động đã dừng.");
+            if (pausedByAlarm) {
+                setAutoSwitch(true, false); // Resume, không lưu
+                pausedByAlarm = false;
+                console.log("Auto switch resumed sau khi alarm dừng.");
+            }
+        }
+    }
+    function saveDelayTime() {
+        const delayTime = $('#delayTimeInput').val();
+        $.post('/ListFloors/SetDelayTime', { delayTime: delayTime }, function (response) {
+            alert(response.message);
+            $('#delayModal').modal('hide');
+        });
+    }
+   
+    let isAlertVisible = false; // Flag to track if an alert is currently visible
+    let displayedAlerts = []; // Array to store displayed alert IDs to avoid duplicates
+
+    function fetchData() {
+        if (isAlertVisible) return;
+        $.get('/ListLines/CheckDataNow', function (data) {
+            let alertMessages = ""; // String to store alert content
+            const currentTime = new Date().toLocaleString(); // Get current time (date and time)
+
+            data.forEach(item => {
+                const alertId = `${item.idPoint}-${item.idLine}`;
+                let NameLine = GetLine(item.idLine).NameLine;
+
+                // Check if the alert has not been displayed before
+                if (UserlineID.includes(item.idLine) ) {
+                    // Add ID to displayed alerts list
+                    displayedAlerts.push(alertId);
+                  
+                    // Add alert message for each new alert with the current time
+                    alertMessages += `PC Andon may be turned off at ${NameLine} as of ${currentTime}. Please check.\n`;
+                }
+            });
+
+            // Show a single alert if there are new alerts and no alert is currently visible
+            if (alertMessages && !isAlertVisible) {
+                isAlertVisible = true; // Set flag to indicate alert is being shown
+                alert(alertMessages);
+                //isAlertVisible = false; // Reset flag after alert is closed
+            }
+        });
+    }
+
+
+    // Call fetchData every 5 minutes (300,000 milliseconds)
+   // setInterval(fetchData, 3000);
+
+    // Call fetchData immediately when the page loads
+    $(document).ready(function () {
+       // fetchData();
+    });
+
+
+
+    let ListLed;
+
+    let Datenotifi = getCookie('datenotifi');
+
+    let alarmctr = document.getElementById("alarm_sound");
+
+    function Clinknotifibtn() {
+        document.getElementById("btnnotifi").innerHTML = '<span class="spinner-border spinner-border-sm"></span> Loading';
+            let tableNotiError = document.getElementById("table-noti-error")
+            tableNotiError.style.display = "none"
+        $.post('@Url.Action("GetDataTopAlarmAll", "History")', { LslineID: UserlineID },
+            function (input) {
+                console.log(input)
+                    tableNotiError.style.display = "block"
+                let lsHisAlram = JSON.parse(input);
+
+                let table = document.getElementById("dtalarmall");
+                let table2 = document.getElementById("dtalarmallview"); // Bảng mới
+                table.innerHTML = "";
+                if (table2) {
+                    table2.innerHTML = ""; // Xóa dữ liệu cũ trong bảng table2
+                }
+
+                let htmlinner = "";
+                let htmlinnerTable2 = ""; // Biến để lưu HTML của bảng table2
+
+                lsHisAlram.forEach(function (rowdt, index) {
+
+                    let Time = new Date(Date.parse(rowdt.TimeCheck));
+                    let StrAlarm = GetAlarm(rowdt.Alarm);
+                    let NameLine = GetLine(rowdt.IdLine).NameLine;
+                    let point = GetPoint(rowdt.IdPoint, rowdt.IdLine);
+                    let NamePoint = point ? point.NamePoint : null;
+                    let NotePoint = point ? point.Note || "No note available" : "No note available";
+
+                    if (!NamePoint || NamePoint.trim() === "" || typeof NamePoint !== "string") {
+                        console.error(`Invalid NamePoint: IdPoint=${rowdt.IdPoint}, IdLine=${rowdt.IdLine}, NamePoint=${NamePoint}`);
+                        return;
+                    }
+
+                    let TotalTime = 'None';
+                    if (rowdt.TotalTime && rowdt.TotalTime >= 0) {
+                        let hours = Math.floor(rowdt.TotalTime / 3600);
+                        let minutes = Math.floor((rowdt.TotalTime % 3600) / 60);
+                        let remainingSeconds = rowdt.TotalTime % 60;
+
+                        TotalTime =
+                            String(hours).padStart(2, '0') + ':' +
+                            String(minutes).padStart(2, '0') + ':' +
+                            String(remainingSeconds).padStart(2, '0');
+                    }
+
+                    let id_log = rowdt.IdLog;
+                    let sourceTable = rowdt.SourceTable;
+                    let repairStatus = rowdt.RepairStatus ?? null;
+                    let statusText;
+                    let btnClass;
+                    
+                    if (repairStatus === 1) {
+                        statusText = "Error";
+                        btnClass = "btn-danger";
+                    } else if (repairStatus === 2) {
+                        statusText = "Repairing"; 
+                        btnClass = "btn-warning";
+                    } else if (repairStatus === 3) {
+                        statusText = "Repaired";
+                        btnClass = "btn-success"; 
+                    }
+
+                    // HTML cho bảng gốc có onclick
+                    let htmlrowtb = `
+                        <tr id="alarmRow${id_log}" onclick="showInputForm(${id_log})">
+                            <td>${Time.toLocaleDateString()} ${Time.toLocaleTimeString()}</td>
+                            <td>${NameLine}</td>
+                            <td>${NamePoint}</td>
+                            <td class="rowstsalarm">${StrAlarm}</td>
+                            <td>${TotalTime}</td>
+                            <td>
+                                <button id="btnRepair${id_log}" class="btn ${btnClass}" onclick="updateRepairStatus(event,${id_log}, '${sourceTable}', ${repairStatus})">
+                                    ${statusText}
+                                </button>
+                            </td>
+                        </tr>
+                        <tr id="inputRow${id_log}" style="display:none;">
+                            <td colspan="5">
+                                <p><strong></strong> ${NotePoint}</p>
+                                <textarea id="reason${id_log}" placeholder="Enter reason" rows="3" style="width: 100%; margin-bottom: 5px;"></textarea>
+                                <textarea id="solution${id_log}" placeholder="Enter solution" rows="3" style="width: 100%; margin-bottom: 5px;"></textarea>
+                                <button class="custom-save-btn" onclick="submitInput(${id_log}, '${sourceTable}')">Save</button>
+                            </td>
+                        </tr>`;
+
+                    htmlinner += htmlrowtb;
+
+                    // HTML cho bảng mới không có onclick
+                    let htmlrowTable2 = `
+                        <tr>
+                            <td>${Time.toLocaleDateString()} ${Time.toLocaleTimeString()}</td>
+                            <td>${NameLine}</td>
+                            <td>${NamePoint}</td>
+                            <td class="rowstsalarm">${StrAlarm}</td>
+                        </tr>`;
+
+                    htmlinnerTable2 += htmlrowTable2;
+                });
+
+                table.innerHTML = htmlinner;
+                if (table2) {
+                    table2.innerHTML = htmlinnerTable2; // Gán dữ liệu cho table2
+                }
+
+                document.getElementById("btnnotifi").innerHTML = 'Reload';
+
+                setCookie('datenotifi', Date.now(), 168);
+                Datenotifi = Date.now().toString();
+                Updcoutnotifi();
+            }
+        );
+    }
+    function updateRepairStatus(event, id_log, sourceTable, currentStatus) {
+        event.stopPropagation();
+        console.log(event)
+            // nếu đã repaired thì thông báo và k làm gì cả
+            if(currentStatus == 3) {
+                alert("Point is repaired");
+                return
+            }
+            $.post('@Url.Action("UpdateRepairStatus", "History")', { id_log: id_log, status: currentStatus, sourceTable: sourceTable }, function (response) {
+            if (response.success) {
+                // let btn = document.getElementById(`btnRepair${id_log}`);
+                // btn.innerText = statusText;
+                // btn.className = `btn ${btnClass}`;
+                //         btn.setAttribute("onclick", `updateRepairStatus(event,${id_log}, '${sourceTable}', ${response.status})`);
+                Clinknotifibtn();
+            } else {
+                alert("Lỗi khi cập nhật trạng thái!");
+            }
+        });
+    }
+
+    function showInputForm(index) {
+        let inputRow = document.getElementById(`inputRow${index}`);
+        inputRow.style.display = inputRow.style.display === 'none' ? 'table-row' : 'none ';
+    }
+
+    function submitInput(id_log, sourceTable) {
+        let reason = document.getElementById(`reason${id_log}`).value;
+        let solution = document.getElementById(`solution${id_log}`).value;
+
+        let note = `Reason: ${reason}, Solution: ${solution}`;
+
+        // Xác định URL API dựa trên giá trị SourceTable
+        let url = sourceTable === "TotalData"
+            ? '@Url.Action("UpdateNote", "History")'
+            : '@Url.Action("UpdateNote2", "History")'; 
+
+        $.post(url, { id: id_log, note: note }, function (response) {
+            if (response.success) {
+                Clinknotifibtn();
+                alert("Lưu thành công!");
+            } else {
+                alert("Lưu thất bại!");
+            }
+        });
+
+        document.getElementById(`inputRow${id_log}`).style.display = 'none';
+    }
+
+
+
+    function GetXYLine(idLine) {
+        let XYLine = new Array();
+        Userline.some(line => {
+            if (idLine == line.IdLine) {
+                if (line.Csstop != undefined) {
+                    XYLine.push(line.Csstop);
+                }
+                else {
+                    XYLine.push(200);
+                }
+
+                if (line.Cssleft != undefined) {
+                    XYLine.push(line.Cssleft);
+                }
+                else {
+                    XYLine.push(100);
+                }
+                if (line.Csswidth != undefined) {
+                    XYLine.push(line.Csswidth);
+                }
+                else {
+                    XYLine.push(150);
+                }
+
+                if (line.Cssheight != undefined) {
+                    XYLine.push(line.Cssheight);
+                }
+                else {
+                    XYLine.push(50);
+                }
+            }
+        });
+        return XYLine;
+    }
+
+    function GetXYPoint(idPoint,idLine) {
+        let XYPoint = new Array();
+        Userpoint.some(point => {
+            if (idPoint == point.IdPoint && idLine == point.IdLine) {
+                if (point.Csstop != undefined) {
+                    XYPoint.push(point.Csstop);
+                }
+                else {
+                    XYPoint.push(10);
+                }
+
+                if (point.Cssleft != undefined) {
+                    XYPoint.push(point.Cssleft);
+                }
+                else {
+                    XYPoint.push(10);
+                }
+            }
+        });
+        return XYPoint;
+    }
+
+//________________________________ LIST FLOOR __________________________________________
+
+    let Allfloor;
+
+    function GetAllFloor() {
+        $.post('@Url.Action("GetAllFloor", "ListFloors")', {},
+            function (outlist) {
+                Allfloor = JSON.parse(outlist);
+                //setTimeout(TakeListLed, 5000);
+            }
+        );
+    }
+
+    function GetFloor(idfloor){
+        let Item = null;
+        Allfloor.some(function (item,index) {
+            if (item.IdFloor == idfloor) {
+                Item = item;
+                return true;
+            }
+        });
+        return Item;
+    }
+
+//____________________________________________________________________________________
+
+
+//________________________________ LIST LINE __________________________________________
+
+    let Allline;
+    let Userline;
+    let UserlineID;
+
+    function GetAllLine() {
+        $.post('@Url.Action("GetAllLine", "ListLines")', {},
+            function (outlist) {
+                Allline = JSON.parse(outlist);
+                window.localStorage.setItem('Allline', outlist)
+                GetUserLine();
+            }
+        );
+    }
+
+    function GetLine(idline) {
+        let Item = null;
+        Allline.some(function (item, index) {
+            if (item.IdLine == idline) {
+                Item = item;
+                return true;
+            }
+        });
+        return Item;
+    }
+
+        function GetUserLine() {
+        let userline = new Array();
+        UserlineID = new Array();
+        Allline.forEach(function (item) {
+            // Tách chuỗi ListUser thành mảng các email
+            const emails = item.ListUser.split('|');
+            // Giả sử @User.Identity?.Name được thay thế bằng giá trị cụ thể, ví dụ: "pcba@gmail.com"
+            const targetEmail = "@User.Identity?.Name".replace("?.", ""); // Xử lý giá trị động nếu cần
+            // Kiểm tra từng email
+            emails.forEach(email => {
+                if (email === targetEmail) { // So sánh chính xác
+                    userline.push(item);
+                    UserlineID.push(item.IdLine);
+                }
+            });
+        });
+        Userline = userline;
+    }
+
+    function GetUserLineofFloor(idfloor) {
+        let userlinefloor = new Array();
+        Userline.forEach(function (item) {
+            if (item.Floor == idfloor) {
+                userlinefloor.push(item);
+            }
+        });
+        return userlinefloor;
+    }
+
+//____________________________________________________________________________________
+
+
+//________________________________ LIST POINT __________________________________________
+    let Allpoint=[];
+    let Userpoint;
+    let Userpoint1;
+    let Userpoint2;
+    let AllPoints = [];
+    let Allpoint1 = [];
+    let Allpoint2 = [];
+    function GetAllpoint() {
+        $.post('@Url.Action("GetAllpoint", "ListPoints")', {}, function (outlist) {
+            Allpoint = JSON.parse(outlist);
+            const selectedOption = localStorage.getItem('selectedOption');
+           
+        });
+    }
+    function GetAllPoints() {
+        
+
+        // Lấy điểm từ controller ListPoints
+        $.post('@Url.Action("GetAllpoint", "ListPoints")', {}, function (outlist1) {
+            const points1 = JSON.parse(outlist1);
+            Allpoint1 = JSON.parse(outlist1);
+            AllPoints = AllPoints.concat(points1);
+            GetUserPoint1(Allpoint1);
+            // Lấy điểm từ controller ListPoint2
+            $.post('@Url.Action("GetAllpoint", "ListPoint2")', {}, function (outlist2) {
+                const points2 = JSON.parse(outlist2);
+                Allpoint2 = JSON.parse(outlist2);
+                AllPoints = AllPoints.concat(points2);
+                GetUserPoint2(Allpoint2);
+                // Sau khi có đủ dữ liệu từ cả hai controller, thực hiện lọc dữ liệu
+                FilterPointsByLocalStorage(points1,points2);
+            });
+        });
+    }
+
+    function FilterPointsByLocalStorage(points1,points2) {
+        const selectedOption = localStorage.getItem('selectedOption');
+
+        if (selectedOption === 'LakeageVoltage') {
+            Allpoint = points2;
+        } else if (selectedOption === 'WristStrap') {
+            Allpoint = points1;
+        }
+
+        // Sau khi lọc, bạn có thể thực hiện các hành động khác với AllPoints, ví dụ:
+        GetUserPoint(Allpoint);
+    }
+
+    function GetPoint(idpoint, idline) {
+        let Item = null;
+        Allpoint.some(function (item, index) {
+            if (item.IdPoint == idpoint && item.IdLine == idline) {
+                Item = item;
+                return true;
+            }
+        });
+        return Item;
+    }
+
+    function GetUserPoint() {
+        let userpoint = new Array();
+        Allpoint.forEach(function (item) {
+            Userline.some(function (line, index) {
+                if (item.IdLine == line.IdLine) {
+                    userpoint.push(item);
+                    return true;
+                }
+            });
+        });
+        Userpoint = userpoint;
+    }
+    function GetUserPoint1() {
+        let userpoint = new Array();
+        Allpoint1.forEach(function (item) {
+            Userline.some(function (line, index) {
+                if (item.IdLine == line.IdLine) {
+                    userpoint.push(item);
+                    return true;
+                }
+            });
+        });
+        Userpoint1 = userpoint;
+    }
+    function GetUserPoint2() {
+        let userpoint = new Array();
+        Allpoint2.forEach(function (item) {
+            Userline.some(function (line, index) {
+                if (item.IdLine == line.IdLine) {
+                    userpoint.push(item);
+                    return true;
+                }
+            });
+        });
+        Userpoint2 = userpoint;
+    }
+    function GetUserPointofFloor(idfloor) {
+        let userpointfloor = new Array();
+        Userpoint.forEach(function (item) {
+            GetUserLineofFloor(idfloor).some(function (line, index) {
+                if (item.IdLine == line.IdLine) {
+                    userpointfloor.push(item);
+                    return true;
+                }
+            });
+        });
+        return userpointfloor;
+    }
+
+    function GetPointofline(idline) {
+        let pointline = new Array();
+        Userpoint.forEach(function (item) {
+            if (item.IdLine == idline) {
+                pointline.push(item);
+            }
+        });
+       // console.log(pointline);
+        return pointline;
+    }
+    function GetPointofline1(idline) {
+        let pointline = new Array();
+        Userpoint1.forEach(function (item) {
+            if (item.IdLine == idline) {
+                pointline.push(item);
+            }
+        });
+       // console.log(pointline);
+        return pointline;
+    }
+    function GetPointofline2(idline) {
+        let pointline = new Array();
+        Userpoint2.forEach(function (item) {
+            if (item.IdLine == idline) {
+                pointline.push(item);
+            }
+        });
+        //console.log(pointline);
+        return pointline;
+    }
+//____________________________________________________________________________________
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function GetAllFirst() {
+        GetAllFloor();
+        while (!Allfloor) await sleep(50);
+        GetAllLine();
+        while (!Userline) await sleep(50);
+        GetAllpoint();
+        GetAllPoints();
+        while (!Allpoint || !Userpoint) await sleep(50);
+    }
+
+
+    function Updcoutnotifirs() {
+        if (UserlineID == null) { setTimeout(Updcoutnotifirs, 50); }
+        else {
+            Updcoutnotifi();
+            setTimeout(Updcoutnotifirs, @Dataconfig.RefckAlarmall);
+        }
+    }
+        
+
+    let amoutnotifi = 0;
+
+    function Updcoutnotifi(){
+
+            let timeckok = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000);
+        // if (Datenotifi != "") { timeckok = new Date(Number.parseInt(Datenotifi)); }
+        // else { timeckok = new Date(Date.now() - 3*24*60*60*1000)}
+
+       // StatusPLCshow();
+
+        let timeckstr = timeckok.toUTCString();
+        $.post('@Url.Action("GetAlarmleft", "History")', { LslineID: UserlineID, timeckstart: timeckstr },
+            function (input) {
+ 
+                if (input!='') {
+
+                    let LstopAlarm = JSON.parse(input);
+
+                    let Count = LstopAlarm.length;
+
+                    let amnotifinow = Count > 99 ? 99 : Count;
+
+                    $('#amoutnotifi').attr('data-icon-label', amnotifinow);
+
+                    if (amnotifinow == 0) { amoutnotifi = 0; }
+                    if (amnotifinow > amoutnotifi) 
+                    {
+                        notifiwindown(LstopAlarm[0]);
+                    }
+                    amoutnotifi = amnotifinow;
+                }
+            }
+        );
+    }
+
+    function GetStatus(input) {
+        if ('0|1'.includes(input)) {
+            return 'OK';
+        }
+        else if ('2|4|5'.includes(input)) {
+            return 'NG';
+        }
+        if ('7'.includes(input)) {
+            return 'FIX';
+        }
+        else {
+            return 'OFF';
+        }
+    }
+    function GetStatusview(input) {
+        if ('0|1'.includes(input)) {
+            return 'OK';
+        }
+        else if ('2'.includes(input)) {
+            return 'NG';
+        }
+        else if ('4'.includes(input)) {
+            return 'ERR';
+        }
+        else if ('7'.includes(input)) {
+            return 'Fixing';
+        }
+        else if('5'.includes(input)){
+            return 'DisConnect';
+        }
+        else {
+            return 'OFF';
+        }
+    }
+    //Swith case alarm => String Alam
+    function GetAlarm(input) {
+        let StrAlarm;
+        input = input.toString();
+        if (input && input != "") {
+            switch (input) {
+                case '0':
+                    StrAlarm = 'OK';
+                    break;
+                case '1':
+                    StrAlarm = 'WAIT';
+                    break;
+                case '2':
+                    StrAlarm = 'NG';
+                    break;
+                case '3':
+                    StrAlarm = 'OFF';
+                    break;
+                case '4':
+                    StrAlarm = 'ERR';
+                    break;
+                case '5':
+                    StrAlarm = 'DIS. PLC';
+                    break;
+                case '6':
+                    StrAlarm = 'DIS. POINT';
+                    break;
+                case '7':
+                    StrAlarm = 'Fixing';
+                    break;
+            }
+        }
+        else { StrAlarm = 'Fixing'; }
+
+        return StrAlarm;
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for (var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+
+    function setCookie(cname, cvalue, exhour) {
+        var d = new Date(Date.now() + exhour * 3600 * 1000);
+        var expires = "expires=" + d.toUTCString();
+        document.cookie = cname + "=" + cvalue + "; " + expires;
+    }
+
+
+    function ckactivenotifi(){
+        if (!window.Notification) {
+        }
+        // // Ngược lại trình duyệt có hỗ trợ thông báo
+        // else {
+        //     // Gửi lời mời cho phép thông báo
+        //     Notification.requestPermission(function (p) {
+        //         // Nếu không cho phép
+        //         if (p === 'denied') {
+        //             alert('You have not allow the message on the browse.');
+        //         }
+        //     });
+        // }
+    }
+
+    function notifiwindown(data){
+        var notify;
+        if (Notification.permission != 'default') 
+        {
+
+            let StrAlarm = GetAlarm(data.Alarm);
+
+            let NameLine = GetLine(data.IdLine).NameLine;
+
+            let NamePoint;
+
+            if (Allpoint)
+                NamePoint = GetPoint(data.IdPoint, data.IdLine).NamePoint;
+
+            notify = new Notification(
+                'ALARM: ' + StrAlarm + ' - Name Line: ' + NameLine + ' - Name Point: ' + NamePoint,
+                {
+                    body: 'Click on the notification to see details.', // Nội dung thông báo
+                    icon: '/image/Alarm1.png', // Hình ảnh
+                    //tag: 'CkHistory?IdLog=' + data.id_log + '&IdLed=' + data.id_led // Đường dẫn,
+                }
+            );
+            // Thực hiện khi nhấp vào thông báo
+            notify.onclick = function () {
+                //window.open(this.tag); // Di chuyển đến trang cho url = tag
+            }
+        }
+    }
+
+    function StatusPLCshow() {
+        $.post('@Url.Action("Getstatusplcs","History")', {},
+            function (input) {
+                let btnplc = document.getElementById("btnplc");
+                if (input != "0") {
+                    btnplc.classList.remove("btn-success");
+                    btnplc.classList.add("btnplcalarm");
+                }
+                else {
+                    btnplc.classList.add("btn-success");
+                    btnplc.classList.remove("btnplcalarm");
+                }
+            }
+        );
+    }
+
+    function ShowListPlc() {
+
+        document.getElementById("btloadplc").innerHTML = '<span class="spinner-border spinner-border-sm"></span> Loading';
+
+        $.post('@Url.Action("Getlistplcs", "History")', {},
+            function (input) {
+
+                let table = document.getElementById("dtlsplc");
+
+                let lstables = JSON.parse(input);
+
+                table.innerHTML = "";
+
+                let htmlinner = "";
+
+                lstables.forEach(function (rowdt) {
+
+                    let Nameplc = (rowdt.NamePlc != null && rowdt.NamePlc != "") ? rowdt.NamePlc : "PLC" + rowdt.IdPlc;
+
+                    let classalarmrow = rowdt.Alarm != false ? 'tablerowalarm' : 'tablerowok';
+
+                    let Stsplc;
+
+                    if (rowdt.StatusNow != true) {
+                        Stsplc = "Connected";
+                    }
+                    else if (rowdt.Alarm != true) {
+                        Stsplc = "Wait Connect";
+                    }
+                    else Stsplc = "Disconnect";
+
+                    let classnowrow = rowdt.StatusNow != false ? 'tablerowalarm' : 'tablerowok';
+
+                    let htmlrowtb = '<tr> <td>' + rowdt.IdPlc + '</td> <td>' + Nameplc + '</td> <td class = "' + classnowrow + '"> ' + Stsplc + '</td> </td> </tr >';
+
+                    htmlinner += htmlrowtb;
+
+                });
+
+                table.innerHTML = htmlinner;
+
+                document.getElementById("btloadplc").innerHTML = 'Reload';
+            }
+        );
+    }
+
+    function CheckOnBuzzer() {
+        $.post('@Url.Action("GetHis_Buzzoff", "His_Bzoff")', {},
+            function (input) {
+                if (input) {
+                    alarmctr.play();
+                }
+                else {
+                    alarmctr.pause();
+                }
+            }
+        );
+    }
+
+    function Buzzer_Off() {
+        $.post('@Url.Action("AddHis_Buzzeroff", "His_Bzoff")', {});
+        alarmctr.pause();
+    }
+
+    function CkTimeBuzzer_off() {
+        var itemHTML = document.getElementById("btnbuzzeroff");
+        $.post('@Url.Action("GetTime_Buzzoff", "His_Bzoff")', {},
+            function (input) {
+                if (input != "") {
+                    itemHTML.innerHTML = input;
+                    setTimeout(CkTimeBuzzer_off, 1000000);
+                }
+                else {
+                    itemHTML.innerHTML = 'Buzzer Off';
+                    setTimeout(CkTimeBuzzer_off, 5000000);
+                }
+            }
+        );
+    }
+
+    GetAllFirst();
+    ckactivenotifi();
+    Updcoutnotifirs();
+   // CkTimeBuzzer_off();
+
+</script>

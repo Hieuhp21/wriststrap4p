@@ -1,0 +1,61 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\Entities3\**" />
+    <Compile Remove="Views\ListLeds\**" />
+    <Compile Remove="Views\ListRooms\**" />
+    <Content Remove="Models\Entities3\**" />
+    <Content Remove="Views\ListLeds\**" />
+    <Content Remove="Views\ListRooms\**" />
+    <EmbeddedResource Remove="Models\Entities3\**" />
+    <EmbeddedResource Remove="Views\ListLeds\**" />
+    <EmbeddedResource Remove="Views\ListRooms\**" />
+    <None Remove="Models\Entities3\**" />
+    <None Remove="Views\ListLeds\**" />
+    <None Remove="Views\ListRooms\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\CkHistoryController.cs" />
+    <Compile Remove="Controllers\ListLedsController.cs" />
+    <Compile Remove="Controllers\ListRoomsController.cs" />
+    <Compile Remove="Controllers\ShowChartController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\css\showchart.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Models\Entities.rar" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\css\listview.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.1.66" />
+    <PackageReference Include="EPPlus" Version="5.8.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.33" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.33" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.33">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.17" />
+  </ItemGroup>
+
+</Project>

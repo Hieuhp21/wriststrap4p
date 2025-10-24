@@ -1,0 +1,115 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListPoint2
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ListPoint</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.NamePoint)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NamePoint)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MinSpect)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MinSpect)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.MaxSpect)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.MaxSpect)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Addsread)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Addsread)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Addswrite)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Addswrite)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Plc)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Plc)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.OffsetValue)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.OffsetValue)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.DeltaValue)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.DeltaValue)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Timeoff)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Timeoff)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Enstatus)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Enstatus)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.UserChange)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserChange)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.TimeChange)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TimeChange)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Change)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Change)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Note)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Note)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Csstop)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Csstop)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Cssleft)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Cssleft)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

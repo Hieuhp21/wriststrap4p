@@ -1,0 +1,141 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListPoint
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <header class="header">
+            <h3>CREATE NEW POINT</h3>
+        </header>
+        <hr />
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdPoint" class="control-label"></label>
+                <input asp-for="IdPoint" class="form-control" />
+                <span asp-validation-for="IdPoint" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdLine" class="control-label"></label>
+                <input asp-for="IdLine" hidden id="txtidline" class="form-control" />
+                <select class="input-group" style="padding-block:5px" id="cboxline" onchange="OnchangeLine(this.value)">
+
+                </select>
+                <span asp-validation-for="IdLine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NamePoint" class="control-label"></label>
+                <input asp-for="NamePoint" class="form-control" />
+                <span asp-validation-for="NamePoint" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="MinSpect" class="control-label"></label>
+                <input asp-for="MinSpect" value="1" class="form-control" />
+                <span asp-validation-for="MinSpect" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="MaxSpect" class="control-label"></label>
+                <input asp-for="MaxSpect" value="1" class="form-control" />
+                <span asp-validation-for="MaxSpect" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Addsread" class="control-label"></label>
+                <input asp-for="Addsread" class="form-control" />
+                <span asp-validation-for="Addsread" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Addswrite" class="control-label"></label>
+                <input asp-for="Addswrite" class="form-control" />
+                <span asp-validation-for="Addswrite" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Plc" class="control-label"></label>
+                <input asp-for="Plc" class="form-control" />
+                <span asp-validation-for="Plc" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="OffsetValue" class="control-label"></label>
+                <input asp-for="OffsetValue" class="form-control" />
+                <span asp-validation-for="OffsetValue" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="DeltaValue" class="control-label"></label>
+                <input asp-for="DeltaValue" class="form-control" />
+                <span asp-validation-for="DeltaValue" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Timeoff" class="control-label"></label>
+                <input asp-for="Timeoff" class="form-control" />
+                <span asp-validation-for="Timeoff" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Enstatus" class="control-label"></label>
+                <input asp-for="Enstatus" value="3" class="form-control" />
+                <span asp-validation-for="Enstatus" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="UserChange" class="control-label"></label>
+                <input asp-for="UserChange" class="form-control" />
+                <span asp-validation-for="UserChange" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="TimeChange" class="control-label"></label>
+                <input asp-for="TimeChange" class="form-control" />
+                <span asp-validation-for="TimeChange" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="Change" class="control-label"></label>
+                <input asp-for="Change" class="form-control" />
+                <span asp-validation-for="Change" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Note" class="control-label"></label>
+                <input asp-for="Note" class="form-control" />
+                <span asp-validation-for="Note" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Csstop" class="control-label"></label>
+                <input asp-for="Csstop" value="1" class="form-control" />
+                <span asp-validation-for="Csstop" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cssleft" class="control-label"></label>
+                <input asp-for="Cssleft" value="60" class="form-control" />
+                <span asp-validation-for="Cssleft" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary btn-create animation" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn animation btn-back">Back to List</a>
+</div>
+
+<script>
+
+    txtline = document.getElementById("txtidline");
+    cboxfloor = document.getElementById("cboxline");
+
+    async function LoadcboxLine() {
+        await sleep(500);
+        Allline.forEach(function (line) {
+            cboxfloor.innerHTML += '<option value=' + line.IdLine + '>' + line.NameLine + '</option>'
+        });
+        if (Allline.length > 0) {
+            txtline.value = Allline[0].IdLine;
+        }
+    }
+
+    function OnchangeLine(idline) {
+        txtline.value = idline;
+    }
+
+    LoadcboxLine();
+
+</script>

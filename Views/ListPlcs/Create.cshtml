@@ -1,0 +1,92 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Models.Entities.ListPlc
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Create</h1>
+
+<h4>ListPlc</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdPlc" class="control-label"></label>
+                <input asp-for="IdPlc" class="form-control" />
+                <span asp-validation-for="IdPlc" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IpPlc" class="control-label"></label>
+                <input asp-for="IpPlc" class="form-control" />
+                <span asp-validation-for="IpPlc" class="text-danger"></span>
+            </div>
+            <div class="form-group" hidden>
+                <label asp-for="ActUnitType" class="control-label"></label>
+                <select asp-for="ActUnitType" class="form-control" asp-items="ViewBag.ActUnitTypes">
+                    <option value="">Select Unit Type</option>
+                </select>
+                <span asp-validation-for="ActUnitType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" hidden>
+                <label asp-for="ActProtocolType" class="control-label"></label>
+                <select asp-for="ActProtocolType" class="form-control" asp-items="ViewBag.ActProtocolTypes">
+                    <option value="">Select Protocol Type</option>
+                </select>
+                <span asp-validation-for="ActProtocolType" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ActTimeOut" class="control-label"></label>
+                <input asp-for="ActTimeOut" class="form-control" />
+                <span asp-validation-for="ActTimeOut" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ActPassword" class="control-label"></label>
+                <input asp-for="ActPassword" class="form-control" />
+                <span asp-validation-for="ActPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AddRead" class="control-label"></label>
+                <input asp-for="AddRead" class="form-control" />
+                <span asp-validation-for="AddRead" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberReads" class="control-label"></label>
+                <input asp-for="NumberReads" class="form-control" />
+                <span asp-validation-for="NumberReads" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AddReadV" class="control-label"></label>
+                <input asp-for="AddReadV" class="form-control" />
+                <span asp-validation-for="AddReadV" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberReadsV" class="control-label"></label>
+                <input asp-for="NumberReadsV" class="form-control" />
+                <span asp-validation-for="NumberReadsV" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdLine" class="control-label"></label>
+                <input asp-for="IdLine" class="form-control" />
+                <span asp-validation-for="IdLine" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StatusUse" class="control-label"></label>
+                <input asp-for="StatusUse" class="form-control" />
+                <span asp-validation-for="StatusUse" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

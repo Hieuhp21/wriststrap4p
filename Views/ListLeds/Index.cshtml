@@ -1,0 +1,160 @@
+﻿@model IEnumerable<WEB_SHOW_WRIST_STRAP.Models.Entities.ListLed>
+
+@{
+    ViewData["Title"] = "List Sensor Point";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<header class="header">
+    <h1>SENSOR LIST</h1>
+</header>
+
+<p>
+    <a asp-action="Create" style="margin-top:15px" class="btn btn-success animation">Create New</a>
+    <button style="margin-top:15px; margin-left:10px" class="btn btn-primary animation" onclick="window.location.href = '/Home/EditLayout'">Edit Layout</button>
+</p>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                IdSensor
+            </th>
+            <th>
+                IdArea
+            </th>
+            <th>
+                Name Ponit
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinTemp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxTemp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MinHumi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MaxHumi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Adds)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Addsread)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Plc)
+            </th>
+@*             <th>
+                @Html.DisplayNameFor(model => model.OffsetTemp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OffsetHumi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeltaT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DeltaH)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Timeoff)
+            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.Enstatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Csstop)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cssleft)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdLed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdRoom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameLed)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinTemp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxTemp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinHumi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxHumi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Adds)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Addsread)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Plc)
+            </td>
+@*             <td>
+                @Html.DisplayFor(modelItem => item.OffsetTemp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OffsetHumi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeltaT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeltaH)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Timeoff)
+            </td> *@
+                @if (item.Enstatus == 0)
+                {
+                    <td>Not Set</td>
+                }
+                else if (item.Enstatus == 3)
+                {
+                    <td>On Light, On Buzzer</td>
+                }
+                else if (item.Enstatus == 1)
+                {
+                    <td>On Light, Off Buzzer</td>
+                }
+                else if (item.Enstatus == 2)
+                {
+                    <td>Off Light, Off Buzzer</td>
+                }
+            <td style="max-width:400px; word-wrap:break-word">
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Csstop)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cssleft)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdLed">Edit</a> |
+                @* <a asp-action="Details" asp-route-id="@item.IdLed">Details</a> | *@
+                <a asp-action="Delete" asp-route-id="@item.IdLed">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

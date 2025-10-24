@@ -1,0 +1,106 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WEB_SHOW_WRIST_STRAP.Data;
+
+@model IEnumerable<WEB_SHOW_WRIST_STRAP.Models.Entities.ListRoom>
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "List Area";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<header class="header">
+    <h1>LIST AREA</h1>
+</header>
+
+<select hidden class="col-6" style="padding-block:5px;margin-block:5px" id="cboxuser">
+    @foreach (var Username in UserManager.Users)
+    {
+        <option value="@Username.UserName">@Username.UserName</option>
+    }
+</select>
+
+<p>
+    <a asp-action="Create" style="margin-top:15px" class="btn btn-success animation">Create New</a>
+</p>
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>
+                IdArea
+            </th>
+            <th>
+                Name Area
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ListUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Floor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdRoom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameRoom)
+            </td>
+            <td name ="lsuser">
+                @Html.DisplayFor(modelItem => item.ListUser)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Floor)
+            </td>
+            <td style="max-width:400px; word-wrap:break-word">
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdRoom">Edit</a> |
+                @* <a asp-action="Details" asp-route-id="@item.IdRoom">Details</a> | *@
+                <a asp-action="Delete" asp-route-id="@item.IdRoom">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<script>
+    const start = function CheckUser() {
+
+        let lsuser = document.getElementsByName("lsuser");
+
+        let cboxuser = document.getElementById("cboxuser");
+
+        lsuser.forEach(function (dsuser) {
+
+            let listuser = dsuser.innerText.split('|');
+
+            dsuser.innerText = "";
+
+            listuser.forEach(function (user) {
+
+                if (cboxuser.innerText.includes(user)) {
+                    if (dsuser.innerText != "") {
+                        dsuser.innerText += "|" + user;
+                    }
+                    else {
+                        dsuser.innerText += user;
+                    }
+                }
+
+            });
+
+        })
+    }
+    start();
+</script>

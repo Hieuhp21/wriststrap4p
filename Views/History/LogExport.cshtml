@@ -1,0 +1,158 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using WEB_SHOW_WRIST_STRAP.Data;
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    ViewData["Title"] = "LogExport";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WEB_SHOW_WRIST_STRAP.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                @*<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WEB_SHOW_WRIST_STRAP</a>*@
+                <img class="navbar-brand" src="~/image/LG_Electronics_logo.png" alt="Logo" height="45px">
+            </div>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <img class="navbar-brand" style="margin-right:10px" asp-area="" asp-controller="Home" asp-action="Index" src="~/image/logo_baoan.png" alt="Logoba" height="45px">
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div>
+        <main style="" role="main" class="pb-3">
+            <ul class="tree">
+                <li>
+                    <details open>
+                        <summary>LOG FILE</summary>
+                        <ul id="Lsyear">
+
+                        </ul>
+                    </details>
+                </li>
+            </ul>
+        </main>
+    </div>
+
+</body>
+</html>
+
+<script>
+    function Getfilelog(lsidline) {
+        $.post('@Url.Action("Getfullfilebyuser","History")', { listline: lsidline },
+            function (input) {
+                if (input != "[]" && input != "") {
+                    let listyear = JSON.parse(input);
+
+                    let LSyear = document.getElementById("Lsyear");
+
+                    listyear.forEach(function (year) {
+                        let textinner = '<li style="list-style-type: none;"> <details> <summary>' + year.year + '</summary> <ul id="y' + year.year + '"> </ul> </details> </li>'
+                        LSyear.innerHTML += textinner;
+
+                        let LsMoth = document.getElementById("y" + year.year);
+
+                        year.LsMoth.forEach(function (moth) {
+                            let txthtmlmoth = '<li style="list-style-type: none;"> <details> <summary>' + moth.moth + '</summary> <ul id="y' + year.year + 'M' + moth.moth + '"> </ul> </details> </li>'
+
+                            LsMoth.innerHTML += txthtmlmoth;
+
+                            let LsDay = document.getElementById("y" + year.year + "M" + moth.moth);
+
+                            moth.Lsday.forEach(function (day) {
+                                let txthtmlday = '<li style="list-style-type: none;"> <details> <summary>' + day.day + '</summary> <ul id="y' + year.year + 'M' + moth.moth + 'd' + day.day + '"> </ul> </details> </li>'
+
+                                LsDay.innerHTML += txthtmlday;
+
+                                let Lsline = document.getElementById("y" + year.year + "M" + moth.moth + 'd' + day.day);
+
+                                day.Lsline.forEach(function (line) {
+
+                                    let txthtmlline = '<li style="list-style-type: none;"> <details> <summary>' + line.name + '</summary> <ul id="y' + year.year + 'M' + moth.moth + 'd' + day.day + 'r' + line.idline + '"> </ul> </details> </li>'
+                                
+                                    Lsline.innerHTML += txthtmlline;
+
+                                    let LsLEDcsv = document.getElementById("y" + year.year + "M" + moth.moth + 'd' + day.day + 'r' + line.idline);
+
+                                    line.LsLEDcsv.forEach(function (LEDcsv) {
+                                        let nameLED = LEDcsv.split("/")[4];
+
+                                        let LinkLED = "/Export/" + LEDcsv;
+
+                                        let txthtmlledcsv = '<li style="list-style-type: none; color: blue;"> <details> <summary onclick="window.location = \'' + LinkLED + '\'">' + nameLED + '</summary> </details> </li>'
+
+                                        LsLEDcsv.innerHTML += txthtmlledcsv;
+                                    });
+                                });
+
+                            });
+                        });
+                    })
+
+                }
+            }
+        );
+    }
+
+    let lslinesuser2 = new Array();
+
+    //Get list lines into var lsidlineshow
+    function GetListline() {
+        $.post('@Url.Action("GetAllLine", "ListLines")', {},
+            function (input) {
+
+                let lslines2 = JSON.parse(input);
+                lslines2.forEach(function (line) {
+                   
+                    let lsuser = line.ListUser.split('|');
+                    if (lsuser.includes("@User.Identity?.Name")) {
+                        lslinesuser2.push(line);
+                    }
+                });
+                UpdateDataLog();
+            }
+        );
+
+    }
+
+    function Waiitingdata() {
+        setTimeout(UpdateDataLog, 500);
+    }
+
+    function UpdateDataLog() {
+        if (lslinesuser2 == null && lslinesuser2.length == 0) {
+            Waiitingdata();
+        }
+        else {
+            let lslineuser = new Array();
+            lslinesuser2.forEach(function (line) {
+                lslineuser.push(line.Idline);
+            });
+
+
+            Getfilelog(lslineuser.join());
+        }
+
+    }
+
+    GetListline();
+
+</script>

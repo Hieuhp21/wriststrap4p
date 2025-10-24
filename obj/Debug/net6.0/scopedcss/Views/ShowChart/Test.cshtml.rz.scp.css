@@ -1,0 +1,23 @@
+.left-temple[b-plq5srskub] {
+    border: 2px solid #888;
+    padding: 10px;
+    max-height: 20%;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    overflow-y: auto;
+}
+
+.right[b-plq5srskub] {
+    flex: 1;
+    border: 2px solid #999;
+    margin-left: 10px;
+    height: 40%;
+}
+
+.left-infor[b-plq5srskub] {
+    height: auto;
+    border: 2px solid #888;
+    margin-top: 10px;
+    padding: 10px 20px;
+}

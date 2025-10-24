@@ -1,0 +1,352 @@
+﻿@using WEB_SHOW_WRIST_STRAP.Controllers;
+@model WEB_SHOW_WRIST_STRAP.Dataconfig;
+@{
+    ViewData["Title"] = "Edit_Layout";
+}
+
+<div style="">
+    <div style="height:40px">
+        <select class="input cboxFloor animation" name="bell" id="cbfloor" style="flex: 1;" onchange="cboxchange(this.value)">
+        </select>
+        <button type="button" id="btnSaveL" class="btn-success animationbase" style="border-radius:5px; height:35px; flex: 1; position: relative;" onclick="SaveEdit()">Save Edit</button>
+        <span style="font-weight:700;font-size:27px;margin-left:20vw;margin-top:-5px">EDIT LAYOUT CONTROL SYSTEM</span>
+    </div>
+
+    <div style="position:relative;display: inline-block;">
+        <div id="IMGIVI">
+            <div style="margin-left: 85%; height: 5px" class="total-ok">
+                <div id="total-ok"></div>
+                <div class="total-ok-leakagevoltage" id="total-ok-leakagevoltage"></div>
+            </div>
+        </div>
+        <div class="overlay"></div>
+    </div>
+    <div id="Layout_lines"></div>
+</div>
+
+<style>
+    .point-wrapper {
+        position: absolute;
+        display: inline-block;
+    }
+
+    .point-overlay {
+        position: relative;
+        background: rgba(0, 0, 255, 0.1);
+        border: 1px dashed #0000FF;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 30px;
+        min-height: 30px;
+    }
+
+    .pointinline-di-edit {
+        position: absolute; /* Đổi từ relative sang absolute để căn giữa */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* Căn giữa hoàn toàn */
+        cursor: move;
+        z-index: 1;
+        padding: 2px 5px; /* Thêm padding để point không quá sát viền */
+    }
+
+    .resize-handle {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        background: #fff;
+        border: 1px solid #000;
+        z-index: 2;
+        cursor: pointer;
+    }
+
+        .resize-handle.se {
+            bottom: -4px;
+            right: -4px;
+            cursor: se-resize;
+        }
+
+        .resize-handle.sw {
+            bottom: -4px;
+            left: -4px;
+            cursor: sw-resize;
+        }
+
+        .resize-handle.ne {
+            top: -4px;
+            right: -4px;
+            cursor: ne-resize;
+        }
+
+        .resize-handle.nw {
+            top: -4px;
+            left: -4px;
+            cursor: nw-resize;
+        }
+</style>
+
+<script>
+    let Layout_lines = document.getElementById("Layout_lines");
+    let cboxfloor = document.getElementById("cbfloor");
+    let ImgIVI = document.getElementById("IMGIVI");
+    let retry = 0;
+
+    async function LoadAreaUser() {
+        if (Allfloor == null) {
+            setTimeout(LoadAreaUser, 50);
+        } else {
+            await sleep(10);
+            Allfloor.forEach(function (floor) {
+                cboxfloor.innerHTML += '<option value="' + floor.IdFloor + '">' + floor.NameFloor + '</option>'
+            });
+            if (Allfloor.length > 0) {
+                cboxfloor.selectedIndex = 0;
+                while (Userline == null || Userpoint == null) await sleep(50);
+                cboxchange(Allfloor[0].IdFloor);
+            }
+        }
+    }
+
+    let idfloorNow;
+    let lslineofFloor;
+
+    function cboxchange(idfloor) {
+        lslineofFloor = GetUserLineofFloor(idfloor);
+        idfloorNow = idfloor;
+        ImgIVI.innerHTML = "";
+        ImgIVI.innerHTML = '<img style="border: 1px solid; width: 1800px; height: auto; object-fit: contain;width="1800" src="/image/' + cboxfloor.options[cboxfloor.selectedIndex].text + '.png?v=2.7"/>';
+        Updatelayoutline(idfloor);
+    }
+
+    let IDlsboxshow = new Array();
+
+    function Updatelayoutline(value) {
+        if (Userline == null) setTimeout(Updatelayoutline, 50, value);
+        else {
+            Layout_lines.innerHTML = "";
+            let htmlinter = "";
+            lslineofFloor.forEach(function (line) {
+                let ID = line.IdLine;
+                let Nameline = line.NameLine;
+                let XYBox = GetXYLine(ID);
+
+                let htmlinterbefore = ' <div name="boxlayoutline" id="boxline' + ID + '" class="boxlineedit" style = "top: ' + XYBox[0] + 'px; left: ' + XYBox[1] + 'px; width: ' + XYBox[2] + 'px ; height: ' + XYBox[3] + 'px " > <div id="boxline' + ID + 'head" class="boxlinehead-edit" > <p id="boxline' + ID + 'ivi" class="boxlinehead-a" >' + (line.IdIviLine ? line.IdIviLine : 'IVI') + '</p> </div> '
+                let htmlinterafter = ' </div>'
+                let lspointline = GetPointofline(ID);
+                let htmllinemid = "";
+
+                lspointline.forEach(function (point) {
+                    // Không cần định vị top/left cho point nữa vì CSS sẽ tự căn giữa
+                    htmllinemid += `
+                                <div class="point-wrapper" id="wrapper_${point.IdLine}_${point.IdPoint}" style="top:${point.Csstop}px; left:${point.Cssleft}px">
+                                    <div class="point-overlay" id="overlay_${point.IdLine}_${point.IdPoint}"
+                                         style="width:${point.Width || 50}px; height:${point.Height || 50}px">
+                                        <div name="pointmove" id="point_${point.IdLine}_${point.IdPoint}"
+                                             class="pointinline-di-edit">
+                                            <p class="pointinline-di-a">${point.IdPoint}</p>
+                                        </div>
+                                        <div class="resize-handle se" data-direction="se"></div>
+                                        <div class="resize-handle sw" data-direction="sw"></div>
+                                        <div class="resize-handle ne" data-direction="ne"></div>
+                                        <div class="resize-handle nw" data-direction="nw"></div>
+                                    </div>
+                                </div>`;
+                });
+
+                htmlinter += (htmlinterbefore + htmllinemid + htmlinterafter);
+            });
+
+            Layout_lines.innerHTML = htmlinter;
+            Editing = false;
+            setTimeout(BeginEdit, 100);
+        }
+    }
+
+    function Clickline(ID) {
+        if (moving) {
+            moving = false;
+        } else {
+            window.location.href = '/ShowChart?Idled=' + ID;
+        }
+    }
+
+    let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+    let moving = false;
+
+    function dragElement(elmnt, isPoint = false) {
+        pos1 = 0; pos2 = 0; pos3 = 0; pos4 = 0;
+        let dragTarget = isPoint ? elmnt.parentElement.parentElement : elmnt;
+
+        if (!isPoint && document.getElementById(elmnt.id + 'head')) {
+            document.getElementById(elmnt.id + 'head').onmousedown = dragMouseDown;
+        } else {
+            elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            moving = true;
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+
+            dragTarget.style.top = (dragTarget.offsetTop - pos2) + "px";
+            dragTarget.style.left = (dragTarget.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
+    let Editing = false;
+
+    function BeginEdit() {
+        if (!Editing) {
+            Editing = true;
+
+            document.getElementsByName("boxlayoutline").forEach(function (boxline) {
+                dragElement(boxline);
+            });
+
+            document.getElementsByName("pointmove").forEach(function (point) {
+                dragElement(point, true);
+            });
+
+            document.querySelectorAll('.resize-handle').forEach(handle => {
+                handle.addEventListener('mousedown', startResize);
+            });
+        }
+    }
+
+    function startResize(e) {
+        e.preventDefault();
+        const overlay = e.target.parentElement;
+        const direction = e.target.dataset.direction;
+        const pointWrapper = overlay.parentElement;
+
+        let startX = e.clientX;
+        let startY = e.clientY;
+        let startWidth = parseInt(overlay.style.width) || 50;
+        let startHeight = parseInt(overlay.style.height) || 50;
+        let startLeft = parseInt(pointWrapper.style.left) || 0;
+        let startTop = parseInt(pointWrapper.style.top) || 0;
+
+        function doResize(e) {
+            let dx = e.clientX - startX;
+            let dy = e.clientY - startY;
+
+            let newWidth = startWidth;
+            let newHeight = startHeight;
+            let newLeft = startLeft;
+            let newTop = startTop;
+
+            switch (direction) {
+                case 'se':
+                    newWidth = startWidth + dx;
+                    newHeight = startHeight + dy;
+                    break;
+                case 'sw':
+                    newWidth = startWidth - dx;
+                    newLeft = startLeft + dx;
+                    newHeight = startHeight + dy;
+                    break;
+                case 'ne':
+                    newWidth = startWidth + dx;
+                    newHeight = startHeight - dy;
+                    newTop = startTop + dy;
+                    break;
+                case 'nw':
+                    newWidth = startWidth - dx;
+                    newHeight = startHeight - dy;
+                    newLeft = startLeft + dx;
+                    newTop = startTop + dy;
+                    break;
+            }
+
+            newWidth = Math.max(newWidth, 30);
+            newHeight = Math.max(newHeight, 30);
+
+            overlay.style.width = newWidth + 'px';
+            overlay.style.height = newHeight + 'px';
+            pointWrapper.style.left = newLeft + 'px';
+            pointWrapper.style.top = newTop + 'px';
+        }
+
+        function stopResize() {
+            document.removeEventListener('mousemove', doResize);
+            document.removeEventListener('mouseup', stopResize);
+        }
+
+        document.addEventListener('mousemove', doResize);
+        document.addEventListener('mouseup', stopResize);
+    }
+
+    async function SaveEdit() {
+        if (Editing) {
+            const selectedOption = localStorage.getItem('selectedOption');
+
+            for (let line of lslineofFloor) {
+                let ID = line.IdLine;
+
+                let boxline = document.getElementById("boxline" + ID);
+                let top = boxline.style.top;
+                let left = boxline.style.left;
+                let width = boxline.style.width;
+                let height = boxline.style.height;
+
+                $.post('@Url.Action("UpdateXYLine", "ListLines")', {
+                    idline: ID,
+                    top: top,
+                    left: left,
+                    width: width,
+                    height: height
+                });
+
+                await sleep(10);
+
+                let lspointline = GetPointofline(ID);
+
+                for (let point of lspointline) {
+                    let pointWrapper = document.getElementById(`wrapper_${point.IdLine}_${point.IdPoint}`);
+                    let overlay = document.getElementById(`overlay_${point.IdLine}_${point.IdPoint}`);
+
+                    let pointData = {
+                        idpoint: point.IdPoint,
+                        idline: ID,
+                        top: pointWrapper.style.top,
+                        left: pointWrapper.style.left,
+                        width: overlay.style.width,
+                        height: overlay.style.height,
+
+                    };
+
+                    if (selectedOption === 'LakeageVoltage') {
+                        $.post('@Url.Action("UpdateXYPoint", "ListPoint2")', pointData);
+                    } else if (selectedOption === 'WristStrap') {
+                        $.post('@Url.Action("UpdateXYPoint", "ListPoints")', pointData);
+                    }
+
+                    await sleep(10);
+                }
+            }
+
+            window.location.href = '@Url.Action("Index", "Home")';
+        }
+    }
+
+    LoadAreaUser();
+</script>

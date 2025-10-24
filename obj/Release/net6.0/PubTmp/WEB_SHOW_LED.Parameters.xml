@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="192.168.220.50" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\By\ BAA\ Soft\\WEB_SHOW_LED\\obj\\Release\\net6\.0\\PubTmp\\Out\\$" />
+  </parameter>
+</parameters>

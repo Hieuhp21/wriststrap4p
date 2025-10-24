@@ -1,0 +1,353 @@
+﻿@model WEB_SHOW_WRIST_STRAP.Dataconfig;
+
+@{
+    int IDLINE = ViewBag.IdLine;
+    int? IDCLUSTER = ViewBag.IdCluster;
+    var lines = ViewBag.Lines as List<int>;
+}
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Detail Cluster</title>
+    <style>
+        .line-container {
+            position: relative;
+            display: inline-block;
+            max-width: 1800px;
+            width: 100%;
+            height: auto;
+            margin-right: 20px;
+        }
+
+            .line-container img {
+                width: 100%;
+                height: auto;
+                max-height: 2000px;
+            }
+
+        .line-label {
+            position: absolute;
+            top: 15px;
+            left: -40px;
+            color: white;
+            background-color: rgba(0, 0, 0, 0.7);
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .point {
+            position: absolute;
+            color: white;
+            border-radius: 5px;
+            font-size: 20px;
+            text-align: center;
+            font-weight: bold;
+            background-color: black;
+        }
+
+        table {
+            display: table !important;
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+            table th, table td {
+                border-bottom: 1px solid #ccc; /* chỉ có đường kẻ ngang */
+                border-top: none;
+                border-left: none;
+                border-right: none;
+                padding: 8px;
+                text-align: center;
+            }
+
+        th {
+            background-color: #444 !important;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div>
+        <h3 style="text-align:center">Detail Cluster </h3>
+    </div>
+    <div>
+        <p>Leakage Voltage(V) </p>
+    </div>
+    <div class="home-container1" id="clayout">
+        @foreach (var idLine in lines)
+        {
+                <div class="line-container" data-line-id="@idLine">
+                    <div id="imgline_@idLine"></div>
+                </div>
+        }
+        <button id="editLayoutBtn" class="btn-success animationbase" style="border-radius:3px; position:absolute">Edit</button>
+    </div>
+
+    <div style="margin-top:4%"></div>
+    <table class="table table-bordered">
+        <thead>
+            <tr id="headerRow">
+                <th>Line</th>
+                <th>IdPoint</th>
+            </tr>
+        </thead>
+        <tbody id="dataTable"></tbody>
+    </table>
+
+    <script>
+        const idLine = '@ViewBag.IdLine';
+        const lines = @Html.Raw(Json.Serialize(lines));
+
+        $("#editLayoutBtn").click(function () {
+            window.location.href = '/ListView/EditLayoutLine?idLine=' + idLine;
+        });
+
+       function getLineName(idLine) {
+    let result = { nameLine: `Line ${idLine}`, stt: 0 };
+    $.ajax({
+        url: '/ListLines/GetLineName',
+        type: 'GET',
+        async: false, // Sử dụng đồng bộ để đảm bảo trả về giá trị
+        data: { idLine: idLine },
+        success: function (data) {
+            result.nameLine = data.nameLine || `Line ${idLine}`;
+            result.stt = data.stt !== undefined ? data.stt : 0;
+        },
+        error: function () {
+            console.warn(`Không lấy được thông tin cho line ${idLine}`);
+        }
+    });
+    return result; // Trả về object chứa nameLine và stt
+}
+
+        function Loadfirst() {
+            lines.forEach(idLine => {
+                let imgWidth;
+                if (idLine >= 1 && idLine <= 9) {
+                    imgWidth = 1800;
+                } else if (idLine >= 10 && idLine <= 12) {
+                    imgWidth = 1200;
+                } else if (idLine >= 13 && idLine <= 14) {
+                    imgWidth = 800;
+                } else if (idLine == 15) {
+                    imgWidth = 1000;
+                } else if (idLine == 16) {
+                    imgWidth = 1000;
+                } else {
+                    imgWidth = 1800;
+                }
+              let lineData = getLineName(idLine);
+        let NameLine = lineData.nameLine;
+                $(`#imgline_${idLine}`).html(`
+                            <div class="line-label">${NameLine}</div>
+                            <img id="lineImage_${idLine}" style="width:${imgWidth}px;" src="/image/${idLine}.png?v=1.2.3" onerror="handleImageError(this, ${idLine})"/>
+                        `);
+            });
+
+            getPointLine();
+            setInterval(updateStatus, 5000);
+        }
+
+        function handleImageError(imgElement, idLine) {
+            console.warn(`Failed to load image for line ${idLine}`);
+            imgElement.src = "/image/default.png?v=1.12"; // Thay bằng ảnh mặc định nếu lỗi
+        }
+
+        function getPointLine() {
+            $.ajax({
+                url: '/ListView/GetPointLine',
+                type: 'GET',
+                data: { idLine: idLine },
+                success: function (data) {
+                    data.forEach(point => {
+                        // Xác định tỷ lệ dựa trên kích thước ảnh
+                        let baseWidth;
+                        if (point.idLine >= 1 && point.idLine <= 9) {
+                            baseWidth = 1800; // Cụm 1, 2
+                        } else if (point.idLine >= 10 && point.idLine <= 12) {
+                            baseWidth = 1200; // Cụm 3
+                        } else if (point.idLine >= 13 && point.idLine <= 14) {
+                            baseWidth = 800; // Cụm 4
+                        } else if (point.idLine == 15) {
+                            baseWidth = 1000; // Cụm 5
+                        } else if (point.idLine == 16) {
+                            baseWidth = 1000; // Cụm 6
+                        } else {
+                            baseWidth = 1800; // Mặc định
+                        }
+                        const scaleFactor = baseWidth / 1800; // Tỷ lệ so với kích thước chuẩn 1800px
+                        const top = (point.topDetail != null ? point.topDetail : point.csstop) * scaleFactor;
+                        const left = (point.leftDetail != null ? point.leftDetail : point.cssleft) * scaleFactor;
+                        let pointHtml = `
+                                            <div class="point"
+                                                 data-id="${point.idPoint}"
+                                                 data-line="${point.idLine}"
+                                                 style="top: ${top}px; left: ${left}px;">
+                                                 ...
+                                            </div>`;
+                        $(`.line-container[data-line-id="${point.idLine}"]`).append(pointHtml);
+                    });
+                    updateStatus();
+                },
+                error: function () {
+                    alert("Failed to load points for the cluster.");
+                }
+            });
+        }
+
+        function updateStatus() {
+            $.ajax({
+                url: '/ListView/UpdateStatus',
+                type: 'GET',
+                data: { idLine: idLine },
+                success: function (data) {
+                    let hasNG = false; // Biến để kiểm tra có trạng thái NG hay không
+                    data.forEach(status => {
+                        let pointDiv = $(`.point[data-id="${status.idPoint}"][data-line="${status.idLine}"]`);
+                        if (pointDiv.length) {
+                            let displayText;
+                            let textColor;
+                            pointDiv.removeClass("alarm-blink");
+
+                            // Kiểm tra trạng thái bằng hàm GetStatus
+                            let statusText = GetStatus(status.alarm);
+                            if ([0, 1, 2].includes(status.alarm)) {
+                                let formattedValue = parseFloat(status.value).toFixed(2);
+                                displayText = ` ${formattedValue}`;
+                                textColor = status.alarm === 2 ? "#ff007f" : "#52e552";
+                                if (status.alarm === 2) pointDiv.addClass("alarm-blink");
+                            } else if (status.alarm === 7) {
+                                displayText = "FIX";
+                                textColor = "yellow";
+                                // Không thêm alarm-blink cho trạng thái 7
+                            } else {
+                               displayText = GetAlarm(status.alarm);
+                        textColor = [3, 6].includes(status.alarm) ? "white" : "#ff007f";
+                        if (![3, 6].includes(status.alarm)) pointDiv.addClass("alarm-blink");
+                            }
+
+                            pointDiv.text(` ${displayText}`).css("color", textColor);
+
+                            // Kiểm tra nếu có trạng thái NG
+                            if (statusText === 'NG' && status.alarm !== 7) {
+                                hasNG = true;
+                            }
+                        }
+                    });
+
+                    // Bật hoặc tắt âm thanh cảnh báo dựa trên trạng thái NG
+                    if (hasNG) {
+                        playAlarm(); // Phát âm thanh nếu có NG
+                    } else {
+                        stopAlarm(); // Tắt âm thanh nếu không có NG
+                    }
+                },
+                error: function () {
+                    alert("Failed to update point statuses.");
+                }
+            });
+        }
+
+        function loadLogData() {
+    $.ajax({
+        url: "/ListView/GetLogData",
+        type: "GET",
+        data: { idLine: idLine },
+        success: function (rawData) {
+            let uniqueDays = [...new Set(rawData.filter(d => d.type === "Day").map(d => d.date))].sort();
+            let uniqueWeeks = [...new Set(rawData.filter(d => d.type === "Week").map(d => d.date))].sort();
+            let uniqueMonths = [...new Set(rawData.filter(d => d.type === "Month").map(d => d.date))].sort();
+
+            let headerRow = $("#headerRow");
+            uniqueDays.forEach(day => headerRow.append(`<th>${day}</th>`));
+            uniqueWeeks.forEach(week => headerRow.append(`<th>${week}</th>`));
+            uniqueMonths.forEach(month => headerRow.append(`<th>${month}</th>`));
+
+            // Nhóm dữ liệu theo idLine và idPoint
+            let groupedData = {};
+            let lineInfo = {};
+            rawData.forEach(item => {
+                let key = `${item.idLine}_${item.idPoint}`;
+                if (!groupedData[item.idLine]) {
+                    groupedData[item.idLine] = {};
+                }
+                if (!groupedData[item.idLine][item.idPoint]) {
+                    groupedData[item.idLine][item.idPoint] = { idLine: item.idLine, idPoint: item.idPoint, values: {} };
+                }
+                groupedData[item.idLine][item.idPoint].values[item.date] = item.avgValue;
+                // Lưu thông tin NameLine và STT nếu chưa có
+                if (!lineInfo[item.idLine]) {
+                    let lineData = getLineName(item.idLine);
+                    lineInfo[item.idLine] = {
+                        nameLine: lineData.nameLine,
+                        stt: lineData.stt
+                    };
+                }
+            });
+
+            // Sắp xếp idLine theo STT
+            let sortedLines = Object.keys(groupedData).sort((a, b) => {
+                let sttA = lineInfo[a] ? lineInfo[a].stt : 0;
+                let sttB = lineInfo[b] ? lineInfo[b].stt : 0;
+                return sttA - sttB; // Sắp xếp tăng dần theo STT
+            });
+
+            function getColorClass(type, value) {
+                if (value === 0) return "bg-green";
+                if (type === "Day" && value < 1) return "bg-green";
+                if (type === "Week" && value < 1) return "bg-green";
+                if (type === "Month" && value < 1) return "bg-green";
+                return "bg-red";
+            }
+
+            // Render bảng với rowspan và làm tròn số
+            let tbody = $("#dataTable");
+            sortedLines.forEach(idLine => {
+                let points = Object.values(groupedData[idLine]);
+                if (points.length === 0) return; // Bỏ qua nếu không có dữ liệu
+
+                // Lấy NameLine từ lineInfo
+                let nameLine = lineInfo[idLine].nameLine;
+
+                points.forEach((point, index) => {
+                    let tr = '<tr>';
+                    if (index === 0) {
+                        tr += `<td rowspan="${points.length}">${nameLine}</td>`;
+                    }
+                    tr += `<td>${point.idPoint}</td>`;
+
+                    uniqueDays.concat(uniqueWeeks, uniqueMonths).forEach(date => {
+                        let value = point.values[date];
+                        let entry = rawData.find(d =>
+                            d.date === date &&
+                            d.idPoint === point.idPoint &&
+                            d.idLine === point.idLine
+                        );
+                        let formattedValue = value !== undefined ? parseFloat(value).toFixed(2) : "-";
+                        let colorClass = value !== undefined && entry ? getColorClass(entry.type, value) : "";
+                        tr += `<td class="${colorClass}" style="background-color: ${colorClass ? colorClass.replace("bg-", "") : ""} !important;">${formattedValue}</td>`;
+                    });
+                    tr += '</tr>';
+                    tbody.append(tr);
+                });
+            });
+        },
+        error: function () {
+            alert("Failed to load log data.");
+        }
+    });
+}
+
+        $(document).ready(function () {
+            Loadfirst();
+            loadLogData();
+        });
+    </script>
+</body>
+</html>

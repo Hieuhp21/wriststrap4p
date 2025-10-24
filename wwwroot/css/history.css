@@ -1,0 +1,49 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+.search{
+    margin-bottom: 10px;
+    height: 90px;
+}
+.card-header{
+    text-align:center;
+    font-size: 16px;
+    font-weight:bold;
+}
+.label{
+    font-weight:bold;
+}
+.header {
+    width:100%;
+    text-align: center;
+    margin-bottom:10px;
+}
+.in-for-his{
+   margin-top: 3%
+}
+.selected-row {
+    outline: 3px solid blue; /* Viền ngoài đậm hơn */
+    outline-offset: -3px; /* Đẩy viền vào trong một chút để không tràn ra ngoài */
+}
+.lable {
+    font-weight: bold;
+}
+
+.form-control {
+    background-color: transparent !important;
+    color: white;
+}
+
+.card-body {
+    background-color: #2a3033;
+}
+
+.form-select {
+    background-color: transparent;
+    color: white;
+}
+.card{
+    background-color: transparent !important;
+}
