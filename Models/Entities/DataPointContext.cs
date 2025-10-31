@@ -405,7 +405,9 @@ namespace WEB_SHOW_WRIST_STRAP.Models.Entities
                 entity.Property(e => e.MaxSpect).HasColumnName("max_spect");
 
                 entity.Property(e => e.MinSpect).HasColumnName("min_spect");
+                entity.Property(e => e.Width).HasColumnName("width");
 
+                entity.Property(e => e.Height).HasColumnName("height");
                 entity.Property(e => e.NamePoint)
                     .HasMaxLength(100)
                     .HasColumnName("name_point");

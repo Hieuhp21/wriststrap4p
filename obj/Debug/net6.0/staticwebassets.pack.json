@@ -57,16 +57,32 @@
       "PackagePath": "staticwebassets\\image\\1000.png"
     },
     {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\10w.png",
+      "PackagePath": "staticwebassets\\image\\10w.png"
+    },
+    {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\11.png",
       "PackagePath": "staticwebassets\\image\\11.png"
+    },
+    {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\11w.png",
+      "PackagePath": "staticwebassets\\image\\11w.png"
     },
     {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\12.png",
       "PackagePath": "staticwebassets\\image\\12.png"
     },
     {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\12w.png",
+      "PackagePath": "staticwebassets\\image\\12w.png"
+    },
+    {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\13.png",
       "PackagePath": "staticwebassets\\image\\13.png"
+    },
+    {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\13w.png",
+      "PackagePath": "staticwebassets\\image\\13w.png"
     },
     {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\14.png",
@@ -89,12 +105,24 @@
       "PackagePath": "staticwebassets\\image\\17.png"
     },
     {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\1w.png",
+      "PackagePath": "staticwebassets\\image\\1w.png"
+    },
+    {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\2.png",
       "PackagePath": "staticwebassets\\image\\2.png"
     },
     {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\2w.png",
+      "PackagePath": "staticwebassets\\image\\2w.png"
+    },
+    {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\3.png",
       "PackagePath": "staticwebassets\\image\\3.png"
+    },
+    {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\3w.png",
+      "PackagePath": "staticwebassets\\image\\3w.png"
     },
     {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\4.png",
@@ -109,24 +137,48 @@
       "PackagePath": "staticwebassets\\image\\4P_logoold.png"
     },
     {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\4w.png",
+      "PackagePath": "staticwebassets\\image\\4w.png"
+    },
+    {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\5.png",
       "PackagePath": "staticwebassets\\image\\5.png"
+    },
+    {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\5w.png",
+      "PackagePath": "staticwebassets\\image\\5w.png"
     },
     {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\6.png",
       "PackagePath": "staticwebassets\\image\\6.png"
     },
     {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\6w.png",
+      "PackagePath": "staticwebassets\\image\\6w.png"
+    },
+    {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\7.png",
       "PackagePath": "staticwebassets\\image\\7.png"
+    },
+    {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\7w.png",
+      "PackagePath": "staticwebassets\\image\\7w.png"
     },
     {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\8.png",
       "PackagePath": "staticwebassets\\image\\8.png"
     },
     {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\8w.png",
+      "PackagePath": "staticwebassets\\image\\8w.png"
+    },
+    {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\9.png",
       "PackagePath": "staticwebassets\\image\\9.png"
+    },
+    {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\9w.png",
+      "PackagePath": "staticwebassets\\image\\9w.png"
     },
     {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\Alarm1.png",
@@ -201,6 +253,10 @@
       "PackagePath": "staticwebassets\\image\\icon_hub.png"
     },
     {
+      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\layoutWS.png",
+      "PackagePath": "staticwebassets\\image\\layoutWS.png"
+    },
+    {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\logo_baoan.png",
       "PackagePath": "staticwebassets\\image\\logo_baoan.png"
     },
@@ -215,10 +271,6 @@
     {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\vt1.png",
       "PackagePath": "staticwebassets\\image\\vt1.png"
-    },
-    {
-      "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\~$dataExport.xlsx",
-      "PackagePath": "staticwebassets\\image\\~$dataExport.xlsx"
     },
     {
       "Id": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\js\\site.js",

@@ -129,7 +129,7 @@ namespace WEB_SHOW_WRIST_STRAP.Controllers
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Edit(int idpoint, int idline, [Bind("IdPoint,IdLine,NamePoint,MinSpect,MaxSpect,Addsread,Addswrite,Plc,OffsetValue,DeltaValue,Timeoff,Enstatus,UserChange,TimeChange,Change,Note,Csstop,Cssleft,Type")] ListPoint listPoint)
         {
-            if (idpoint != listPoint.IdPoint|| idline != listPoint.IdLine)
+            if (idpoint != listPoint.IdPoint || idline != listPoint.IdLine)
             {
                 return NotFound();
             }
@@ -138,7 +138,38 @@ namespace WEB_SHOW_WRIST_STRAP.Controllers
             {
                 try
                 {
-                    _context.Update(listPoint);
+                    // 1. Tải entity gốc từ DB
+                    var existingPoint = await _context.ListPoints
+                        .FirstOrDefaultAsync(x => x.IdPoint == idpoint && x.IdLine == idline);
+
+                    if (existingPoint == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // 2. Cập nhật chỉ các trường được phép (từ form)
+                    existingPoint.NamePoint = listPoint.NamePoint;
+                    existingPoint.MinSpect = listPoint.MinSpect;
+                    existingPoint.MaxSpect = listPoint.MaxSpect;
+                    existingPoint.Addsread = listPoint.Addsread;
+                    existingPoint.Addswrite = listPoint.Addswrite;
+                    existingPoint.Plc = listPoint.Plc;
+                    existingPoint.OffsetValue = listPoint.OffsetValue;
+                    existingPoint.DeltaValue = listPoint.DeltaValue;
+                    existingPoint.Timeoff = listPoint.Timeoff;
+                    existingPoint.Enstatus = listPoint.Enstatus;
+                    existingPoint.UserChange = listPoint.UserChange;
+                    existingPoint.TimeChange = listPoint.TimeChange;
+                    existingPoint.Change = listPoint.Change;
+                    existingPoint.Note = listPoint.Note;
+                    existingPoint.Csstop = listPoint.Csstop;
+                    existingPoint.Cssleft = listPoint.Cssleft;
+                    existingPoint.Type = listPoint.Type;
+
+                    // 3. Các cột mới như Width, Height, Hide... sẽ GIỮ NGUYÊN giá trị cũ
+                    // → Không bị mất dù không có trong form
+
+                    // 4. Lưu thay đổi
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -154,6 +185,7 @@ namespace WEB_SHOW_WRIST_STRAP.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(listPoint);
         }
 

@@ -39,17 +39,15 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
 
-
-
                         {
                             <li class="nav-item">
                                 <!-- Group of buttons to select between Wrist-Strap and Lakeage Voltage -->
                                 <div class="btn-group" role="group" aria-label="Basic radio toggle button group" style="margin-right: 5px;height:42px">
                                     <input type="radio" class="btn-check" name="options" id="option1" autocomplete="off" onclick="updateView('WristStrap')">
-                                    <label class="btn btn-outline-primary" for="option1">G</label>
+                                    <label class="btn btn-outline-primary" for="option1">WS</label>
 
                                     <input type="radio" class="btn-check" name="options" id="option2" autocomplete="off" onclick="updateView('LakeageVoltage')">
-                                    <label class="btn btn-outline-primary" for="option2">W</label>
+                                    <label class="btn btn-outline-primary" for="option2">LV</label>
                                 </div>
                             </li>
                             <!-- Layout Menu -->
@@ -68,8 +66,6 @@
                             </li>
 
                             @if (User.IsInRole("Administrator"))
-
-
 
                             {
                                 <!-- PointList Menu -->
@@ -147,7 +143,7 @@
     {
         <text>window.location = '@Url.Action("Index", "Home")';</text>
     }
-                }
+            }
 
     function updateView(selectedOption, shouldReload = true) {
 

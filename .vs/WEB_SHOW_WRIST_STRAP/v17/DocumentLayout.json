@@ -3,12 +3,64 @@
   "WorkspaceRootPath": "D:\\A_Project\\grouding-ws4p\\grouding-master\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\controllers\\historycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:controllers\\historycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\home\\indexleakvol.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\home\\indexleakvol.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\history\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\history\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listview\\indexleakvol.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listview\\indexleakvol.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\home\\indexleakvol - copy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\home\\indexleakvol - copy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listpoint2\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listpoint2\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listpoints\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listpoints\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listpoint2\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listpoint2\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\models\\entities\\listpoint2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:models\\entities\\listpoint2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\controllers\\listpoint2controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:controllers\\listpoint2controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listpoints\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listpoints\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\controllers\\listpointscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:controllers\\listpointscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\models\\entities\\listpoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:models\\entities\\listpoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\home\\editlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\home\\editlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\models\\entities\\datapointcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:models\\entities\\datapointcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\home\\piechart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -19,8 +71,24 @@
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\shared\\_layout - copy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\shared\\_layout - copy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\shared\\piechartpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\shared\\piechartpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\controllers\\historycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:controllers\\historycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\history\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\history\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\shared\\_loginpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -35,14 +103,6 @@
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listview\\detail.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\controllers\\listpoint2controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:controllers\\listpoint2controller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\models\\entities\\datanow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:models\\entities\\datanow.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -51,20 +111,12 @@
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:services\\monitoringservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\models\\entities\\listpoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:models\\entities\\listpoint.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\services\\monitoringbackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:services\\monitoringbackgroundservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\services\\imonitoringservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:services\\imonitoringservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\controllers\\listpointscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:controllers\\listpointscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\controllers\\listviewcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -103,32 +155,12 @@
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\models\\entities\\listpoint2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:models\\entities\\listpoint2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listview\\indexleakvol.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listview\\indexleakvol.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\core\\viewmodels\\totaldataviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:core\\viewmodels\\totaldataviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\home\\indexleakvol.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\home\\indexleakvol.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\services\\monitoringbackgroundservice2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:services\\monitoringbackgroundservice2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\home\\indexleakvol - copy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\home\\indexleakvol - copy.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\home\\editlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\home\\editlayout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
@@ -153,10 +185,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\controllers\\listfloorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:controllers\\listfloorscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\models\\entities\\datapointcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:models\\entities\\datapointcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\models\\entities\\hub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -189,14 +217,6 @@
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:wwwroot\\css\\listview.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listpoints\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listpoints\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\models\\entities\\totaldatum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:models\\entities\\totaldatum.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -227,10 +247,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listpoints\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listpoints\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listpoints\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listpoints\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\showchart\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -299,10 +315,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listpoint2\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listpoint2\\create.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listpoint2\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|solutionrelative:views\\listpoint2\\edit.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{BB9117FB-5E10-4B7B-8FEF-6E7F667C13A7}|WEB_SHOW_WRIST_STRAP.csproj|d:\\a_project\\grouding-ws4p\\grouding-master\\views\\listpoint2\\details.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -396,8 +408,22 @@
       "DocumentGroups": [
         {
           "DockedWidth": 227,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 15,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "site.css",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "wwwroot\\css\\site.css",
+              "ViewState": "AgIAANoDAAAAAAAAAAAmwPcDAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-02-08T06:53:42.223Z",
+              "IsPinned": true,
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -428,32 +454,228 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 47,
-              "Title": "site.css",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\css\\site.css",
-              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\css\\site.css",
-              "RelativeToolTip": "wwwroot\\css\\site.css",
-              "ViewState": "AgIAAJ0DAAAAAAAAAAAqwLIDAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-02-08T06:53:42.223Z",
-              "IsPinned": true
+              "DocumentIndex": 7,
+              "Title": "ListPoint2Controller.cs",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListPoint2Controller.cs",
+              "RelativeDocumentMoniker": "Controllers\\ListPoint2Controller.cs",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListPoint2Controller.cs",
+              "RelativeToolTip": "Controllers\\ListPoint2Controller.cs",
+              "ViewState": "AgIAAB4BAAAAAAAAAAAUwDsBAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-21T03:51:04.031Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\ListPoints\\Index.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Index.cshtml",
+              "RelativeToolTip": "Views\\ListPoints\\Index.cshtml",
+              "ViewState": "AgIAAOgAAAAAAAAAAAAIwA8BAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-21T03:12:42.301Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "HomeController.cs",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\HomeController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\HomeController.cs",
-              "RelativeToolTip": "Controllers\\HomeController.cs",
-              "ViewState": "AgIAAJcAAAAAAAAAAAAIwLIAAAAJAAAAAAAAAA==",
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\ListPoints\\Edit.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Edit.cshtml",
+              "RelativeToolTip": "Views\\ListPoints\\Edit.cshtml",
+              "ViewState": "AgIAAHUAAAAAAAAAAAAAAJIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-21T04:02:42.037Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Edit.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoint2\\Edit.cshtml",
+              "RelativeDocumentMoniker": "Views\\ListPoint2\\Edit.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoint2\\Edit.cshtml",
+              "RelativeToolTip": "Views\\ListPoint2\\Edit.cshtml",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAUwIwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-21T04:08:25.825Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IndexLeakVol.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListView\\IndexLeakVol.cshtml",
+              "RelativeDocumentMoniker": "Views\\ListView\\IndexLeakVol.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListView\\IndexLeakVol.cshtml",
+              "RelativeToolTip": "Views\\ListView\\IndexLeakVol.cshtml",
+              "ViewState": "AgIAAJkEAAAAAAAAAAAmwK0EAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-09-03T07:50:29.361Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ListPoint2.cs",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ListPoint2.cs",
+              "RelativeDocumentMoniker": "Models\\Entities\\ListPoint2.cs",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ListPoint2.cs",
+              "RelativeToolTip": "Models\\Entities\\ListPoint2.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAswB4AAAATAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-08T02:49:38.038Z"
+              "WhenOpened": "2024-08-21T03:32:00.311Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IndexLeakVol - Copy.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\IndexLeakVol - Copy.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\IndexLeakVol - Copy.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\IndexLeakVol - Copy.cshtml",
+              "RelativeToolTip": "Views\\Home\\IndexLeakVol - Copy.cshtml",
+              "ViewState": "AgIAACgBAAAAAAAAAAAUwEcBAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-07T09:04:45.592Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "IndexLeakVol.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\IndexLeakVol.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\IndexLeakVol.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\IndexLeakVol.cshtml",
+              "RelativeToolTip": "Views\\Home\\IndexLeakVol.cshtml",
+              "ViewState": "AgIAAGQBAAAAAAAAAAAUwIIBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-15T02:04:07.67Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ListPointsController.cs",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListPointsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ListPointsController.cs",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListPointsController.cs",
+              "RelativeToolTip": "Controllers\\ListPointsController.cs",
+              "ViewState": "AgIAABwBAAAAAAAAAAAmwDwBAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-12T03:20:12.24Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "DataPointContext.cs",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\DataPointContext.cs",
+              "RelativeDocumentMoniker": "Models\\Entities\\DataPointContext.cs",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\DataPointContext.cs",
+              "RelativeToolTip": "Models\\Entities\\DataPointContext.cs",
+              "ViewState": "AgIAAHABAAAAAAAAAAAUwJcBAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T12:13:44.093Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoint2\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\ListPoint2\\Index.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoint2\\Index.cshtml",
+              "RelativeToolTip": "Views\\ListPoint2\\Index.cshtml",
+              "ViewState": "AgIAAMkAAAAAAAAAAAAAAN0AAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-31T09:03:57.391Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ListPoint.cs",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ListPoint.cs",
+              "RelativeDocumentMoniker": "Models\\Entities\\ListPoint.cs",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ListPoint.cs",
+              "RelativeToolTip": "Models\\Entities\\ListPoint.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAIwBoAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-16T04:59:05.203Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "EditLayout.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\EditLayout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\EditLayout.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\EditLayout.cshtml",
+              "RelativeToolTip": "Views\\Home\\EditLayout.cshtml",
+              "ViewState": "AgIAADcBAAAAAAAAAAAlwFMBAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-12T02:28:27.242Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAIQBAAAAAAAAAAAUwNcBAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-15T01:48:09.002Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "_Layout - Copy.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\_Layout - Copy.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout - Copy.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\_Layout - Copy.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout - Copy.cshtml",
+              "ViewState": "AgIAAHkAAAAAAAAAAAAQwK8BAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-27T03:05:20.387Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAIQAAAAAAAAAAAAAAC4AAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-08-07T01:36:47.24Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "PieChart.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\PieChart.cshtml",
+              "RelativeDocumentMoniker": "Views\\Home\\PieChart.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\PieChart.cshtml",
+              "RelativeToolTip": "Views\\Home\\PieChart.cshtml",
+              "ViewState": "AgIAAGwAAAAAAAAAAAAQwHcAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-15T07:25:35.217Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
               "Title": "_LoginPartial.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\_LoginPartial.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_LoginPartial.cshtml",
@@ -465,58 +687,19 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "HistoryController.cs",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\HistoryController.cs",
-              "RelativeDocumentMoniker": "Controllers\\HistoryController.cs",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\HistoryController.cs*",
-              "RelativeToolTip": "Controllers\\HistoryController.cs*",
-              "ViewState": "AgIAAMYAAAAAAAAAAAA8wN0AAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-12T03:11:26.222Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Detail.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListView\\Detail.cshtml",
-              "RelativeDocumentMoniker": "Views\\ListView\\Detail.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListView\\Detail.cshtml",
-              "RelativeToolTip": "Views\\ListView\\Detail.cshtml",
-              "ViewState": "AgIAAJIAAAAAAAAAAAApwKMAAAAsAAAAAAAAAA==",
+              "DocumentIndex": 18,
+              "Title": "PieChartPartial.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\PieChartPartial.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\PieChartPartial.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\PieChartPartial.cshtml",
+              "RelativeToolTip": "Views\\Shared\\PieChartPartial.cshtml",
+              "ViewState": "AgIAAD4BAAAAAAAAAAAAAHcAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-03T07:51:38.634Z"
+              "WhenOpened": "2025-10-27T07:01:29.631Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PieChart.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\PieChart.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\PieChart.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\PieChart.cshtml",
-              "RelativeToolTip": "Views\\Home\\PieChart.cshtml",
-              "ViewState": "AgIAAFMBAAAAAAAAAAAQwGoBAAAGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-15T07:25:35.217Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\History\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\History\\Index.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\History\\Index.cshtml",
-              "RelativeToolTip": "Views\\History\\Index.cshtml",
-              "ViewState": "AgIAAJcBAAAAAAAAAAAmwKkBAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-19T03:31:32.468Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 23,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListView\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\ListView\\Index.cshtml",
@@ -528,43 +711,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 21,
               "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\Index.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\Index.cshtml",
-              "RelativeToolTip": "Views\\Home\\Index.cshtml",
-              "ViewState": "AgIAANMAAAAAAAAAAAAmwGgBAAAwAAAAAAAAAA==",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\History\\Index.cshtml",
+              "RelativeDocumentMoniker": "Views\\History\\Index.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\History\\Index.cshtml",
+              "RelativeToolTip": "Views\\History\\Index.cshtml",
+              "ViewState": "AgIAAJcBAAAAAAAAAAAmwKkBAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-15T01:48:09.002Z"
+              "WhenOpened": "2024-08-19T03:31:32.468Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "_Layout.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\_Layout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\_Layout.cshtml",
-              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
-              "ViewState": "AgIAAGIAAAAAAAAAAAAYwIgAAAAgAAAAAAAAAA==",
+              "DocumentIndex": 24,
+              "Title": "Detail.cshtml",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListView\\Detail.cshtml",
+              "RelativeDocumentMoniker": "Views\\ListView\\Detail.cshtml",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListView\\Detail.cshtml",
+              "RelativeToolTip": "Views\\ListView\\Detail.cshtml",
+              "ViewState": "AgIAAJIAAAAAAAAAAAApwKMAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-07T01:36:47.24Z"
+              "WhenOpened": "2025-09-03T07:51:38.634Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ListPoint2Controller.cs",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListPoint2Controller.cs",
-              "RelativeDocumentMoniker": "Controllers\\ListPoint2Controller.cs",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListPoint2Controller.cs",
-              "RelativeToolTip": "Controllers\\ListPoint2Controller.cs",
-              "ViewState": "AgIAAOYAAAAAAAAAAADgv/cAAAAJAAAAAAAAAA==",
+              "DocumentIndex": 20,
+              "Title": "HistoryController.cs",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\HistoryController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HistoryController.cs",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\HistoryController.cs",
+              "RelativeToolTip": "Controllers\\HistoryController.cs",
+              "ViewState": "AgIAAMcAAAAAAAAAAAAmwN0AAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-21T03:51:04.031Z"
+              "WhenOpened": "2024-08-12T03:11:26.222Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 19,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Controllers\\HomeController.cs",
+              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Controllers\\HomeController.cs",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAIwLIAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-08-08T02:49:38.038Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
               "Title": "DataNow.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\DataNow.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\DataNow.cs",
@@ -576,19 +771,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ListPoint.cs",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ListPoint.cs",
-              "RelativeDocumentMoniker": "Models\\Entities\\ListPoint.cs",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ListPoint.cs",
-              "RelativeToolTip": "Models\\Entities\\ListPoint.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-16T04:59:05.203Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 26,
               "Title": "MonitoringService.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Services\\MonitoringService.cs",
               "RelativeDocumentMoniker": "Services\\MonitoringService.cs",
@@ -600,7 +783,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 27,
               "Title": "MonitoringBackgroundService.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Services\\MonitoringBackgroundService.cs",
               "RelativeDocumentMoniker": "Services\\MonitoringBackgroundService.cs",
@@ -612,7 +795,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 28,
               "Title": "IMonitoringService.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Services\\IMonitoringService.cs",
               "RelativeDocumentMoniker": "Services\\IMonitoringService.cs",
@@ -624,19 +807,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "ListPointsController.cs",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListPointsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ListPointsController.cs",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListPointsController.cs",
-              "RelativeToolTip": "Controllers\\ListPointsController.cs",
-              "ViewState": "AgIAAOwAAAAAAAAAAADwv/0AAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-12T03:20:12.24Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 29,
               "Title": "ListViewController.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListViewController.cs",
               "RelativeDocumentMoniker": "Controllers\\ListViewController.cs",
@@ -648,7 +819,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 31,
               "Title": "Program.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
@@ -660,7 +831,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 30,
               "Title": "EditLayoutLine.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListView\\EditLayoutLine.cshtml",
               "RelativeDocumentMoniker": "Views\\ListView\\EditLayoutLine.cshtml",
@@ -672,19 +843,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 26,
-              "Title": "IndexLeakVol.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListView\\IndexLeakVol.cshtml",
-              "RelativeDocumentMoniker": "Views\\ListView\\IndexLeakVol.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListView\\IndexLeakVol.cshtml",
-              "RelativeToolTip": "Views\\ListView\\IndexLeakVol.cshtml",
-              "ViewState": "AgIAAAkEAAAAAAAAAAAmwBoEAAAiAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-09-03T07:50:29.361Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 36,
               "Title": "UserLoginContext.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Areas\\Identity\\Data\\UserLoginContext.cs",
               "RelativeDocumentMoniker": "Areas\\Identity\\Data\\UserLoginContext.cs",
@@ -696,7 +855,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
+              "DocumentIndex": 35,
               "Title": "ApplicationUser.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Areas\\Identity\\Data\\ApplicationUser.cs",
               "RelativeDocumentMoniker": "Areas\\Identity\\Data\\ApplicationUser.cs",
@@ -708,7 +867,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 32,
               "Title": "Login.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
               "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Login.cshtml",
@@ -720,7 +879,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 34,
               "Title": "Logout.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Areas\\Identity\\Pages\\Account\\Logout.cshtml",
               "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Logout.cshtml",
@@ -732,7 +891,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 33,
               "Title": "Register.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
               "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Register.cshtml",
@@ -744,7 +903,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 27,
+              "DocumentIndex": 38,
               "Title": "TotalDataViewModel.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Core\\ViewModels\\TotalDataViewModel.cs",
               "RelativeDocumentMoniker": "Core\\ViewModels\\TotalDataViewModel.cs",
@@ -756,19 +915,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 25,
-              "Title": "ListPoint2.cs",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ListPoint2.cs",
-              "RelativeDocumentMoniker": "Models\\Entities\\ListPoint2.cs",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ListPoint2.cs",
-              "RelativeToolTip": "Models\\Entities\\ListPoint2.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAywBsAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-21T03:32:00.311Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
+              "DocumentIndex": 37,
               "Title": "UserController.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "Controllers\\UserController.cs",
@@ -780,19 +927,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 28,
-              "Title": "IndexLeakVol.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\IndexLeakVol.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\IndexLeakVol.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\IndexLeakVol.cshtml",
-              "RelativeToolTip": "Views\\Home\\IndexLeakVol.cshtml",
-              "ViewState": "AgIAAJoAAAAAAAAAAAAAwLAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-15T02:04:07.67Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 29,
+              "DocumentIndex": 39,
               "Title": "MonitoringBackgroundService2.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Services\\MonitoringBackgroundService2.cs",
               "RelativeDocumentMoniker": "Services\\MonitoringBackgroundService2.cs",
@@ -804,19 +939,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 31,
-              "Title": "EditLayout.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\EditLayout.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\EditLayout.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\EditLayout.cshtml",
-              "RelativeToolTip": "Views\\Home\\EditLayout.cshtml",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAlwHwAAABGAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-12T02:28:27.242Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 36,
+              "DocumentIndex": 44,
               "Title": "PathtoJson.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Class\\PathtoJson.cs",
               "RelativeDocumentMoniker": "Class\\PathtoJson.cs",
@@ -828,19 +951,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 30,
-              "Title": "IndexLeakVol - Copy.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\IndexLeakVol - Copy.cshtml",
-              "RelativeDocumentMoniker": "Views\\Home\\IndexLeakVol - Copy.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\IndexLeakVol - Copy.cshtml",
-              "RelativeToolTip": "Views\\Home\\IndexLeakVol - Copy.cshtml",
-              "ViewState": "AgIAAKUAAAAAAAAAAAAAAMAAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-07T09:04:45.592Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 34,
+              "DocumentIndex": 42,
               "Title": "ReportDTO.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\DTO\\ReportDTO.cs",
               "RelativeDocumentMoniker": "Models\\DTO\\ReportDTO.cs",
@@ -852,7 +963,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 33,
+              "DocumentIndex": 41,
               "Title": "Dataconfig.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Dataconfig.cs",
               "RelativeDocumentMoniker": "Models\\Dataconfig.cs",
@@ -864,7 +975,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 32,
+              "DocumentIndex": 40,
               "Title": "appsettings.json",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -876,7 +987,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 40,
+              "DocumentIndex": 47,
               "Title": "database_dataled.sql",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\database_dataled.sql",
               "RelativeDocumentMoniker": "database_dataled.sql",
@@ -887,7 +998,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 35,
+              "DocumentIndex": 43,
               "Title": "IDbConnectionFactory.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Configs\\IDbConnectionFactory.cs",
               "RelativeDocumentMoniker": "Configs\\IDbConnectionFactory.cs",
@@ -899,7 +1010,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 37,
+              "DocumentIndex": 45,
               "Title": "ListFloorsController.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListFloorsController.cs",
               "RelativeDocumentMoniker": "Controllers\\ListFloorsController.cs",
@@ -911,19 +1022,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 38,
-              "Title": "DataPointContext.cs",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\DataPointContext.cs",
-              "RelativeDocumentMoniker": "Models\\Entities\\DataPointContext.cs",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\DataPointContext.cs",
-              "RelativeToolTip": "Models\\Entities\\DataPointContext.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAIBWwB8AAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-08-08T12:13:44.093Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 96,
+              "DocumentIndex": 99,
               "Title": "UserDBContext.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\UserDBContext.cs",
               "RelativeDocumentMoniker": "Models\\UserDBContext.cs",
@@ -935,7 +1034,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 39,
+              "DocumentIndex": 46,
               "Title": "Hub.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\Hub.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Hub.cs",
@@ -947,7 +1046,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 42,
+              "DocumentIndex": 49,
               "Title": "MonitoringHub.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Hubs\\MonitoringHub.cs",
               "RelativeDocumentMoniker": "Hubs\\MonitoringHub.cs",
@@ -959,7 +1058,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 41,
+              "DocumentIndex": 48,
               "Title": "ListLinesController.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListLinesController.cs",
               "RelativeDocumentMoniker": "Controllers\\ListLinesController.cs",
@@ -971,7 +1070,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 43,
+              "DocumentIndex": 50,
               "Title": "ServiceProvider.cs",
               "DocumentMoniker": "C:\\Users\\DELL\\AppData\\Local\\Temp\\.vsdbgsrc\\644c1da728e47c4a869cdc58cace8824a429fe784062e5c0572431f26df2d28f\\ServiceProvider.cs",
               "ToolTip": "C:\\Users\\DELL\\AppData\\Local\\Temp\\.vsdbgsrc\\644c1da728e47c4a869cdc58cace8824a429fe784062e5c0572431f26df2d28f\\ServiceProvider.cs",
@@ -981,7 +1080,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 44,
+              "DocumentIndex": 51,
               "Title": "DbContext.cs",
               "DocumentMoniker": "C:\\Users\\DELL\\AppData\\Local\\Temp\\.vsdbgsrc\\ed49ab2c002dee27993cec7e64adef36f02835e482f0bae7e1535afe2dcc77be\\DbContext.cs",
               "ToolTip": "C:\\Users\\DELL\\AppData\\Local\\Temp\\.vsdbgsrc\\ed49ab2c002dee27993cec7e64adef36f02835e482f0bae7e1535afe2dcc77be\\DbContext.cs",
@@ -991,7 +1090,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 46,
+              "DocumentIndex": 53,
               "Title": "listview.css",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\css\\listview.css",
               "RelativeDocumentMoniker": "wwwroot\\css\\listview.css",
@@ -1003,7 +1102,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 45,
+              "DocumentIndex": 52,
               "Title": "history.css",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\css\\history.css",
               "RelativeDocumentMoniker": "wwwroot\\css\\history.css",
@@ -1015,19 +1114,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 48,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\ListPoints\\Index.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Index.cshtml",
-              "RelativeToolTip": "Views\\ListPoints\\Index.cshtml",
-              "ViewState": "AgIAABMAAAAAAAAAAAAUwDEAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-21T03:12:42.301Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 49,
+              "DocumentIndex": 54,
               "Title": "TotalDatum.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\TotalDatum.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\TotalDatum.cs",
@@ -1039,7 +1126,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 50,
+              "DocumentIndex": 55,
               "Title": "ListPlc.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ListPlc.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\ListPlc.cs",
@@ -1051,7 +1138,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 51,
+              "DocumentIndex": 56,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\User\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\User\\Index.cshtml",
@@ -1063,7 +1150,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 52,
+              "DocumentIndex": 57,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListLines\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\ListLines\\Index.cshtml",
@@ -1075,7 +1162,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 53,
+              "DocumentIndex": 58,
               "Title": "TotalDatum2.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\TotalDatum2.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\TotalDatum2.cs",
@@ -1087,7 +1174,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 55,
+              "DocumentIndex": 60,
               "Title": "Create.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListLines\\Create.cshtml",
               "RelativeDocumentMoniker": "Views\\ListLines\\Create.cshtml",
@@ -1099,7 +1186,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 54,
+              "DocumentIndex": 59,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListLines\\Edit.cshtml",
               "RelativeDocumentMoniker": "Views\\ListLines\\Edit.cshtml",
@@ -1111,7 +1198,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 56,
+              "DocumentIndex": 61,
               "Title": "Create.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Create.cshtml",
               "RelativeDocumentMoniker": "Views\\ListPoints\\Create.cshtml",
@@ -1123,19 +1210,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 57,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Views\\ListPoints\\Edit.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Edit.cshtml",
-              "RelativeToolTip": "Views\\ListPoints\\Edit.cshtml",
-              "ViewState": "AgIAACEAAAAAAAAAAIBZwDEAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-21T04:02:42.037Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 58,
+              "DocumentIndex": 62,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ShowChart\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\ShowChart\\Index.cshtml",
@@ -1147,7 +1222,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 59,
+              "DocumentIndex": 63,
               "Title": "dotnet-tools.json",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\.config\\dotnet-tools.json",
               "RelativeDocumentMoniker": ".config\\dotnet-tools.json",
@@ -1159,7 +1234,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 60,
+              "DocumentIndex": 64,
               "Title": "Details.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Details.cshtml",
               "RelativeDocumentMoniker": "Views\\ListPoints\\Details.cshtml",
@@ -1171,7 +1246,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 61,
+              "DocumentIndex": 65,
               "Title": "Option.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\Option.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\Option.cs",
@@ -1183,7 +1258,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 63,
+              "DocumentIndex": 67,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListFloors\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\ListFloors\\Index.cshtml",
@@ -1195,7 +1270,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 62,
+              "DocumentIndex": 66,
               "Title": "Index.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPlcs\\Index.cshtml",
               "RelativeDocumentMoniker": "Views\\ListPlcs\\Index.cshtml",
@@ -1207,7 +1282,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 64,
+              "DocumentIndex": 68,
               "Title": "_ValidationScriptsPartial.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
@@ -1219,7 +1294,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 65,
+              "DocumentIndex": 69,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\User\\Edit.cshtml",
               "RelativeDocumentMoniker": "Views\\User\\Edit.cshtml",
@@ -1231,7 +1306,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 66,
+              "DocumentIndex": 70,
               "Title": "IVI40.png - PNG [349x41, 32 bit, PNG]",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\IVI40.png",
               "RelativeDocumentMoniker": "wwwroot\\image\\IVI40.png",
@@ -1243,7 +1318,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 69,
+              "DocumentIndex": 73,
               "Title": "IVI_Floor1old.png - PNG [1636x734, 24 bit, PNG]",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\IVI_Floor1old.png",
               "RelativeDocumentMoniker": "wwwroot\\image\\IVI_Floor1old.png",
@@ -1255,7 +1330,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 67,
+              "DocumentIndex": 71,
               "Title": "LogExport.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\History\\LogExport.cshtml",
               "RelativeDocumentMoniker": "Views\\History\\LogExport.cshtml",
@@ -1267,7 +1342,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 71,
+              "DocumentIndex": 75,
               "Title": "ListFloor.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ListFloor.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\ListFloor.cs",
@@ -1279,7 +1354,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 70,
+              "DocumentIndex": 74,
               "Title": "IVI_Floor2 - Copy.png - PNG [1786x818, 24 bit, PNG]",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\IVI_Floor2 - Copy.png",
               "RelativeDocumentMoniker": "wwwroot\\image\\IVI_Floor2 - Copy.png",
@@ -1291,7 +1366,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 68,
+              "DocumentIndex": 72,
               "Title": "IVI_Floor1 - Copy.png - PNG [1636x782, 32 bit, PNG]",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\IVI_Floor1 - Copy.png",
               "RelativeDocumentMoniker": "wwwroot\\image\\IVI_Floor1 - Copy.png",
@@ -1303,7 +1378,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 73,
+              "DocumentIndex": 77,
               "Title": "Edit.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPlcs\\Edit.cshtml",
               "RelativeDocumentMoniker": "Views\\ListPlcs\\Edit.cshtml",
@@ -1315,7 +1390,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 74,
+              "DocumentIndex": 78,
               "Title": "Create.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoint2\\Create.cshtml",
               "RelativeDocumentMoniker": "Views\\ListPoint2\\Create.cshtml",
@@ -1327,7 +1402,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 72,
+              "DocumentIndex": 76,
               "Title": "Create.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPlcs\\Create.cshtml",
               "RelativeDocumentMoniker": "Views\\ListPlcs\\Create.cshtml",
@@ -1339,19 +1414,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 75,
-              "Title": "Edit.cshtml",
-              "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoint2\\Edit.cshtml",
-              "RelativeDocumentMoniker": "Views\\ListPoint2\\Edit.cshtml",
-              "ToolTip": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoint2\\Edit.cshtml",
-              "RelativeToolTip": "Views\\ListPoint2\\Edit.cshtml",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAwwCoAAAAqAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-08-21T04:08:25.825Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 77,
+              "DocumentIndex": 80,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoint2\\Delete.cshtml",
               "RelativeDocumentMoniker": "Views\\ListPoint2\\Delete.cshtml",
@@ -1363,7 +1426,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 76,
+              "DocumentIndex": 79,
               "Title": "Details.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoint2\\Details.cshtml",
               "RelativeDocumentMoniker": "Views\\ListPoint2\\Details.cshtml",
@@ -1375,7 +1438,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 78,
+              "DocumentIndex": 81,
               "Title": "Delete.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\ListPoints\\Delete.cshtml",
               "RelativeDocumentMoniker": "Views\\ListPoints\\Delete.cshtml",
@@ -1387,7 +1450,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 79,
+              "DocumentIndex": 82,
               "Title": "DataNow2.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\DataNow2.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\DataNow2.cs",
@@ -1399,7 +1462,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 80,
+              "DocumentIndex": 83,
               "Title": "WEB_SHOW_WRIST_STRAP",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\WEB_SHOW_WRIST_STRAP.csproj",
               "RelativeDocumentMoniker": "WEB_SHOW_WRIST_STRAP.csproj",
@@ -1410,7 +1473,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 81,
+              "DocumentIndex": 84,
               "Title": "Login.cshtml.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
               "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
@@ -1422,7 +1485,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 82,
+              "DocumentIndex": 85,
               "Title": "Logout.cshtml.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Areas\\Identity\\Pages\\Account\\Logout.cshtml.cs",
               "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Logout.cshtml.cs",
@@ -1434,7 +1497,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 83,
+              "DocumentIndex": 86,
               "Title": "His_BzoffController.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\His_BzoffController.cs",
               "RelativeDocumentMoniker": "Controllers\\His_BzoffController.cs",
@@ -1446,7 +1509,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 84,
+              "DocumentIndex": 87,
               "Title": "Privacy.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Home\\Privacy.cshtml",
               "RelativeDocumentMoniker": "Views\\Home\\Privacy.cshtml",
@@ -1458,7 +1521,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 85,
+              "DocumentIndex": 88,
               "Title": "ListPlcsController.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Controllers\\ListPlcsController.cs",
               "RelativeDocumentMoniker": "Controllers\\ListPlcsController.cs",
@@ -1470,7 +1533,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 88,
+              "DocumentIndex": 91,
               "Title": "Error.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\Shared\\Error.cshtml",
               "RelativeDocumentMoniker": "Views\\Shared\\Error.cshtml",
@@ -1482,7 +1545,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 87,
+              "DocumentIndex": 90,
               "Title": "Lge_Bk.png - PNG [3000x1896, 32 bit, PNG]",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\Lge_Bk.png",
               "RelativeDocumentMoniker": "wwwroot\\image\\Lge_Bk.png",
@@ -1494,7 +1557,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 86,
+              "DocumentIndex": 89,
               "Title": "logo_baoan.png - PNG [480x100, 32 bit, PNG]",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\image\\logo_baoan.png",
               "RelativeDocumentMoniker": "wwwroot\\image\\logo_baoan.png",
@@ -1506,7 +1569,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 89,
+              "DocumentIndex": 92,
               "Title": "_ViewImports.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\_ViewImports.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewImports.cshtml",
@@ -1518,7 +1581,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 90,
+              "DocumentIndex": 93,
               "Title": "_ViewStart.cshtml",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Views\\_ViewStart.cshtml",
               "RelativeDocumentMoniker": "Views\\_ViewStart.cshtml",
@@ -1530,7 +1593,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 91,
+              "DocumentIndex": 94,
               "Title": "ListPlcViewModel.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Core\\ViewModels\\ListPlcViewModel.cs",
               "RelativeDocumentMoniker": "Core\\ViewModels\\ListPlcViewModel.cs",
@@ -1542,7 +1605,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 92,
+              "DocumentIndex": 95,
               "Title": "ActUnitType.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ActUnitType.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\ActUnitType.cs",
@@ -1554,7 +1617,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 93,
+              "DocumentIndex": 96,
               "Title": "ActProtocolType.cs",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\Models\\Entities\\ActProtocolType.cs",
               "RelativeDocumentMoniker": "Models\\Entities\\ActProtocolType.cs",
@@ -1566,7 +1629,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 94,
+              "DocumentIndex": 97,
               "Title": "database_user",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\database_user",
               "RelativeDocumentMoniker": "database_user",
@@ -1577,7 +1640,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 95,
+              "DocumentIndex": 98,
               "Title": "chart.js",
               "DocumentMoniker": "D:\\A_Project\\grouding-ws4p\\grouding-master\\wwwroot\\lib\\chart\\chart.js",
               "RelativeDocumentMoniker": "wwwroot\\lib\\chart\\chart.js",

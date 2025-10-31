@@ -2063,3 +2063,5 @@ D:\A_Project\grouding-ws4p\grouding-master\obj\Debug\net6.0\refint\WEB_SHOW_WRIS
 D:\A_Project\grouding-ws4p\grouding-master\obj\Debug\net6.0\WEB_SHOW_WRIST_STRAP.pdb
 D:\A_Project\grouding-ws4p\grouding-master\obj\Debug\net6.0\WEB_SHOW_WRIST_STRAP.genruntimeconfig.cache
 D:\A_Project\grouding-ws4p\grouding-master\obj\Debug\net6.0\ref\WEB_SHOW_WRIST_STRAP.dll
+D:\A_Project\grouding-ws4p\grouding-master\obj\Debug\net6.0\WEB_SHOW_WRIST_STRAP.sourcelink.json
+D:\A_Project\grouding-ws4p\grouding-master\obj\Debug\net6.0\scopedcss\Views\Shared\_Layout - Copy.cshtml.rz.scp.css

@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "POINT LIST";
+
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link rel="stylesheet" href="~/css/listview.css" asp-append-version="true" />
@@ -10,11 +11,6 @@
 </header>
 
 <style>
-    .parent {
-        display: flex;
-        flex-direction: row;
-    }
-
     .parent {
         display: flex;
         flex-direction: row;
@@ -44,8 +40,14 @@
         table-layout: fixed;
     }
 
-    table thead {
-        width: calc(100% - 1em); /* Để tránh thanh cuộn ảnh hưởng đến thead */
+    .hide-btn {
+        background-color: #dc3545;
+        color: white;
+    }
+
+    .show-btn {
+        background-color: #28a745;
+        color: white;
     }
 </style>
 
@@ -57,7 +59,6 @@
         <option value="all">All Line</option>
     </select>
 </p>
-
 
 <table class="table table-striped table-bordered">
     <thead>
@@ -84,9 +85,7 @@
             <th hidden>
                 @Html.DisplayNameFor(model => model.Addswrite)
             </th>
-            <th>
-               PLC
-            </th>
+
             <th hidden>
                 @Html.DisplayNameFor(model => model.OffsetValue)
             </th>
@@ -96,8 +95,8 @@
             <th hidden>
                 @Html.DisplayNameFor(model => model.Timeoff)
             </th>
-            <th >
-               ENStatus
+            <th>
+                ENStatus
             </th>
             <th hidden>
                 @Html.DisplayNameFor(model => model.UserChange)
@@ -117,92 +116,125 @@
             <th>
                 X Coordinate
             </th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
     </thead>
     <tbody class="scrollable-tbody">
-@foreach (var item in Model) {
-        <tr name="rowPoint" id="@item.IdLine">
-            <td>
-                @Html.DisplayFor(modelItem => item.IdPoint)
-            </td>
-            <td name="txtLine" onload="GetNameLine(this,@item.IdLine)">
-                
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NamePoint)
-            </td>
+        @foreach (var item in Model)
+        {
+            <tr name="rowPoint" id="@item.IdLine">
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdPoint)
+                </td>
+                <td name="txtLine" onload="GetNameLine(this,@item.IdLine)">
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NamePoint)
+                </td>
                 <td hidden>
-                @Html.DisplayFor(modelItem => item.MinSpect)
-            </td>
+                    @Html.DisplayFor(modelItem => item.MinSpect)
+                </td>
                 <td hidden>
-                @Html.DisplayFor(modelItem => item.MaxSpect)
-            </td>
-            <td hidden>
-                @Html.DisplayFor(modelItem => item.Addsread)
-            </td>
+                    @Html.DisplayFor(modelItem => item.MaxSpect)
+                </td>
                 <td hidden>
-                @Html.DisplayFor(modelItem => item.Addswrite)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Plc)
-            </td>
+                    @Html.DisplayFor(modelItem => item.Addsread)
+                </td>
                 <td hidden>
-                @Html.DisplayFor(modelItem => item.OffsetValue)
-            </td>
+                    @Html.DisplayFor(modelItem => item.Addswrite)
+                </td>
+
                 <td hidden>
-                @Html.DisplayFor(modelItem => item.DeltaValue)
-            </td>
+                    @Html.DisplayFor(modelItem => item.OffsetValue)
+                </td>
                 <td hidden>
-                @Html.DisplayFor(modelItem => item.Timeoff)
-            </td>
+                    @Html.DisplayFor(modelItem => item.DeltaValue)
+                </td>
+                <td hidden>
+                    @Html.DisplayFor(modelItem => item.Timeoff)
+                </td>
                 @if (item.Enstatus == 0)
+
                 {
                     <td>Not Set</td>
                 }
+
                 else if (item.Enstatus == 3)
+
                 {
                     <td>On Light, On Buzzer</td>
                 }
+
                 else if (item.Enstatus == 2)
+
                 {
                     <td>On Light, Off Buzzer</td>
                 }
+
                 else if (item.Enstatus == 1)
+
                 {
                     <td>Off Light, Off Buzzer</td>
                 }
                 <td hidden>
-                @Html.DisplayFor(modelItem => item.UserChange)
-            </td>
+                    @Html.DisplayFor(modelItem => item.UserChange)
+                </td>
                 <td hidden>
-                @Html.DisplayFor(modelItem => item.TimeChange)
-            </td>
+                    @Html.DisplayFor(modelItem => item.TimeChange)
+                </td>
                 <td hidden>
-                @Html.DisplayFor(modelItem => item.Change)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Note)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Csstop)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cssleft)
-            </td>
-            <td>
+                    @Html.DisplayFor(modelItem => item.Change)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Csstop)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cssleft)
+                </td>
+                <td>
+                    <button class="toggle-btn @(item.Hide ? "hide-btn" : "show-btn")"
+                            onclick="toggleHideStatus('@item.IdPoint', '@item.IdLine', this)">
+                        @(item.Hide ? "Hidden" : "Visible")
+                    </button>
+                </td>
+                <td>
                     <a asp-action="Edit" asp-route-id="@item.IdPoint.ToString()|@item.IdLine.ToString()" class="btn btn-primary animationbase" style="height:auto;font-size:12px">EDIT</a>
                     <a asp-action="Delete" asp-route-id="@item.IdPoint.ToString()|@item.IdLine.ToString()" class="btn btn-danger animationbase" style="height:auto;font-size:12px">DELETE</a>
-            </td>
-        </tr>
-}
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 
 <script>
+
     let cboxline = document.getElementById("cboxline");
+
     let lsrowpoint = document.getElementsByName("rowPoint");
 
+    window.toggleHideStatus = function (idPoint, idLine, button) {
+        $.ajax({
+            url: '/ListPoint2/ToggleHide',
+            type: 'POST',
+            data: { idPoint: idPoint, idLine: idLine },
+            success: function (response) {
+                if (response.success) {
+                    $(button).text(response.hide ? 'Hidden' : 'Visible');
+                    $(button).removeClass('hide-btn show-btn');
+                    $(button).addClass(response.hide ? 'hide-btn' : 'show-btn');
+                } else {
+                    alert('Failed to update hide status');
+                }
+            },
+            error: function () {
+                alert('Error occurred while updating hide status');
+            }
+        });
+    }
     function ChangecboxLine(idline) {
         if (idline == "all") {
             lsrowpoint.forEach(function (row) {

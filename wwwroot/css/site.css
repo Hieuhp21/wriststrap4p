@@ -1001,6 +1001,16 @@ th, td {
     color: white !important;
     border: 1px solid #555 !important;
 }
-.hub-icon{
-    position: absolute;
+.hub-icon {
+    position: absolute !important;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.2s ease; /* Smooth show/hide */
+    opacity: 1; /* Mặc định hiện */
 }
+
+    .hub-icon.hidden-hub { /* ✅ CLASS ẨN */
+        opacity: 0 !important;
+        visibility: hidden !important; /* 0ms render + Không chiếm space */
+        pointer-events: none; /* Không click được */
+    }

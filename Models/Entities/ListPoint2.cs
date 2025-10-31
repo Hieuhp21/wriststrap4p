@@ -26,5 +26,8 @@ namespace WEB_SHOW_WRIST_STRAP.Models.Entities
         public string? Type { get; set; }
         public double? TopDetail { get; set; }
         public double? LeftDetail { get; set; }
+        public double? Width { get; set; }
+        public double? Height { get; set; }
+        public bool Hide { get; set; }
     }
 }

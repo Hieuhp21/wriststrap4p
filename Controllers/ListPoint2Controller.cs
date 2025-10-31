@@ -119,7 +119,8 @@ namespace WEB_SHOW_WRIST_STRAP.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Edit(int idpoint, int idline, [Bind("IdPoint,IdLine,NamePoint,MinSpect,MaxSpect,Addsread,Addswrite,Plc,OffsetValue,DeltaValue,Timeoff,Enstatus,UserChange,TimeChange,Change,Note,Csstop,Cssleft,Type")] ListPoint2 listPoint)
+        public async Task<IActionResult> Edit(int idpoint, int idline,
+     [Bind("IdPoint,IdLine,NamePoint,MinSpect,MaxSpect,Addsread,Addswrite,Plc,OffsetValue,DeltaValue,Timeoff,Enstatus,UserChange,TimeChange,Change,Note,Csstop,Cssleft,Type")] ListPoint2 listPoint)
         {
             if (idpoint != listPoint.IdPoint || idline != listPoint.IdLine)
             {
@@ -130,22 +131,51 @@ namespace WEB_SHOW_WRIST_STRAP.Controllers
             {
                 try
                 {
-                    _context.Update(listPoint);
+                    // 1. Tải entity thực tế từ DB (giả sử entity thật là ListPoint)
+                    var existingPoint = await _context.ListPoints2
+                        .FirstOrDefaultAsync(x => x.IdPoint == idpoint && x.IdLine == idline);
+
+                    if (existingPoint == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // 2. Cập nhật chỉ những trường được bind từ form (ListPoint2)
+                    existingPoint.NamePoint = listPoint.NamePoint;
+                    existingPoint.MinSpect = listPoint.MinSpect;
+                    existingPoint.MaxSpect = listPoint.MaxSpect;
+                    existingPoint.Addsread = listPoint.Addsread;
+                    existingPoint.Addswrite = listPoint.Addswrite;
+                    existingPoint.Plc = listPoint.Plc;
+                    existingPoint.OffsetValue = listPoint.OffsetValue;
+                    existingPoint.DeltaValue = listPoint.DeltaValue;
+                    existingPoint.Timeoff = listPoint.Timeoff;
+                    existingPoint.Enstatus = listPoint.Enstatus;
+                    existingPoint.UserChange = listPoint.UserChange;
+                    existingPoint.TimeChange = listPoint.TimeChange;
+                    existingPoint.Change = listPoint.Change;
+                    existingPoint.Note = listPoint.Note;
+                    existingPoint.Csstop = listPoint.Csstop;
+                    existingPoint.Cssleft = listPoint.Cssleft;
+                    existingPoint.Type = listPoint.Type;
+
+                    // Các cột như: Width, Height, Hide, v.v... 
+                    // → KHÔNG bị ghi đè → GIỮ NGUYÊN giá trị cũ
+
+                    // 3. Lưu thay đổi
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ListPointExists(listPoint.IdPoint))
+                    if (!_context.ListPoints.Any(e => e.IdPoint == listPoint.IdPoint && e.IdLine == listPoint.IdLine))
                     {
                         return NotFound();
                     }
-                    else
-                    {
-                        throw;
-                    }
+                    throw;
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             return View(listPoint);
         }
 
@@ -203,15 +233,18 @@ namespace WEB_SHOW_WRIST_STRAP.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task UpdateXYPoint(int idpoint, int idline, string top, string left)
+        public async Task UpdateXYPoint(int idpoint, int idline, string top, string left, string width, string height)
         {
             if (idpoint >= 0 && idline >= 0)
             {
                 var result = await _context.ListPoints2.FirstAsync(x => (x.IdPoint == idpoint && x.IdLine == idline));
                 if (result != null)
                 {
+
                     result.Csstop = double.Parse(top.Substring(0, top.Length - 2));
                     result.Cssleft = double.Parse(left.Substring(0, left.Length - 2));
+                    result.Width = double.Parse(width.Substring(0, width.Length - 2));
+                    result.Height = double.Parse(height.Substring(0, height.Length - 2));
                     _context.Update(result);
                     await _context.SaveChangesAsync();
                 }
@@ -262,6 +295,28 @@ namespace WEB_SHOW_WRIST_STRAP.Controllers
             catch { }
             return LsPointNow.ToJson();
         }
+        [HttpPost]
+        public IActionResult ToggleHide(int idPoint, int idLine)
+        {
+            try
+            {
+                var point = _context.ListPoints2
+                    .FirstOrDefault(p => p.IdPoint == idPoint && p.IdLine == idLine);
 
+                if (point == null)
+                {
+                    return Json(new { success = false, message = "Point not found" });
+                }
+
+                point.Hide = !point.Hide;
+                _context.SaveChanges();
+
+                return Json(new { success = true, hide = point.Hide });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+        }
     }
 }

@@ -97,7 +97,7 @@
     <div style="display: flex; align-items: center; justify-content: space-between;">
         <select class="input cboxFloor animation" name="bell" id="cbfloor" onchange="cboxchange(this.value)" style="display:none">
         </select>
-        <span style="font-weight: 700; font-size: 27px; margin-left: 40%">WRIST STRAP SYSTEM</span>
+        <span style="font-weight: 700; font-size: 27px; margin-left: 40%">GROUNDING SYSTEM</span>
         <div style="display: flex; flex-direction: column;" class="total-ok">
             <div id="total-ok"></div>
         </div>
@@ -129,6 +129,9 @@
     let cboxfloor = document.getElementById("cbfloor");
     let ImgIVI = document.getElementById("IMGIVI");
 
+    var selectedOption = localStorage.getItem("selectedOption") || "WristStrap";
+
+
     // Khởi tạo kết nối SignalR
     const connection = new signalR.HubConnectionBuilder()
         .withUrl("/monitoringHub")
@@ -136,7 +139,7 @@
         .build();
 
     // Xử lý dữ liệu nhận từ SignalR
-    connection.on("ReceiveMonitoringData2", (jsonData) => {
+    connection.on(selectedOption === "LakeageVoltage" ? "ReceiveMonitoringData2" : "ReceiveMonitoringData", (jsonData) => {
         if (jsonData && lslineofFloor) {
             let LsPointnow = JSON.parse(jsonData); // Parse chuỗi JSON
             updatePoints(LsPointnow);
@@ -155,6 +158,32 @@
     connection.onreconnected(connectionId => {
         console.log("Reconnected to MonitoringHub with ID:", connectionId);
     });
+    let currentSignal = null;
+
+    function updateLayoutAndSignalR() {
+        var selectedOption1 = localStorage.getItem("selectedOption") || "WristStrap";
+        const newSignal = selectedOption1 === 'LakeageVoltage' ? 'ReceiveMonitoringData2' : 'ReceiveMonitoringData';
+
+        if (newSignal !== currentSignal) {
+            // Chỉ thay đổi event nếu khác
+            if (currentSignal) connection.off(currentSignal);
+            currentSignal = newSignal;
+
+            connection.on(newSignal, (jsonData) => {
+                if (jsonData && lslineofFloor) {
+                    let LsPointnow = JSON.parse(jsonData);
+                    updatePoints(LsPointnow);
+                }
+            });
+            updateHubsVisibility();
+            //console.log('Switched to signal:', newSignal);
+        }
+
+        // Nếu muốn cập nhật layout khi thay đổi option
+        if (idfloorNow) {
+            cboxchange(idfloorNow);
+        }
+    }
 
     async function LoadAreaUser() {
         if (Allfloor == null) {
@@ -176,6 +205,7 @@
     let lslineofFloor;
 
     function cboxchange(idfloor) {
+        var selectedOption1 = localStorage.getItem("selectedOption") || "WristStrap";
         lslineofFloor = GetUserLineofFloor(idfloor);
         idfloorNow = idfloor;
         ImgIVI.innerHTML = "";
@@ -185,11 +215,11 @@
         img.style.width = "1800px";
         img.style.height = "auto";
         img.style.objectFit = "contain";
-        img.src = "/image/" + cboxfloor.options[cboxfloor.selectedIndex].text + ".png?v=2.7";
+        img.src = selectedOption1 === "LakeageVoltage" ? "/image/layoutWS.png?v=2.7" : "/image/" + cboxfloor.options[cboxfloor.selectedIndex].text + ".png?v=2.7";
         img.onload = calculateDistance;
         ImgIVI.appendChild(img);
         Updatelayoutline(idfloor);
-        UpdateLayoutHub();
+
     }
 
     let IDlsboxshow = new Array();
@@ -238,38 +268,13 @@
             });
 
             Layout_lines.innerHTML = htmlinter;
-        }
-    }
-    async function UpdateLayoutHub() {
-        try {
-            const response = await $.get('@Url.Action("GetHubs", "ListPoint2")');
-            if (response) {
-                const hubs = JSON.parse(response);
-                let htmlHubs = '';
-
-                hubs.forEach(hub => {
-                    // Giả sử Hub có các thuộc tính: IdHub, NameHub, Csstop, Cssleft
-                    htmlHubs += `
-                            <div
-                                id="hub${hub.Id}"
-                                class="hub-icon"
-                                    style="top:${hub.TopCss}px; left:${hub.LeftCss}px; "
-                                title="${hub.Name}"
-                                "
-                            >
-                                <img style="width: 50px" src="/image/icon_hub.png" alt="Hub" class="hub-img" />
-
-                            </div>
-                        `;
-                });
-
-                // Thêm các hub vào Layout_lines (giống như line)
-                $('#Layout_lines').append(htmlHubs);
+            if (cachedHubsHtml) {
+                $('#Layout_lines').append(cachedHubsHtml);
+                updateHubsVisibility();  // Auto toggle theo mode
             }
-        } catch (err) {
-            console.error('Lỗi khi load Hub:', err);
         }
     }
+
     function showTooltip(element, text) {
         let tooltip = document.getElementById('tooltip');
         if (!tooltip) {
@@ -320,9 +325,61 @@
             console.warn('Không tìm thấy thẻ img với id "myImage".');
         }
     }
+    // ✅ GLOBAL: Cache hubs HTML (load 1 lần)
+    let cachedHubsHtml = null;
 
+    // ✅ LOAD 1 LẦN - KHÔNG LẶP!
+    async function loadHubsOnce() {
+        if (cachedHubsHtml) return;  // Skip nếu đã load
+
+        try {
+            const response = await $.get('@Url.Action("GetHubs", "ListPoint2")');
+            if (response) {
+                const hubs = JSON.parse(response);
+                let html = '';
+                hubs.forEach(hub => {
+                    html += `
+                               <div
+                                        id="hub${hub.Id}"
+                                        class="hub-icon"
+                                            style="top:${hub.TopCss}px; left:${hub.LeftCss}px; "
+                                        title="${hub.Name}"
+                                        "
+                                    >
+                                        <img style="width: 50px" src="/image/icon_hub.png" alt="Hub" class="hub-img" />
+
+                                    </div>
+                                `;
+                });
+                cachedHubsHtml = html;
+
+            }
+        } catch (err) {
+            console.error('❌ HUB LOAD FAIL:', err);
+        }
+    }
+
+    // ✅ TOGGLE SIÊU NHANH
+    function updateHubsVisibility() {
+        const mode = localStorage.getItem("selectedOption") || "WristStrap";
+
+
+        if (mode === "LakeageVoltage") {
+            // ✅ HIỆN: Load nếu chưa + Remove hidden class
+            loadHubsOnce();  // 1 lần duy nhất
+            if (cachedHubsHtml && !$('#Layout_lines').html().includes('hub-icon')) {
+                $('#Layout_lines').append(cachedHubsHtml);
+            }
+            $('.hub-icon').removeClass('hidden-hub');  // 0.1ms!
+            console.log('✅ SHOW HUBS');
+        } else {
+            // ✅ ẨN: Chỉ class - KHÔNG XÓA!
+            $('.hub-icon').addClass('hidden-hub');
+            console.log('✅ HIDE HUBS');
+        }
+    }
     function Clickline(ID) {
-        window.location.href = '/ListView/Detail?IdLine=' + ID;
+        window.location.href = '/ListView/IndexLeakVol?IdLine=' + ID;
     }
 
     let ngLineCount = 0;
@@ -405,6 +462,7 @@
     }
 
     LoadAreaUser();
+    updateHubsVisibility();
 </script>
 
 @{

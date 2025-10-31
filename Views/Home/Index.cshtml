@@ -174,8 +174,8 @@
                     updatePoints(LsPointnow);
                 }
             });
-
-            console.log('Switched to signal:', newSignal);
+            updateHubsVisibility();
+            //console.log('Switched to signal:', newSignal);
         }
 
         // Nếu muốn cập nhật layout khi thay đổi option
@@ -218,6 +218,7 @@
         img.onload = calculateDistance;
         ImgIVI.appendChild(img);
         Updatelayoutline(idfloor);
+      
     }
 
     let IDlsboxshow = new Array();
@@ -266,6 +267,10 @@
             });
 
             Layout_lines.innerHTML = htmlinter;
+            if (cachedHubsHtml) {
+                $('#Layout_lines').append(cachedHubsHtml);
+                updateHubsVisibility();  // Auto toggle theo mode
+            }
         }
     }
 
@@ -319,7 +324,59 @@
             console.warn('Không tìm thấy thẻ img với id "myImage".');
         }
     }
+    // ✅ GLOBAL: Cache hubs HTML (load 1 lần)
+    let cachedHubsHtml = null;
 
+    // ✅ LOAD 1 LẦN - KHÔNG LẶP!
+    async function loadHubsOnce() {
+        if (cachedHubsHtml) return;  // Skip nếu đã load
+
+        try {
+            const response = await $.get('@Url.Action("GetHubs", "ListPoint2")');
+            if (response) {
+                const hubs = JSON.parse(response);
+                let html = '';
+                hubs.forEach(hub => {
+                    html += `
+                           <div
+                                    id="hub${hub.Id}"
+                                    class="hub-icon"
+                                        style="top:${hub.TopCss}px; left:${hub.LeftCss}px; "
+                                    title="${hub.Name}"
+                                    "
+                                >
+                                    <img style="width: 50px" src="/image/icon_hub.png" alt="Hub" class="hub-img" />
+
+                                </div>
+                            `;
+                });
+                cachedHubsHtml = html;
+                
+            }
+        } catch (err) {
+            console.error('❌ HUB LOAD FAIL:', err);
+        }
+    }
+
+    // ✅ TOGGLE SIÊU NHANH
+    function updateHubsVisibility() {
+        const mode = localStorage.getItem("selectedOption") || "WristStrap";
+      
+
+        if (mode === "LakeageVoltage") {
+            // ✅ HIỆN: Load nếu chưa + Remove hidden class
+            loadHubsOnce();  // 1 lần duy nhất
+            if (cachedHubsHtml && !$('#Layout_lines').html().includes('hub-icon')) {
+                $('#Layout_lines').append(cachedHubsHtml);
+            }
+            $('.hub-icon').removeClass('hidden-hub');  // 0.1ms!
+            console.log('✅ SHOW HUBS');
+        } else {
+            // ✅ ẨN: Chỉ class - KHÔNG XÓA!
+            $('.hub-icon').addClass('hidden-hub');
+            console.log('✅ HIDE HUBS');
+        }
+    }
     function Clickline(ID) {
         window.location.href = '/ListView/Detail?IdLine=' + ID;
     }
@@ -404,6 +461,7 @@
     }
 
     LoadAreaUser();
+    updateHubsVisibility();
 </script>
 
 @{

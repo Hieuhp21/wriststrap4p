@@ -121,3 +121,21 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
+
+<script>
+
+    async function LoadnameLine() {
+        await sleep(500);
+        document.getElementById("txtLine").value = GetLine(@Model.IdLine).NameLine;
+    }
+
+    function LoadStatus() {
+        document.getElementsByName("opiontSt").forEach(function (option, index) {
+            if (option.value == @Model.Enstatus)
+                document.getElementById("cboxenstatus").selectedIndex = index;
+        });
+    }
+
+    LoadnameLine();
+    LoadStatus();
+</script>
