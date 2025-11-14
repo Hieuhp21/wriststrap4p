@@ -299,11 +299,12 @@
             });
 
             function getColorClass(type, value) {
-                if (value === 0) return "bg-green";
-                if (type === "Day" && value < 1) return "bg-green";
-                if (type === "Week" && value < 1) return "bg-green";
-                if (type === "Month" && value < 1) return "bg-green";
-                return "bg-red";
+                        if (type === "Day" && value === 0) return "bg-green";
+                        if (type === "Week" && value === 0) return "bg-green";
+                        if (type === "Month" && value === 0) return "bg-green";
+                        if (value < 0.8) return "bg-green";
+                        if (value >= 0.8 && value <= 1) return "#FF9800 ";
+                        return "bg-red";
             }
 
             // Render bảng với rowspan và làm tròn số

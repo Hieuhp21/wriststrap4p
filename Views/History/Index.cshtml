@@ -1010,14 +1010,41 @@
 					});
 
 					function getColorClass(type, value) {
-						if (type === "Day" && value === 0) return "bg-green";
-						if (type === "Week" && value === 0) return "bg-green";
-						if (type === "Month" && value === 0) return "bg-green";
-						if (value < 0.95) return "bg-green";
-						 if (value >= 0.95 && value <= 1) return "#FF9800 ";
-						return "bg-red";
-					}
+						const selectedOption = localStorage.getItem('selectedOption');
 
+						if (selectedOption === "LakeageVoltage") {
+							// Thresholds cho chế độ Leakage (dựa trên count, nhân theo type)
+							let multiplier = 1;  // Mặc định cho Day
+							if (type === "Week") {
+								multiplier = 7;  // Nhân 7 cho Week
+							} else if (type === "Month") {
+								multiplier = 30;  // Nhân 30 cho Month (có thể chỉnh thành 28/31 nếu cần)
+							}
+
+							// Thresholds cơ bản cho Day (minh họa, chỉnh theo nhu cầu thực tế)
+							const baseGreenThreshold = 2;  // < này → green (sau khi nhân multiplier)
+							const baseOrangeThreshold = 1;    // >= này và <= orange max → orange
+
+							// Áp dụng multiplier cho thresholds
+							const greenThreshold = baseGreenThreshold * multiplier;
+							const orangeThreshold = baseOrangeThreshold * multiplier;
+
+							// Logic với value === 0 vẫn green, bất kể type
+							if (value === 0) return "bg-green";
+
+							if (value < greenThreshold) return "bg-green";
+							if (value >= greenThreshold && value <= orangeThreshold) return "#FF9800 ";
+							return "bg-red";
+						} else {
+							// Thresholds cho chế độ mặc định (grouding): dùng chung, không nhân
+							if (type === "Day" && value === 0) return "bg-green";
+							if (type === "Week" && value === 0) return "bg-green";
+							if (type === "Month" && value === 0) return "bg-green";
+							if (value < 0.8) return "bg-green";
+							if (value >= 0.8 && value <= 1) return "#FF9800 ";
+							return "bg-red";
+						}
+					}
 					// Render bảng với rowspan và làm tròn số
 					let tbody = $("#dataTable");
 					tbody.empty();

@@ -1,0 +1,12 @@
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.db
+*.log
+*.pdb
+*.vspscc
+*.vssscc
+/Properties/launchSettings.json

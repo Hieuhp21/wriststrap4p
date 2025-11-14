@@ -211,10 +211,11 @@
                 });
 
                 function getColorClass(type, value) {
-                    if (value <= 1) return "bg-green";
-                    if (type === "Day" && value == 0) return "bg-green";
-                    if (type === "Week" && value == 0) return "bg-green";
-                    if (type === "Month" && value == 0) return "bg-green";
+                    if (type === "Day" && value === 0) return "bg-green";
+                    if (type === "Week" && value === 0) return "bg-green";
+                    if (type === "Month" && value === 0) return "bg-green";
+                    if (value < 0.8) return "bg-green";
+                    if (value >= 0.8 && value <= 1) return "#FF9800 ";
                     return "bg-red";
                 }
 

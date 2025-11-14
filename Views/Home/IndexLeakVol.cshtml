@@ -97,7 +97,7 @@
     <div style="display: flex; align-items: center; justify-content: space-between;">
         <select class="input cboxFloor animation" name="bell" id="cbfloor" onchange="cboxchange(this.value)" style="display:none">
         </select>
-        <span style="font-weight: 700; font-size: 27px; margin-left: 40%">GROUNDING SYSTEM</span>
+        <span style="font-weight: 700; font-size: 27px; margin-left: 40%">WRIST STRAP SYSTEM</span>
         <div style="display: flex; flex-direction: column;" class="total-ok">
             <div id="total-ok"></div>
         </div>
@@ -176,9 +176,14 @@
                 }
             });
             updateHubsVisibility();
-            //console.log('Switched to signal:', newSignal);
+            // console.log('Switched to signal:', newSignal);
         }
-
+        const layout = document.getElementById("Layout_lines");
+        if (selectedOption1 === "WristStrap") {
+            layout.classList.add("grouding-mode");
+        } else {
+            layout.classList.remove("grouding-mode");
+        }
         // Nếu muốn cập nhật layout khi thay đổi option
         if (idfloorNow) {
             cboxchange(idfloorNow);
@@ -379,7 +384,7 @@
         }
     }
     function Clickline(ID) {
-        window.location.href = '/ListView/IndexLeakVol?IdLine=' + ID;
+        window.location.href = '/ListView/Detail?IdLine=' + ID;
     }
 
     let ngLineCount = 0;
@@ -389,7 +394,7 @@
         if (LsPointnow && lslineofFloor) {
             ngLineCount = 0;
             totalLines = lslineofFloor.length;
-
+            const mode = localStorage.getItem("selectedOption") || "WristStrap";
             lslineofFloor.forEach(function (line) {
                 let totalpointalarm = 0;
                 let lspointofline = GetPointofline(line.IdLine);
@@ -420,9 +425,19 @@
                                 let min = pointnow.MinSpect || 0;
                                 let max = pointnow.MaxSpect || 1;
                                 let pv = pointnow.Value || 0;
+                                if (pv != 0) {
+                                    pointElement.classList.add('value-nonzero');
+                                }
 
                                 pointElement.setAttribute("onmouseover",
                                     `showTooltip(this, 'Name: Point${point.IdPoint}<br>Value: <strong>${pv}</strong><br>Min~Max: ${min} ~ ${max}<br>Status:<strong> ${value}</strong>')`);
+                                // Thêm phần update text hiển thị
+                                const textElement = pointElement.querySelector('.pointinline-di-a');
+                                if (mode === "WristStrap") {
+                                    textElement.innerText = pv;  // Hiển thị Value
+                                } else {
+                                    textElement.innerText = point.IdPoint;  // Giữ IdPoint cho LeakageVoltage
+                                }
                             }
                             return true;
                         }
@@ -462,7 +477,7 @@
     }
 
     LoadAreaUser();
-    updateHubsVisibility();
+    updateLayoutAndSignalR();
 </script>
 
 @{

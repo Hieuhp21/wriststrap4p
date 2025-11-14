@@ -637,7 +637,11 @@ body {
     transform: translate(-50%, -50%);
     transition: background 0.5s ease, transform 0.5s ease, box-shadow 0.5s ease;
 }
-
+.grouding-mode .pointinline-di {
+    border-radius: 2px;
+    width: 27px;
+    height: 20px;
+}
 .pointinline-di {
     border: solid 1px gray;
     border-radius: 15px;
@@ -679,8 +683,13 @@ body {
     transform: translate(-50%, -50%);
     font-size: 14px;
     font-weight: 600;
+    color: #001F3F;
 }
-
+.value-nonzero {
+    border: 2px solid #00FFFF !important; /* Viền cyan sáng */
+  
+    box-shadow: 0 0 8px rgba(0, 255, 255, 0.6), inset 0 0 6px rgba(0, 255, 255, 0.2) !important;
+}
 .boxlayout-temp {
     margin: -3px 0px -3px 0px;
     font-weight: 700;

@@ -175,9 +175,14 @@
                 }
             });
             updateHubsVisibility();
-            //console.log('Switched to signal:', newSignal);
+           // console.log('Switched to signal:', newSignal);
         }
-
+        const layout = document.getElementById("Layout_lines");
+        if (selectedOption1 === "WristStrap") {
+            layout.classList.add("grouding-mode");
+        } else {
+            layout.classList.remove("grouding-mode");
+        }
         // Nếu muốn cập nhật layout khi thay đổi option
         if (idfloorNow) {
             cboxchange(idfloorNow);
@@ -388,11 +393,11 @@
         if (LsPointnow && lslineofFloor) {
             ngLineCount = 0;
             totalLines = lslineofFloor.length;
-
+            const mode = localStorage.getItem("selectedOption") || "WristStrap";
             lslineofFloor.forEach(function (line) {
                 let totalpointalarm = 0;
                 let lspointofline = GetPointofline(line.IdLine);
-
+               
                 for (let point of lspointofline) {
                     LsPointnow.some(function (pointnow) {
                         if (pointnow.IdPoint == point.IdPoint && pointnow.IdLine == point.IdLine) {
@@ -419,9 +424,19 @@
                                 let min = pointnow.MinSpect || 0;
                                 let max = pointnow.MaxSpect || 1;
                                 let pv = pointnow.Value || 0;
+                                if (pv != 0) {
+                                    pointElement.classList.add('value-nonzero');
+                                }
 
                                 pointElement.setAttribute("onmouseover",
                                     `showTooltip(this, 'Name: Point${point.IdPoint}<br>Value: <strong>${pv}</strong><br>Min~Max: ${min} ~ ${max}<br>Status:<strong> ${value}</strong>')`);
+                                // Thêm phần update text hiển thị
+                                const textElement = pointElement.querySelector('.pointinline-di-a');
+                                if (mode === "WristStrap") {
+                                    textElement.innerText = pv;  // Hiển thị Value
+                                } else {
+                                    textElement.innerText = point.IdPoint;  // Giữ IdPoint cho LeakageVoltage
+                                }
                             }
                             return true;
                         }
@@ -461,7 +476,7 @@
     }
 
     LoadAreaUser();
-    updateHubsVisibility();
+    updateLayoutAndSignalR();
 </script>
 
 @{

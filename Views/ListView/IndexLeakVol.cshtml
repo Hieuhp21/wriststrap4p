@@ -213,10 +213,26 @@
                 });
 
                 function getColorClass(type, value) {
-                    if (value <= 1) return "bg-green";
-                    if (type === "Day" && value == 0) return "bg-green";
-                    if (type === "Week" && value == 0) return "bg-green";
-                    if (type === "Month" && value == 0) return "bg-green";
+                    let multiplier = 1;  // Mặc định cho Day
+                    if (type === "Week") {
+                        multiplier = 7;  // Nhân 7 cho Week
+                    } else if (type === "Month") {
+                        multiplier = 30;  // Nhân 30 cho Month (có thể chỉnh thành 28/31 nếu cần)
+                    }
+
+                    // Thresholds cơ bản cho Day (minh họa, chỉnh theo nhu cầu thực tế)
+                    const baseGreenThreshold = 2;  // < này → green (sau khi nhân multiplier)
+                    const baseOrangeThreshold = 1;    // >= này và <= orange max → orange
+
+                    // Áp dụng multiplier cho thresholds
+                    const greenThreshold = baseGreenThreshold * multiplier;
+                    const orangeThreshold = baseOrangeThreshold * multiplier;
+
+                    // Logic với value === 0 vẫn green, bất kể type
+                    if (value === 0) return "bg-green";
+
+                    if (value < greenThreshold) return "bg-green";
+                    if (value >= greenThreshold && value <= orangeThreshold) return "#FF9800 ";
                     return "bg-red";
                 }
 
